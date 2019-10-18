@@ -7,28 +7,34 @@ import {
     Button
 } from 'react-native';
 
-export default class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
+import { connect } from 'react-redux';
+import { setEmailLogin, setPasswordLogin, login } from '../actions';
 
-        this.state = {
-            email: '',
-            password: ''
-        };
-    }
-    
+class LoginPage extends React.Component {
     onChangeTextHandler(field, text) {
-        this.setState({
-            [field]: text
-        });
+        switch (field) {
+            case 'email':
+                this.props.dispatchEmailLogin(text);
+                break;
+            case 'password':
+                    this.props.dispatchPasswordLogin(text);
+                break;
+            default:
+                return;
+        }
     }
 
     onPressButton() {
-        console.log(this.state);
-        this.props.navigation.navigate('Home');
+        const { email, password } = this.props.login;
+
+        if (email && password) {
+            this.props.dispatchUserLogin(email, password);
+            this.props.navigation.navigate('Home');
+        }
     }
 
     render() {
+        const { login } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
@@ -41,7 +47,7 @@ export default class LoginPage extends React.Component {
                     <TextInput
                         style={styles.input}
                         onChangeText={text => this.onChangeTextHandler('email', text)}
-                        value={this.state.email}
+                        value={login.email}
                     />
                 </View>
                 <View style={styles.content}>
@@ -51,7 +57,7 @@ export default class LoginPage extends React.Component {
                     <TextInput
                         style={styles.input}
                         onChangeText={text => this.onChangeTextHandler('password', text)}
-                        value={this.state.password}
+                        value={login.password}
                         secureTextEntry
                     />
                 </View>
@@ -88,3 +94,17 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 });
+
+const mapStateToProps = state => {
+    const { login } = state;
+    return { login };
+}
+
+export default connect(
+    mapStateToProps,
+    {
+        dispatchEmailLogin: setEmailLogin,
+        dispatchPasswordLogin: setPasswordLogin,
+        dispatchUserLogin: login
+    }
+)(LoginPage);
