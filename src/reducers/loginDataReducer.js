@@ -1,16 +1,16 @@
-import { SET_EMAIL_LOGIN, SET_PASSWORD_LOGIN } from '../actions';
+import { SET_DATA_LOGIN, SET_PASSWORD_LOGIN } from '../actions/loginActions';
 
 const INITIAL_STATE = {
-    email: '',
+    data: '',
     password: ''
 }
 
 const loginDataReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
-        case SET_EMAIL_LOGIN:
+        case SET_DATA_LOGIN:
             return {
                 ...state,
-                email: action.email
+                data: action.data
             };
         case SET_PASSWORD_LOGIN:
             return {

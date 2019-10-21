@@ -3,70 +3,131 @@ import {
     View,
     Text,
     StyleSheet,
-    TextInput,
-    Button
+    Alert,
+    KeyboardAvoidingView
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { setEmailLogin, setPasswordLogin, login } from '../actions';
+import { setDataLogin, setPasswordLogin, login } from '../actions/loginActions';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Loading from '../components/Loading';
+import SuccessAlert from '../components/SuccessAlert';
+
+import Input from '../components/Input';
+import api from '../config/api';
 
 class LoginPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: false
+        };
+    }
+
     onChangeTextHandler(field, text) {
         switch (field) {
-            case 'email':
-                this.props.dispatchEmailLogin(text);
+            case 'data':
+                this.props.dispatchDataLogin(text);
                 break;
             case 'password':
-                    this.props.dispatchPasswordLogin(text);
+                this.props.dispatchPasswordLogin(text);
                 break;
             default:
                 return;
         }
     }
 
-    onPressButton() {
-        const { email, password } = this.props.login;
+    async tryLogin() {
+        const { data, password } = this.props.login;
+        
+        this.setState({isLoading: true});
 
-        if (email && password) {
-            this.props.dispatchUserLogin(email, password);
-            this.props.navigation.navigate('Home');
+        if (!data && !password) {
+            this.setState({isLoading: false});
+
+            return (Alert.alert(
+                text="Informe os dados de login!")
+            );
         }
+
+        await api
+            .post('/user/login', {
+                data: data,
+                password: password
+            })
+            .then(response => {
+                user = response.data.data;
+                this.props.dispatchUserLogin(user);
+                this.props.navigation.navigate('Home');
+            })
+            .catch(error => {
+                this.setState({isLoading: false});
+
+                return (Alert.alert(
+                    text="Login ou Senha inválidos!")
+                );
+            });
     }
 
     render() {
-        const { login } = this.props;
+        const { data, password } = this.props.login;
+        
+        if (this.props.navigation.getParam('register')) {
+            var register = this.props.navigation.getParam('register');
+        }
+
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <Loading />
+                </View>
+            )
+        }
+
         return (
             <View style={styles.container}>
-                <View style={styles.content}>
-                    <Text style={styles.title}>Faça seu login!</Text>
-                </View>
-                <View style={styles.content}>  
-                    <Text style={styles.field}>Usuário ou email</Text>
-                </View>
-                <View style={styles.content}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={text => this.onChangeTextHandler('email', text)}
-                        value={login.email}
+                <KeyboardAvoidingView
+                    behavior="padding"
+                    enabled
+                    keyboardVerticalOffset={100}
+                >
+                    {
+                        register
+                        ? <SuccessAlert message="Registrado com sucesso" />
+                        : null
+                    }
+                    <View style={styles.content}>
+                        <Text style={styles.title}>Faça seu login!</Text>
+                    </View>
+                    <Input 
+                        title={'Usuário ou email'}
+                        onChangeTextHandler={text => this.onChangeTextHandler('data', text)}
+                        inputValue={data}
+                        onSubmit={() => {this.passwordInput.focus()}}
                     />
-                </View>
-                <View style={styles.content}>
-                    <Text style={styles.field}>Senha</Text>
-                </View>
-                <View style={styles.content}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={text => this.onChangeTextHandler('password', text)}
-                        value={login.password}
-                        secureTextEntry
+                    <Input 
+                        title={'Senha'}
+                        reference={(input) => {this.passwordInput = input}}
+                        onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
+                        inputValue={password}
+                        returnKey="done"
+                        passwordField={true}
+                        onSubmit={() => this.tryLogin()}
                     />
-                </View>
-                <View style={styles.content}>
-                    <Button 
-                        title="Entrar"
-                        onPress={() => this.onPressButton()}
-                    />
-                </View>
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => this.tryLogin()}
+                    >
+                        <Text>Login</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => this.props.navigation.navigate("Register")}
+                    >
+                        <Text>Cadastre-se</Text>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
             </View>
         );
     }
@@ -75,11 +136,11 @@ class LoginPage extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'center'
     },
     content: {
-        marginTop: 15
+        marginTop: 15,
+        alignItems: 'center'
     },
     input: {
         borderBottomColor: 'blue',
@@ -92,6 +153,14 @@ const styles = StyleSheet.create({
     },
     field: {
         fontSize: 20
+    },
+    button: {
+        marginHorizontal: 40,
+        marginTop: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
     }
 });
 
@@ -103,7 +172,7 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     {
-        dispatchEmailLogin: setEmailLogin,
+        dispatchDataLogin: setDataLogin,
         dispatchPasswordLogin: setPasswordLogin,
         dispatchUserLogin: login
     }

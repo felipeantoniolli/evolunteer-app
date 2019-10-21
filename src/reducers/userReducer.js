@@ -1,21 +1,11 @@
-import { LOGIN, LOGOUT } from '../actions';
+import { LOGIN, LOGOUT } from '../actions/loginActions';
 
-const INITIAL_STATE = {
-    email: '',
-    password: ''
-}
-
-const userReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = [], action) => {
     switch(action.type) {
         case LOGIN:
-            const user = {
-                email: action.email,
-                password: action.password
-            }
-
-            return user;
+            return action.user;
         case LOGOUT:
-            return INITIAL_STATE;
+            return {};
         default:
             return state;
     }
