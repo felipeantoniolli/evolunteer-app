@@ -4,11 +4,13 @@ import {
     Text,
     StyleSheet,
     Alert,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    AsyncStorage
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { setDataLogin, setPasswordLogin, login } from '../actions/loginActions';
+import { setDataLogin, setPasswordLogin } from '../actions/loginActions';
+import { login, logout } from '../actions/userActions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Loading from '../components/Loading';
 import SuccessAlert from '../components/SuccessAlert';
@@ -24,6 +26,40 @@ class LoginPage extends React.Component {
             isLoading: false
         };
     }
+
+    componentDidMount() {
+        this.setState({isLoading: true});
+        this._retrieveData();
+    }
+
+    _retrieveData = async () => {
+        try {
+            const token = await AsyncStorage.getItem('user_token');
+
+            console.log(token);
+            if (token) {
+                api
+                    .post('/user/find-token', {
+                        token
+                    })
+                    .then(response => {
+                        user = response.data.data;
+                        this.props.dispatchUserLogin(user);
+                        this.props.navigation.navigate('Index');
+                    })
+                    .catch(error => {
+                        this.setState({isLoading: false});
+                        console.log(error);
+                    })
+            } else {
+                this.setState({isLoading: false});
+            }
+        } catch (error) {
+            this.setState({isLoading: false});
+            this.props.dispatchUserLogout();
+            console.log(error);
+        }
+      };
 
     onChangeTextHandler(field, text) {
         switch (field) {
@@ -59,7 +95,7 @@ class LoginPage extends React.Component {
             .then(response => {
                 user = response.data.data;
                 this.props.dispatchUserLogin(user);
-                this.props.navigation.navigate('Home');
+                this.props.navigation.navigate('Index');
             })
             .catch(error => {
                 this.setState({isLoading: false});
@@ -174,6 +210,7 @@ export default connect(
     {
         dispatchDataLogin: setDataLogin,
         dispatchPasswordLogin: setPasswordLogin,
-        dispatchUserLogin: login
+        dispatchUserLogin: login,
+        dispatchUserLogout: logout
     }
 )(LoginPage);

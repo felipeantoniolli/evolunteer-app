@@ -2,7 +2,7 @@ import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
 import StackNavigator from './StackNavigator';
 import LoginPage from '../pages/LoginPage';
-import HomePage from '../pages/HomePage';
+import BottomNavigator from  './BottomNavigator';
 
 const AppNavigator = createSwitchNavigator({
   Login: {
@@ -12,7 +12,7 @@ const AppNavigator = createSwitchNavigator({
     screen: StackNavigator
   },
   Home: {
-    screen: HomePage
+    screen: BottomNavigator
   }
 });
 

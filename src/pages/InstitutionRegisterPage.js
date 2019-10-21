@@ -157,7 +157,7 @@ class InstitutionRegisterPage extends React.Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View>
-                            <Text style={styles.title}>Registro do Voluntário</Text>
+                            <Text style={styles.title}>Registro do Instituição</Text>
                         </View>
                         <View style={styles.content}>
                             <Input
