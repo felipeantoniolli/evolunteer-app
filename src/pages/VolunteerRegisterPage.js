@@ -259,7 +259,7 @@ class VolunteerRegisterPage extends React.Component {
                                 title={'Número'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('number', text)}
                                 inputValue={number}
-                                reference={(input) => {this.numbernput = input}}
+                                reference={(input) => {this.numberInput = input}}
                                 onSubmit={() => {this.complementInput.focus()}}
                             />
                             <Input

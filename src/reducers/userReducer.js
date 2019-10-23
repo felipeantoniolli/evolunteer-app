@@ -1,24 +1,36 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
-import { LOGIN, LOGOUT } from '../actions/userActions';
+import { LOGIN, LOGOUT, SET_INTEREST } from '../actions/userActions';
 
 const INITIAL_STATE = {
     username: '',
-    token: ''
+    token: '',
+    interest: ''
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case LOGIN:
-            const { token } = action.user;
-
-            setToken(token);
+            setToken(action.user.token);
 
             return action.user;
         case LOGOUT:
             setToken('');
 
             return INITIAL_STATE;
+        case SET_INTEREST:
+            const { id_interest, type } = action;
+
+            const newInterest = {
+                id_interest: id_interest,
+                type: type
+            };
+
+            return {
+                ...state,
+                interest: newInterest
+            };
+            
         default:
             return state;
     }

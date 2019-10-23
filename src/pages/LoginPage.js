@@ -36,7 +36,6 @@ class LoginPage extends React.Component {
         try {
             const token = await AsyncStorage.getItem('user_token');
 
-            console.log(token);
             if (token) {
                 api
                     .post('/user/find-token', {
@@ -45,7 +44,7 @@ class LoginPage extends React.Component {
                     .then(response => {
                         user = response.data.data;
                         this.props.dispatchUserLogin(user);
-                        this.props.navigation.navigate('Index');
+                        this.props.navigation.navigate('InterestPage');
                     })
                     .catch(error => {
                         this.setState({isLoading: false});
@@ -76,7 +75,7 @@ class LoginPage extends React.Component {
 
     async tryLogin() {
         const { data, password } = this.props.login;
-        
+
         this.setState({isLoading: true});
 
         if (!data && !password) {
@@ -95,7 +94,7 @@ class LoginPage extends React.Component {
             .then(response => {
                 user = response.data.data;
                 this.props.dispatchUserLogin(user);
-                this.props.navigation.navigate('Index');
+                this.props.navigation.navigate('InterestPage');
             })
             .catch(error => {
                 this.setState({isLoading: false});

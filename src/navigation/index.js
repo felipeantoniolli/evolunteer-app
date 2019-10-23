@@ -2,7 +2,8 @@ import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
 import StackNavigator from './StackNavigator';
 import LoginPage from '../pages/LoginPage';
-import BottomNavigator from  './BottomNavigator';
+import BottomVolunteerNavigator from  './BottomVolunteerNavigator';
+import BottomInstitutionNavigator from './BottomInstitutionNavigator';
 
 const AppNavigator = createSwitchNavigator({
   Login: {
@@ -11,8 +12,11 @@ const AppNavigator = createSwitchNavigator({
   Register: {
     screen: StackNavigator
   },
-  Home: {
-    screen: BottomNavigator
+  Volunteer: {
+    screen: BottomVolunteerNavigator
+  },
+  Institution: {
+      screen: BottomInstitutionNavigator
   }
 });
 

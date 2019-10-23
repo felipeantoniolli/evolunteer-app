@@ -98,7 +98,7 @@ class InstitutionRegisterPage extends React.Component {
         let register = this.props.register;
 
         await api
-           .post('user/register-institution',[
+           .post('user/register-institution', [
                 register
            ])
            .then(response => {
@@ -234,7 +234,7 @@ class InstitutionRegisterPage extends React.Component {
                                 title={'Número'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('number', text)}
                                 inputValue={number}
-                                reference={(input) => {this.numbernput = input}}
+                                reference={(input) => {this.numberInput = input}}
                                 onSubmit={() => {this.complementInput.focus()}}
                             />
                             <Input
