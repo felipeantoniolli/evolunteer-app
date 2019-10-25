@@ -44,7 +44,7 @@ class LoginPage extends React.Component {
                     .then(response => {
                         user = response.data.data;
                         this.props.dispatchUserLogin(user);
-                        this.props.navigation.navigate('InterestPage');
+                        this.navigate();
                     })
                     .catch(error => {
                         this.setState({isLoading: false});
@@ -80,7 +80,7 @@ class LoginPage extends React.Component {
 
         if (!data && !password) {
             this.setState({isLoading: false});
-
+            this.navigate();
             return (Alert.alert(
                 text="Informe os dados de login!")
             );
@@ -94,7 +94,6 @@ class LoginPage extends React.Component {
             .then(response => {
                 user = response.data.data;
                 this.props.dispatchUserLogin(user);
-                this.props.navigation.navigate('InterestPage');
             })
             .catch(error => {
                 this.setState({isLoading: false});
@@ -103,6 +102,20 @@ class LoginPage extends React.Component {
                     text="Login ou Senha inválidos!")
                 );
             });
+    }
+
+    navigate() {
+        if (user.interest.length > 0) {
+            if (user.type == 1) {
+                this.props.navigation.navigate("Volunteer");
+            }
+
+            if (user.type == 2) {
+                this.props.navigation.navigate("Institution");
+            }
+        } else {
+            this.props.navigation.navigate('InterestPage');
+        }
     }
 
     render() {

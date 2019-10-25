@@ -74,15 +74,6 @@ class InterestPage extends React.Component {
 
     render() {
         const { user } = this.props
-        if (user.interest.length > 0) {
-            if (user.type == 1) {
-                this.props.navigation.navigate("Volunteer");
-            }
-
-            if (user.type == 2) {
-                this.props.navigation.navigate("Institution");
-            }
-        }
 
         if (this.state.isLoading) {
             return (

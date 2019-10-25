@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Interest = ({ interests, style }) => {
+const Interests = ({ interests, style }) => {
     const interest = interests.map(interest => {
         return (
             <Text style={style} key={interest.id_interest}>
@@ -26,4 +26,4 @@ const getInterestType = type => {
     }
 }
 
-export default Interest;
+export default Interests;

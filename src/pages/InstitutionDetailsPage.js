@@ -2,20 +2,18 @@ import React from 'react';
 import {
     View,
     Text,
-    Button,
     StyleSheet,
     Image
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { logout } from '../actions/userActions';
-import Interests from '../components/Interests';
-import Birth from '../components/Birth';
+import Interests from '../components/Interests'; 
 
-class IndexPage extends React.Component {
+class InstitutionDetailsPage extends React.Component {
     render() {
-        const { name, last_name, birth } = this.props.user.volunteer;
-        const { city, state } = this.props.user;
-        const interests = this.props.user.interest;
+        const { street, number, city, state } = this.props.institutionDetail;
+        const { fantasy } = this.props.institutionDetail.institution;
+        const { interest } = this.props.institutionDetail;
 
         return (
             <View style={styles.container}>
@@ -26,31 +24,31 @@ class IndexPage extends React.Component {
                     />
                 </View>
                 <View>
-                    <Text style={styles.name}>{name} {last_name}</Text>
+                    <Text style={styles.name}>{fantasy}</Text>
                 </View>
                 <View>
-                    <Birth birth={birth} style={styles.text} />
+                    <Text style={styles.text}>{street}, {number}</Text>
                 </View>
                 <View>
                     <Text style={styles.text}>{city} - {state}</Text>
                 </View>
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={() => console.log("uhu")}
+                >
+                    <Text>Quero participar</Text>
+                </TouchableOpacity>
                 <View>
                     <Text style={styles.subtitle}>
                         Interesses
                     </Text>
                 </View>
                 <View>
-                    <Interests interests={interests} style={styles.interest} />
-                </View>
-                <View style={styles.content}>
-                    <Text style={styles.title}></Text>
-                    <Button 
-                        title="Deslogar"
-                        onPress={() => {
-                            this.props.dispatchUserLogout()
-                            this.props.navigation.navigate("Login");
-                        }}
-                    />
+                    {
+                        interest
+                        ? <Interests interests={interest} style={styles.interest} />
+                        : null
+                    }
                 </View>
             </View>
         );
@@ -58,8 +56,7 @@ class IndexPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    container: {    
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -75,7 +72,6 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     image: {
-        flex: 1,
         justifyContent: 'center'
     },
     content: {
@@ -88,17 +84,22 @@ const styles = StyleSheet.create({
     interest: {
         fontSize: 20,
         justifyContent: 'center'
+    },
+    button: {
+        marginHorizontal: 40,
+        marginTop: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
     }
 });
 
 const mapStateToProps = state => {
-    const { user } = state;
-    return { user };
+    const { institutionDetail } = state;
+    return { institutionDetail };
 };
 
 export default connect(
-    mapStateToProps,
-    {
-        dispatchUserLogout: logout
-    }
-)(IndexPage);
+    mapStateToProps
+)(InstitutionDetailsPage);

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
-import Interest from '../components/Interests'; 
+import Interests from '../components/Interests'; 
 
 class IndexPage extends React.Component {
     render() {
@@ -39,7 +39,7 @@ class IndexPage extends React.Component {
                     </Text>
                 </View>
                 <View>
-                    <Interest interests={interests} style={styles.interest} />
+                    <Interests interests={interests} style={styles.interest} />
                 </View>
                 <View style={styles.content}>
                     <Text style={styles.title}></Text>
