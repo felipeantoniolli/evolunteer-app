@@ -11,7 +11,7 @@ import { logout } from '../actions/userActions';
 import Interests from '../components/Interests';
 import Birth from '../components/Birth';
 
-class IndexPage extends React.Component {
+class VolunteerProfilePage extends React.Component {
     render() {
         const { name, last_name, birth } = this.props.user.volunteer;
         const { city, state } = this.props.user;
@@ -101,4 +101,4 @@ export default connect(
     {
         dispatchUserLogout: logout
     }
-)(IndexPage);
+)(VolunteerProfilePage);

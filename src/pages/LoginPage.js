@@ -94,6 +94,7 @@ class LoginPage extends React.Component {
             .then(response => {
                 user = response.data.data;
                 this.props.dispatchUserLogin(user);
+                this.navigate();
             })
             .catch(error => {
                 this.setState({isLoading: false});

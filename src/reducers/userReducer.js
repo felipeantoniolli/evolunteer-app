@@ -19,7 +19,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
             return INITIAL_STATE;
         case SET_INTEREST:
-            const { id_interest, type } = action;
+            const { id_interest, type } = action.interest;
 
             const newInterest = {
                 id_interest: id_interest,
@@ -28,7 +28,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
             return {
                 ...state,
-                interest: newInterest
+                interest: [
+                    newInterest
+                ]
             };
             
         default:

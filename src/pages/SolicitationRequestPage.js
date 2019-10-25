@@ -36,7 +36,6 @@ class SolicitationRequestPage extends React.Component {
                 message: this.state.solicitationText
             })
             .then(response => {
-                console.log(response.data.data);
                 this.props.navigation.navigate('InstitutionDetailsPage', {register: true});
             })
             .catch(error => {
@@ -44,7 +43,6 @@ class SolicitationRequestPage extends React.Component {
                 this.setState({isLoading: false});
             })
     }
-    
 
     render() {
         if (this.state.isLoading) {

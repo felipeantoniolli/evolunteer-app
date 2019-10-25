@@ -20,6 +20,7 @@ class SolicitationsPage extends React.Component {
 
         this.state = {
             isLoading: false,
+            refresh: false,
             solicitations: []
         };
     }
@@ -30,7 +31,7 @@ class SolicitationsPage extends React.Component {
 
     navigateToVolunteerDetails(user) {
         this.props.dispatchVolunteerDetailData(user);
-        this.props.navigation.navigate('InstitutionDetailsPage');
+        this.props.navigation.navigate('VolunteerDetailsPage');
     }
 
     async findPendingSolicitations() {
@@ -53,7 +54,7 @@ class SolicitationsPage extends React.Component {
                         <TouchableOpacity
                             style={styles.volunteersButton}
                             key={user.id_user}
-                            onPress={() => console.log('ola')}
+                            onPress={() => this.navigateToVolunteerDetails(user)}
                         >
                             <View style={styles.volunteersView}>
                                 <Image
@@ -78,8 +79,14 @@ class SolicitationsPage extends React.Component {
             });
     }
 
+    refreshPage() {
+        this.props.navigation.state.params = null;
+        this.findPendingSolicitations();
+    }
+
     render() {
         const { solicitations } = this.state;
+        const { navigation } = this.props;
  
         if (this.state.isLoading) {
             return (
@@ -87,6 +94,15 @@ class SolicitationsPage extends React.Component {
                     <Loading />
                 </View>
             )
+        }
+
+        if (navigation.getParam('refresh')) {
+            var refresh = navigation.getParam('refresh');
+            console.log(refresh);
+
+            if (refresh) {
+                this.refreshPage();
+            }
         }
 
         return (
