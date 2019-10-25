@@ -3,8 +3,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import SearchPage from '../pages/SearchPage';
 import SearchBar from '../components/SearchBar';
 import InstitutionDetailsPage from '../pages/InstitutionDetailsPage';
+import SolicitationRequestPage from '../pages/SolicitationRequestPage';
 
-const StacSearchkNavigator = createStackNavigator({
+const StackVolunteerNavigator = createStackNavigator({
     SearchPage: {
         screen: SearchPage,
         navigationOptions: {
@@ -18,7 +19,13 @@ const StacSearchkNavigator = createStackNavigator({
         mavigationOptions: {
             title: "Detalhes da institutição"
         }
+    },
+    SolicitationRequestPage: {
+        screen: SolicitationRequestPage,
+        mavigationOptions: {
+            title: "Solicitação"
+        }
     }
 });
 
-export default StacSearchkNavigator;
+export default StackVolunteerNavigator;

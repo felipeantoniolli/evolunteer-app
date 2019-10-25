@@ -1,14 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import VolunteerProfilePage from '../pages/VolunteerProfilePage';
-import StackSearchNavigator from './StackSearchNavigator';
+import StackVolunteerNavigator from './StackVolunteerNavigator';
 
 const BottomTabNavigator = createBottomTabNavigator({
     // Index: {
     //     screen: IndexPage
     // },
     Search: {
-        screen: StackSearchNavigator,
+        screen: StackVolunteerNavigator,
         navigationOptions: {
             title: "Pesquisa"
         }
