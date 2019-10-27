@@ -5,7 +5,7 @@ import { LOGIN, LOGOUT, SET_INTEREST } from '../actions/userActions';
 const INITIAL_STATE = {
     username: '',
     token: '',
-    interest: ''
+    interest: []
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -19,20 +19,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
             return INITIAL_STATE;
         case SET_INTEREST:
-            const { id_interest, type } = action.interest;
+            const actionInterest = action.interest;
+            const interest = state.interest;
 
-            const newInterest = {
-                id_interest: id_interest,
-                type: type
-            };
+            interest.push(
+                {
+                    actionInterest
+                }
+            );
 
             return {
                 ...state,
-                interest: [
-                    newInterest
-                ]
+                interest
             };
-            
         default:
             return state;
     }
