@@ -11,7 +11,15 @@ import { connect } from 'react-redux';
 import Loading from '../components/Loading';
 
 import api from '../config/api';
-import { setInstitutionsData, setInstitutionsDetailData } from '../actions/institutionsActions';
+import {
+    setInstitutionsData,
+    setInstitutionsDetailData
+} from '../actions/institutionsActions';
+import {
+    setTermSearch
+} from '../actions/searchActions';
+import SearchBar from '../components/SearchBar';
+import InstitutionsCard from '../components/InstitutionsCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class SearchPage extends React.Component {
@@ -27,6 +35,41 @@ class SearchPage extends React.Component {
     
     componentDidMount() {
         this.searchInstitutionsByUserLocale();
+    }
+
+    onChangeHandler(term) {
+        this.props.dispatchTermSearch(term);
+    }
+
+    async searchTerm() {
+        this.setState({isLoading: true});
+        
+        const { search } = this.props;
+        await api
+            .post('/institution/search-institutions', {
+                search
+            })
+            .then(response => {
+                let data = response.data.data;
+
+                this.props.dispatchInstitutionsData(data);
+                institutions = data.map(item => {
+                    const { user } = item;
+                    return (
+                        <InstitutionsCard
+                            user={user}
+                            onPress={() => this.navigateToInstitutionDetails(user)}
+                        />
+                    );
+                });
+
+                this.setState({isLoading: false});
+                this.setState({institutions});
+                this.setState({search: true});
+            })
+            .catch(error => {
+                this.setState({isLoading: false});
+            });
     }
 
     navigateToInstitutionDetails(user) {
@@ -51,31 +94,24 @@ class SearchPage extends React.Component {
                 institutions = data.map(item => {
                     const { user } = item;
                     return (
-                        <TouchableOpacity
-                            style={styles.institutionButton}
-                            key={user.id_user}
+                        <InstitutionsCard
+                            user={user}
                             onPress={() => this.navigateToInstitutionDetails(user)}
-                        >
-                            <View style={styles.institutionView}>
-                                <Image
-                                    style={styles.image}
-                                    source={require('../assets/no-image.png')}
-                                />
-                                <View style={{flexDirection: 'column'}}>
-                                    <Text style={styles.fantasy}>{user.institution.fantasy}</Text>
-                                    <Text style={styles.address}>{user.city} - {user.state}</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        />
                     );
                 });
 
                 this.setState({isLoading: false});
                 this.setState({institutions});
+                this.setState({search: false});
             })
             .catch(error => {
                 this.setState({isLoading: false});
             });
+    }
+
+    clearResults() {
+        this.searchInstitutionsByUserLocale();
     }
 
     render() {
@@ -91,11 +127,25 @@ class SearchPage extends React.Component {
 
         return (
             <View style={styles.container}>
+                <SearchBar
+                    onChangeHandler={(term) => this.onChangeHandler(term)}
+                    onSubmit={() => this.searchTerm()}
+                    term={this.props.search.term}
+                />
                 <Text style={styles.search}> { search 
                             ? 'Resultados da pesquisa' 
                             : 'Instituições próximas de você!'
                         }
                 </Text>
+                {
+                    search ? <TouchableOpacity
+                                onPress={() => this.clearResults()}
+                                style={styles.button}
+                            >
+                                <Text>Limpar resultados</Text>
+                            </TouchableOpacity>
+                    : null
+                }
                 <ScrollView>
                     { institutions ? institutions : null }
                 </ScrollView>
@@ -122,15 +172,10 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 40,
-        marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
         backgroundColor: '#DDDDDD',
         padding: 10,
-    },
-    institutionView: {
-        flexDirection: 'row',
-        marginVertical: 10
     },
     image: {
         aspectRatio: 1,
@@ -143,10 +188,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 15
     },
-    institutionButton: {
-        backgroundColor: '#F2F9F8',
-        marginVertical: 15
-    },
     address: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -158,14 +199,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    const { user, institutions } = state;
-    return { user, institutions };
+    const { user, institutions, search } = state;
+    return { user, institutions, search };
 }
 
 export default connect(
     mapStateToProps,
     {
         dispatchInstitutionsData: setInstitutionsData,
-        dispatchInstitutionDetailData: setInstitutionsDetailData
+        dispatchInstitutionDetailData: setInstitutionsDetailData,
+        dispatchTermSearch: setTermSearch
     }
 )(SearchPage);

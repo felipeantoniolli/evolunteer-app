@@ -197,7 +197,7 @@ class InstitutionRegisterPage extends React.Component {
                             />
                             <Input
                                 title={'CPF'}
-                                onChangeTextHandler={text => this.onChangeTextHandler('cpf', text)}
+                                onChangeTextHandler={text => this.onChangeTextHandler('cpfInstitution', text)}
                                 inputValue={cpf}
                                 reference={(input) => {this.cpfInput = input}}
                                 onSubmit={() => {this.cnpjInput.focus()}}

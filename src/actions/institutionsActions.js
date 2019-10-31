@@ -1,4 +1,4 @@
-export const SET_INSTITUTIONS_DATA = 'SET_INSTITUTIONS';
+export const SET_INSTITUTIONS_DATA = 'SET_INSTITUTIONS_DATA';
 export const setInstitutionsData = (institutions) => ({
     type: SET_INSTITUTIONS_DATA,
     institutions

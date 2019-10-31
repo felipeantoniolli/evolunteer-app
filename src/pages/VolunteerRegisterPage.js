@@ -235,7 +235,7 @@ class VolunteerRegisterPage extends React.Component {
                                 onSubmit={() => {this.genderInput.focus()}}
                             />
                             <Input
-                                title={'Genero'}
+                                title={'Gênero'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('gender', text)}
                                 inputValue={gender}
                                 reference={(input) => {this.genderInput = input}}

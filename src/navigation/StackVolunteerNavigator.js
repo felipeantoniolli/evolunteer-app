@@ -9,20 +9,18 @@ const StackVolunteerNavigator = createStackNavigator({
     SearchPage: {
         screen: SearchPage,
         navigationOptions: {
-            header: (
-                <SearchBar />
-            )
+            title: "Solicitações"
         }
     },
     InstitutionDetailsPage: {
         screen: InstitutionDetailsPage,
-        mavigationOptions: {
+        navigationOptions: {
             title: "Detalhes da institutição"
         }
     },
     SolicitationRequestPage: {
         screen: SolicitationRequestPage,
-        mavigationOptions: {
+        navigationOptions: {
             title: "Solicitação"
         }
     }
