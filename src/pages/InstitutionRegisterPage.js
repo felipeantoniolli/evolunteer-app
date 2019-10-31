@@ -157,7 +157,7 @@ class InstitutionRegisterPage extends React.Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View>
-                            <Text style={styles.title}>Registro do Instituição</Text>
+                            <Text style={styles.title}>Registro da Instituição</Text>
                         </View>
                         <View style={styles.content}>
                             <Input
@@ -182,7 +182,7 @@ class InstitutionRegisterPage extends React.Component {
                                 onSubmit={() => {this.reasonInput.focus()}}
                             />
                             <Input
-                                title={'Razão'}
+                                title={'Razão Social'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('reason', text)}
                                 inputValue={reason}
                                 reference={(input) => {this.reasonInput = input}}

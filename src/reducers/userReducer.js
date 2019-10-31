@@ -19,12 +19,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
             return INITIAL_STATE;
         case SET_INTEREST:
-            const actionInterest = action.interest;
             const interest = state.interest;
 
             interest.push(
                 {
-                    actionInterest
+                    "id_interest": action.interest.id_interest,
+                    "type": action.interest.type
                 }
             );
 

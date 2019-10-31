@@ -9,9 +9,9 @@ import {
 
 import { connect } from 'react-redux';
 import Loading from '../components/Loading';
+import VolunteersCard from '../components/VolunteersCard';
 
 import api from '../config/api';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { setVolunteersData, setVolunteerDetailData } from '../actions/volunteersActions';
 
 class SolicitationsPage extends React.Component {
@@ -21,12 +21,14 @@ class SolicitationsPage extends React.Component {
         this.state = {
             isLoading: false,
             refresh: false,
-            solicitations: []
+            pendingSolicitations: [],
+            approvedSolicitations: []
         };
     }
 
     componentDidMount() {
         this.findPendingSolicitations();
+        this.findApprovedSolicitations();
     }
 
     navigateToVolunteerDetails(user) {
@@ -39,6 +41,8 @@ class SolicitationsPage extends React.Component {
 
         const { id_institution } = this.props.user.institution;
 
+        console.log(id_institution);
+
         await api
             .post('/volunteer/find-pending-solicitations', {
                 id_institution: id_institution
@@ -47,31 +51,52 @@ class SolicitationsPage extends React.Component {
                 let data = response.data.data;
 
                 this.props.dispatchVolunteersData(data);
-                solicitations = data.map(item => {
+                const pendingSolicitations = data.map(item => {
                     const { user } = item;
 
                     return (
-                        <TouchableOpacity
-                            style={styles.volunteersButton}
-                            key={user.id_user}
+                        <VolunteersCard
+                            user={user}
                             onPress={() => this.navigateToVolunteerDetails(user)}
-                        >
-                            <View style={styles.volunteersView}>
-                                <Image
-                                    style={styles.image}
-                                    source={require('../assets/no-image.png')}
-                                />
-                                <View style={{flexDirection: 'column'}}>
-                                    <Text style={styles.name}>{user.volunteer.name} {user.volunteer.last_name}</Text>
-                                    <Text style={styles.address}>{user.city} - {user.state}</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        />
                     );
                 });
 
                 this.setState({isLoading: false});
-                this.setState({solicitations});
+                this.setState({pendingSolicitations});
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({isLoading: false});
+            });
+    }
+
+    async findApprovedSolicitations() {
+        this.setState({isLoading: true});
+
+        const { id_institution } = this.props.user.institution;
+
+        await api
+            .post('/volunteer/find-approved-solicitations', {
+                id_institution: id_institution
+            })
+            .then(response => {
+                let data = response.data.data;
+
+                this.props.dispatchVolunteersData(data);
+                const approvedSolicitations = data.map(item => {
+                    const { user } = item;
+
+                    return (
+                        <VolunteersCard
+                            user={user}
+                            onPress={() => this.navigateToVolunteerDetails(user)}
+                        />
+                    );
+                });
+
+                this.setState({isLoading: false});
+                this.setState({approvedSolicitations});
             })
             .catch(error => {
                 console.log(error);
@@ -82,10 +107,11 @@ class SolicitationsPage extends React.Component {
     refreshPage() {
         this.props.navigation.state.params = null;
         this.findPendingSolicitations();
+        this.findApprovedSolicitations();
     }
 
     render() {
-        const { solicitations } = this.state;
+        const { pendingSolicitations, approvedSolicitations } = this.state;
         const { navigation } = this.props;
  
         if (this.state.isLoading) {
@@ -98,7 +124,6 @@ class SolicitationsPage extends React.Component {
 
         if (navigation.getParam('refresh')) {
             var refresh = navigation.getParam('refresh');
-            console.log(refresh);
 
             if (refresh) {
                 this.refreshPage();
@@ -107,9 +132,16 @@ class SolicitationsPage extends React.Component {
 
         return (
             <ScrollView>
+                <Text style={styles.title}>Solicitações pendentes</Text>
                 {
-                    solicitations 
-                    ? solicitations
+                    pendingSolicitations 
+                    ? pendingSolicitations
+                    : null
+                }
+                <Text style={styles.title}>Solicitações aprovadas</Text>
+                {
+                    approvedSolicitations 
+                    ? approvedSolicitations
                     : null
                 }
             </ScrollView>

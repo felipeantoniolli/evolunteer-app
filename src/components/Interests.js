@@ -14,7 +14,7 @@ const Interests = ({ interests, style }) => {
 }
 
 const getInterestType = type => {
-    switch(type) {
+    switch(parseInt(type)) {
         case 1:
             return 'Crianças';
         case 2:

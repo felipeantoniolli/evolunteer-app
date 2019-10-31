@@ -4,13 +4,26 @@ import { setTermSearch } from '../actions/searchActions';
 import { Text, TextInput, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import api from '../config/api';
+
 class SearchBar extends React.Component {
     onChangeHandler(term) {
         this.props.dispatchTermSearch(term);
     }
 
-    searchTerm() {
-        console.log("procurando");
+    async searchTerm() {
+        console.log(this.props.search);
+        return;
+        await api
+            .post('/institution/search', {
+                data: data
+            })
+            .then(response => {
+                console.log(response.data.data)
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     render() {
@@ -21,12 +34,12 @@ class SearchBar extends React.Component {
                 <TextInput
                     onChangeText={term => this.onChangeHandler(term)}
                     value={term}
-                    onSubmitEditing={() => this.searchTerm()}
+                    onSubmitEditing={() => this.onChangeHandler()}
                     style={styles.input}
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => this.searchTerm()}
+                    onPress={() => this.onChangeHandler()}
                 >
                     <Text>Pesquisar</Text>
                 </TouchableOpacity>
@@ -44,12 +57,15 @@ const styles = StyleSheet.create({
     input: {
         borderBottomColor: 'blue',
         borderBottomWidth: 1,
-        width: 300
+        flex: 4
     },
     button: {
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        marginLeft: 10,
+        flex: 1,
+        marginHorizontal: 10,
+        paddingVertical: 17,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 17,
         borderRadius: 10,
         alignItems: 'center',
         backgroundColor: '#DDDDDD'
