@@ -6,12 +6,47 @@ import {
     Image,
     ScrollView
 } from 'react-native';
+
+import api from '../config/api';
+import Loading from '../components/Loading';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import Interests from '../components/Interests';
 import SuccessAlert from '../components/SuccessAlert';
+import SolicitationButton from '../components/SolicitationButton';
 
 class InstitutionDetailsPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: false,
+            solicitation: []
+        };
+    }
+
+    componentDidMount() {
+        this.setState({isLoading: true});
+
+        const { id_volunteer } = this.props.user.volunteer;
+        const { id_institution } = this.props.institutionDetail.institution;
+
+        api.
+            post('/solicitation/find-by-user-and-institutuon', {
+                id_volunteer,
+                id_institution
+            })
+            .then(response => {
+                var solicitation = response.data.data;
+                console.log(solicitation);
+                this.setState({isLoading: false, solicitation});
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({isLoading: false});
+            })
+    }
+
     render() {
         const { street, number, city, state } = this.props.institutionDetail;
         const { fantasy } = this.props.institutionDetail.institution;
@@ -25,7 +60,7 @@ class InstitutionDetailsPage extends React.Component {
             <ScrollView style={styles.scroll}>
                 {
                     register
-                    ? <SuccessAlert message="Solcitação enviada com sucesso." />
+                    ? <SuccessAlert message="Solicitação enviada com sucesso." />
                     : null
                 }
                 <View style={styles.container}>
@@ -44,12 +79,17 @@ class InstitutionDetailsPage extends React.Component {
                     <View>
                         <Text style={styles.text}>{city} - {state}</Text>
                     </View>
-                    <TouchableOpacity 
-                        style={styles.button} 
-                        onPress={() => this.props.navigation.navigate("SolicitationRequestPage")}
-                    >
-                        <Text>Quero participar</Text>
-                    </TouchableOpacity>
+                    <SolicitationButton
+                        isLoading={this.state.isLoading}
+                        solicited={this.state.solicitation ? true : false}
+                        approved={
+                            this.state.solicitation 
+                                ? this.state.solicitation.approved
+                                : false
+                            }
+                        navigation={() => this.props.navigation.navigate("SolicitationRequestPage")}
+                    />
+                    
                     <View>
                         <Text style={styles.subtitle}>
                             Interesses
@@ -112,8 +152,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    const { institutionDetail } = state;
-    return { institutionDetail };
+    const { institutionDetail, user } = state;
+    return { institutionDetail, user };
 };
 
 export default connect(

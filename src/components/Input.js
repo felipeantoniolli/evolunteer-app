@@ -13,7 +13,8 @@ const Input = ({
         passwordField = false,
         onSubmit = null,
         returnKey = "next",
-        reference = null
+        reference = null,
+        lines = 1
     }) => (
     <View style={styles.content}>
          <View>
@@ -21,13 +22,15 @@ const Input = ({
         </View>
         <View style={styles.content}>
             <TextInput
-                style={styles.input}
+                style={[styles.input, lines > 1 ? styles.multilines : null]}
                 onChangeText={onChangeTextHandler}
                 value={inputValue}
                 secureTextEntry={passwordField ? true : false}
                 ref={reference}
                 onSubmitEditing={onSubmit}
                 returnKeyType={returnKey}
+                multiline={lines ? true : false}
+                numberOfLines={lines}
             />
         </View>
     </View>
@@ -38,6 +41,11 @@ const styles = StyleSheet.create({
         marginTop: 15,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    multilines: {
+        borderWidth: 1,
+        borderColor: 'blue',
+        padding: 10
     },
     input: {
         borderBottomColor: 'blue',

@@ -7,6 +7,8 @@ import institutionsReducer from './institutionsReducer';
 import institutionDetailReducer from './institutionDetailReducer';
 import volunteersReducer from './volunteersReducer';
 import volunteerDetailReducer from './volunteerDetailReducer';
+import registerWorkReducer from './registerWorkReducer';
+import worksReducer from './worksReducer';
 
 const rootReducer = combineReducers({
     login: loginDataReducer,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
     institutions: institutionsReducer,
     institutionDetail: institutionDetailReducer,
     volunteers: volunteersReducer,
-    volunteerDetail: volunteerDetailReducer
+    volunteerDetail: volunteerDetailReducer,
+    works: worksReducer,
+    registerWork: registerWorkReducer
 });
 
 export default rootReducer;

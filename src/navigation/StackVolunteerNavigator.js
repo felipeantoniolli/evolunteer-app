@@ -9,7 +9,7 @@ const StackVolunteerNavigator = createStackNavigator({
     SearchPage: {
         screen: SearchPage,
         navigationOptions: {
-            title: "Solicitações"
+            title: "Pesquisa"
         }
     },
     InstitutionDetailsPage: {

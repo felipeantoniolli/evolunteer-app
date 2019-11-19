@@ -41,8 +41,6 @@ class SolicitationsPage extends React.Component {
 
         const { id_institution } = this.props.user.institution;
 
-        console.log(id_institution);
-
         await api
             .post('/volunteer/find-pending-solicitations', {
                 id_institution: id_institution
