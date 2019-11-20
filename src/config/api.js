@@ -8,7 +8,7 @@ import axios from 'axios';
 192.168.0.34
 */
 const api = axios.create({
-  baseURL: 'http://192.168.1.5:8000/api',
+  baseURL: 'http://192.168.0.34:8000/api',
 });
 
 export default api;

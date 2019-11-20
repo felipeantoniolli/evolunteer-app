@@ -9,6 +9,7 @@ import volunteersReducer from './volunteersReducer';
 import volunteerDetailReducer from './volunteerDetailReducer';
 import registerWorkReducer from './registerWorkReducer';
 import worksReducer from './worksReducer';
+import calendarReducer from './calendarReducer';
 
 const rootReducer = combineReducers({
     login: loginDataReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     volunteers: volunteersReducer,
     volunteerDetail: volunteerDetailReducer,
     works: worksReducer,
-    registerWork: registerWorkReducer
+    registerWork: registerWorkReducer,
+    calendar: calendarReducer
 });
 
 export default rootReducer;

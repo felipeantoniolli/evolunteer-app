@@ -4,45 +4,46 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 
 import api from '../config/api';
-import { setWorksData } from '../actions/worksActions';
-import WorksCard from '../components/WorksCard';
+import { setCalendarData } from '../actions/calendarActions';
 import Loading from '../components/Loading';
+import WorksCard from '../components/WorksCard';
 
-class WorkPage extends React.Component {
+class CalendarPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             isLoading: false,
-            refresh: false,
-            works: null
+            calendar: null
         };
     }
 
-    refreshPage() {
-        this.props.navigation.state.params = null;
-        this.findWorks();
-    }
-
     componentDidMount() {
-        this.findWorks();
+        this.findCalendar();
     }
 
-    async findWorks() {
+    refreshResults() {
+        this.setState({calendarData: null});
+        this.findCalendar();
+    }
+
+    async findCalendar() {
         this.setState({isLoading: true});
-        const { id_institution } = this.props.user.institution;
+        const { id_volunteer } = this.props.user.volunteer;
 
         await api
-            .post('work/find-by-institution', {
-                'id_institution': id_institution
+            .post('calendar/find-by-volunteer', {
+                'id_volunteer': id_volunteer
             })
             .then(response => {
-                const works = response.data.data;
+                const calendars = response.data.data;
+                this.props.dispatchCalendarData(calendars);
 
-                this.props.dispatchWorksData(works);
+                const calendarData = calendars.map((calendar) => {
+                    return <WorksCard key={calendar.work.id_work} work={calendar.work} institution={calendar.work.institution} />
+                });
 
-                const worksData = works.map((work) => <WorksCard key={work.id_work} work={work}/>);
-                this.setState({isLoading: false, works: worksData});
+                this.setState({isLoading: false, calendar: calendarData});
             })
             .catch(error => {
                 console.log(error);
@@ -51,16 +52,6 @@ class WorkPage extends React.Component {
     }
 
     render() {
-        const { navigation } = this.props;
-
-        if (navigation.getParam('refresh')) {
-            var refresh = navigation.getParam('refresh');
-
-            if (refresh) {
-                this.refreshPage();
-            }
-        }
-
         if (this.state.isLoading) {
             return (
                 <View style={styles.container}>
@@ -72,18 +63,18 @@ class WorkPage extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>
-                    Trabalhos
+                    Próximas atividades
                 </Text>
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("WorkCreatePage")}
+                    onPress={() => this.refreshResults()}
                     style={styles.button}
                 >
-                    <Text>Novo trabalho</Text>
+                    <Text>Recarregar resultados</Text>
                 </TouchableOpacity>
                 <ScrollView>
                     {
-                        this.state.works
-                        ? this.state.works
+                        this.state.calendar
+                        ? this.state.calendar
                         : <View style={styles.container}>
                             <Text style={styles.notFound}>Não há nenhum trabalho novo!</Text>
                         </View>
@@ -122,13 +113,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const { user, works } = state;
-    return { user, works };
+    const { user, calendar } = state;
+    return { user, calendar };
 };
 
 export default connect(
     mapStateToProps,
     {
-        dispatchWorksData: setWorksData
+        dispatchCalendarData: setCalendarData
     }
-)(WorkPage);
+)(CalendarPage);

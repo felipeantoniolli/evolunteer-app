@@ -6,18 +6,21 @@ import {
     StyleSheet
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import worksReducer from '../reducers/worksReducer';
 
-const WorksCard = ({work, onPress = null}) => {
+const WorksCard = ({work, onPressHandler = null, institution = null}) => {
     return (
         <TouchableOpacity
             style={styles.worksButton}
-            key={user.id_user}
             onPress={() => console.log('')}
         >
             <View style={styles.worksView}>
                 <View style={{flexDirection: 'column'}}>
                     <Text style={styles.name}>{work.name}</Text>
+                    {
+                        institution
+                        ? <Text style={styles.content}>{institution.fantasy}</Text>
+                        : null
+                    }
                     <Text style={styles.content}>{work.content}</Text>
                     <Text style={styles.date}>{work.work_date}</Text>
                 </View>
