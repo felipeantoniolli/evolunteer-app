@@ -56,7 +56,7 @@ class SolicitationRequestPage extends React.Component {
         return (
             <View>
                 <View>
-                    <Text style={styles.title}>Escreva abaixo o porquê deseja participar desta instituição.</Text>
+                    <Text style={styles.title}>Escreva abaixo porquê deseja participar desta instituição.</Text>
                 </View>
                 <TextInput
                     style={styles.input}

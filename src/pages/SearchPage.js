@@ -116,6 +116,7 @@ class SearchPage extends React.Component {
 
     render() {
         const { institutions, search } = this.state;
+        const { city } = this.props.user;
 
         if (this.state.isLoading) {
             return (
@@ -134,7 +135,7 @@ class SearchPage extends React.Component {
                 />
                 <Text style={styles.search}> { search 
                             ? 'Resultados da pesquisa' 
-                            : 'Instituições próximas de você!'
+                            : 'Instituições em ' + city
                         }
                 </Text>
                 {

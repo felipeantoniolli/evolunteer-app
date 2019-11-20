@@ -6,9 +6,10 @@ import axios from 'axios';
 ** Simulador IOS:           http://localhost:3333/
 192.168.1.5
 192.168.0.34
+192.168.43.125
 */
 const api = axios.create({
-  baseURL: 'http://192.168.0.34:8000/api',
+  baseURL: 'http://192.168.43.125:8000/api',
 });
 
 export default api;

@@ -60,7 +60,7 @@ class InstitutionDetailsPage extends React.Component {
             <ScrollView style={styles.scroll}>
                 {
                     register
-                    ? <SuccessAlert message="Solicitação enviada com sucesso." />
+                    ? <SuccessAlert message="Solicitação enviada com sucesso :)" />
                     : null
                 }
                 <View style={styles.container}>

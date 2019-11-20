@@ -99,6 +99,8 @@ class LoginPage extends React.Component {
             .catch(error => {
                 this.setState({isLoading: false});
 
+                console.log(error);
+
                 return (Alert.alert(
                     text="Login ou Senha inválidos!")
                 );
@@ -168,13 +170,13 @@ class LoginPage extends React.Component {
                         style={styles.button} 
                         onPress={() => this.tryLogin()}
                     >
-                        <Text>Login</Text>
+                        <Text>Entrar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.props.navigation.navigate("Register")}
                     >
-                        <Text>Cadastre-se</Text>
+                        <Text>Faça seu cadastro</Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
             </View>

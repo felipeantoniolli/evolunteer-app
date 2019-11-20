@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
 import Interests from '../components/Interests';
 import Birth from '../components/Birth';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Loading from '../components/Loading';
 import api from '../config/api';
+import SolicitationsActionsButton from '../components/SolicitationsActionsButton';
 
 class VolunteerDetailsPage extends React.Component {
     constructor(props) {
@@ -24,13 +24,25 @@ class VolunteerDetailsPage extends React.Component {
         }
     }
 
-    requestAcceptSolicitation() {
+    requestSolicitation(status = 1) {
+        if (status == 1) {
+            title = "Aceitar solicitação";
+        }
+
+        if (status == 2) {
+            title = "Recusar solicitação";
+        }
+
+        if (status == 3) {
+            title = "Cancelar aprovação";
+        }
+
         Alert.alert(
-            'Aceitar Solicitação',
+            title,
             'Você tem certeza?',
             [
                 {
-                    text: 'Sim', onPress: () => this.approveSolicitation()
+                    text: 'Sim', onPress: () => this.changeStatusSolicitation(status)
                 },
                 {
                     text: 'Não',
@@ -41,22 +53,36 @@ class VolunteerDetailsPage extends React.Component {
         )
     }
 
-    async approveSolicitation() {
+    async changeStatusSolicitation(status = 1) {
         this.setState({isLoading: true});
 
         const { id_solicitation } = this.props.volunteerDetail.solicitation;
 
         api
-            .post('/solicitation/approve-solicitation', {
-                id_solicitation: id_solicitation
+            .post('/solicitation/status-solicitation', {
+                id_solicitation: id_solicitation,
+                approved: status
             })
             .then(response => {
+                var content = '';
+                if (status == 1) {
+                    content = "Solicitação aprovada com sucesso!";
+                }
+
+                if (status == 2) {
+                    content = "Solicitação reprovada com sucesso!";
+                }
+
+                if (status == 3) {
+                    content = "Solicitação cancelada com sucesso!";
+                }
+
                 Alert.alert(
                     'Sucesso',
-                    'Solicitação aprovada com sucesso!',
+                    content,
                     [
                         {
-                            text: 'Ok', onPress: () => {
+                            text: 'OK', onPress: () => {
                                 this.props.navigation.navigate('SolicitationsPage', {refresh: true})
                             }
                         }
@@ -116,12 +142,10 @@ class VolunteerDetailsPage extends React.Component {
                         </Text>
                     </View>
                 </View>
-                <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={() => this.requestAcceptSolicitation()}
-                >
-                    <Text>Aceitar Solicitação</Text>
-                </TouchableOpacity>
+                <SolicitationsActionsButton
+                    approved={solicitation.approved}
+                    onPressHandler={this.requestSolicitation.bind(this)}
+                />
             </ScrollView>
         );
     }
@@ -168,14 +192,6 @@ const styles = StyleSheet.create({
     interest: {
         fontSize: 20,
         justifyContent: 'center'
-    },
-    button: {
-        marginHorizontal: 40,
-        marginTop: 20,
-        borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10
     }
 });
 

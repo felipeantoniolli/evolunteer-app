@@ -41,7 +41,8 @@ class WorkPage extends React.Component {
 
                 this.props.dispatchWorksData(works);
 
-                const worksData = works.map((work) => <WorksCard key={work.id_work} work={work}/>);
+                var worksData = works.map((work) => <WorksCard key={work.id_work} work={work}/>);
+
                 this.setState({isLoading: false, works: worksData});
             })
             .catch(error => {
@@ -52,6 +53,8 @@ class WorkPage extends React.Component {
 
     render() {
         const { navigation } = this.props;
+
+        console.log(this.state.works);
 
         if (navigation.getParam('refresh')) {
             var refresh = navigation.getParam('refresh');
@@ -82,11 +85,9 @@ class WorkPage extends React.Component {
                 </TouchableOpacity>
                 <ScrollView>
                     {
-                        this.state.works
+                        this.state.works.length > 0
                         ? this.state.works
-                        : <View style={styles.container}>
-                            <Text style={styles.notFound}>Não há nenhum trabalho novo!</Text>
-                        </View>
+                        : <Text style={styles.notFound}>Não há nenhuma atividade nova!</Text>
                     }
                 </ScrollView>
             </View>

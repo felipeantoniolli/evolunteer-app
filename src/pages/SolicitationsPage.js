@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 import Loading from '../components/Loading';
 import VolunteersCard from '../components/VolunteersCard';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import api from '../config/api';
 import { setVolunteersData, setVolunteerDetailData } from '../actions/volunteersActions';
@@ -34,6 +35,13 @@ class SolicitationsPage extends React.Component {
     navigateToVolunteerDetails(user) {
         this.props.dispatchVolunteerDetailData(user);
         this.props.navigation.navigate('VolunteerDetailsPage');
+    }
+
+    
+    refreshResults() {
+        this.setState({pendingSolicitations: [], approvedSolicitations: []})
+        this.findPendingSolicitations();
+        this.findApprovedSolicitations();
     }
 
     async findPendingSolicitations() {
@@ -88,6 +96,7 @@ class SolicitationsPage extends React.Component {
                     return (
                         <VolunteersCard
                             user={user}
+                            key={user.volunteer.id_volunteer}
                             onPress={() => this.navigateToVolunteerDetails(user)}
                         />
                     );
@@ -104,8 +113,7 @@ class SolicitationsPage extends React.Component {
 
     refreshPage() {
         this.props.navigation.state.params = null;
-        this.findPendingSolicitations();
-        this.findApprovedSolicitations();
+        this.refreshResults();
     }
 
     render() {
@@ -130,6 +138,12 @@ class SolicitationsPage extends React.Component {
 
         return (
             <ScrollView>
+                <TouchableOpacity
+                    onPress={() => this.refreshResults()}
+                    style={styles.button}
+                >
+                    <Text>Recarregar resultados</Text>
+                </TouchableOpacity>
                 <Text style={styles.title}>Solicitações pendentes</Text>
                 {
                     pendingSolicitations 
