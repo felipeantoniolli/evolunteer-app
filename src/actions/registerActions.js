@@ -137,3 +137,9 @@ export const setCnpjData = (cnpj) => ({
     type: SET_CNPJ_DATA,
     cnpj
 });
+
+export const SET_ALL_USER_DATA = 'SET_ALL_USER_DATA';
+export const setAllUserData = (user) => ({
+    type: SET_ALL_USER_DATA,
+    user
+});

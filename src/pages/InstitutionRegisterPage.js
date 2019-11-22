@@ -28,8 +28,10 @@ import {
     setReasonData,
     setFantasyData,
     setCpfInstitutionData,
-    setCnpjData
+    setCnpjData,
+    setAllUserData
 } from '../actions/registerActions';
+import { setUpdateData } from '../actions/userActions';
 import Input from '../components/Input';
 import Loading from '../components/Loading';
 class InstitutionRegisterPage extends React.Component {
@@ -37,7 +39,8 @@ class InstitutionRegisterPage extends React.Component {
         super(props);
 
         this.state = {
-            isLoading: false
+            isLoading: false,
+            editing: false
         };
     }
 
@@ -97,23 +100,54 @@ class InstitutionRegisterPage extends React.Component {
         this.setState({isLoading: true});
         let register = this.props.register;
 
+        let url = '';
+        if (this.state.editing) {
+            url = '/user/update-institution';
+        } else {
+            url = '/user/register-institution';
+        }
+
         await api
-           .post('user/register-institution', [
+           .post(url, [
                 register
            ])
            .then(response => {
-               this.props.navigation.navigate('Login', {register: true});
-           })
-           .catch(error => {
-            this.setState({isLoading: false});
-               Alert.alert(
-                   title="Alguns campos estão inválidos!"
-               );
-           });
+            if (this.state.editing) {
+                const user = response.data.data;
+
+                this.props.dispacthUpdateData(user);
+
+                Alert.alert(
+                    'Sucesso',
+                    'Dados alterado com sucesso :)',
+                    [
+                        {
+                            text: 'OK', onPress: () => {
+                                this.props.navigation.goBack()
+                            }
+                        }
+                    ]
+                );
+            } else {
+                this.props.navigation.navigate('Login', {register: true});
+            }
+       })
+       .catch(error => {
+        console.log(error);
+        this.setState({isLoading: false});
+           Alert.alert(
+               title="Alguns campos estão inválidos!"
+           );
+       });
     }
 
     componentDidMount() {
         this.props.dispatchClearData();
+
+        if (this.props.navigation.getParam('editing')) {
+            this.setState({editing: true});
+            this.props.dispatchAllUserData(this.props.user);
+        }
     }
 
     render() {
@@ -156,24 +190,38 @@ class InstitutionRegisterPage extends React.Component {
             >
                 <ScrollView>
                     <View style={styles.container}>
-                        <View>
-                            <Text style={styles.title}>Registro da Instituição</Text>
+                    <View>
+                            <Text style={styles.title}>
+                                {
+                                    this.state.editing
+                                    ? "Editar Perfil"
+                                    : "Registro da Instituição"
+                                }
+                            </Text>
                         </View>
                         <View style={styles.content}>
                             <Input
                                 title={'Usuário'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('username', text)}
                                 inputValue={username}
-                                onSubmit={() => {this.passwordInput.focus()}}
+                                onSubmit={() => {
+                                    this.state.editing
+                                    ? this.emailInput.focus()
+                                    :  this.passwordInput.focus()
+                                }}
                             />
-                            <Input
-                                title={'Senha'}
-                                onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
-                                inputValue={password}
-                                passwordField={true}
-                                reference={(input) => {this.passwordInput = input}}
-                                onSubmit={() => {this.emailInput.focus()}}
-                            />
+                           {
+                                this.state.editing
+                                ? null
+                                :  <Input
+                                        title={'Senha'}
+                                        onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
+                                        inputValue={password}
+                                        passwordField={true}
+                                        reference={(input) => {this.passwordInput = input}}
+                                        onSubmit={() => {this.emailInput.focus()}}
+                                    />
+                            }
                             <Input
                                 title={'Email'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('email', text)}
@@ -269,7 +317,13 @@ class InstitutionRegisterPage extends React.Component {
                                     style={styles.button}
                                     onPress={() => this.onPressButton()}
                                 >
-                                    <Text>Cadastre-se</Text>
+                                    <Text>
+                                        {
+                                            this.state.editing
+                                                ? "Confirmar Alterações"
+                                                : "Cadastre-se"
+                                        }
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -315,8 +369,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const { register } = state;
-    return { register };
+    const { register, user } = state;
+    return { register, user };
 };
 
 export default connect(
@@ -338,6 +392,8 @@ export default connect(
         dispatchReasonData: setReasonData,
         dispatchFantasyData: setFantasyData,
         dispatchCpfInstitutionData: setCpfInstitutionData,
-        dispatchCnpjData: setCnpjData
+        dispatchCnpjData: setCnpjData,
+        dispatchAllUserData: setAllUserData,
+        dispacthUpdateData: setUpdateData
     }
 )(InstitutionRegisterPage);

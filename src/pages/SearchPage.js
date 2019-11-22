@@ -95,6 +95,7 @@ class SearchPage extends React.Component {
                     const { user } = item;
                     return (
                         <InstitutionsCard
+                            key={user.id_user}
                             user={user}
                             onPress={() => this.navigateToInstitutionDetails(user)}
                         />

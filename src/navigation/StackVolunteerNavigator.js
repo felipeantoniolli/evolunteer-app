@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import SearchPage from '../pages/SearchPage';
-import SearchBar from '../components/SearchBar';
 import InstitutionDetailsPage from '../pages/InstitutionDetailsPage';
 import SolicitationRequestPage from '../pages/SolicitationRequestPage';
 

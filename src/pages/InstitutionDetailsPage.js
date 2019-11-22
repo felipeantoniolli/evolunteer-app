@@ -47,6 +47,10 @@ class InstitutionDetailsPage extends React.Component {
             })
     }
 
+    cancelSolicitation() {
+        console.log('oi');
+    }
+
     render() {
         const { street, number, city, state } = this.props.institutionDetail;
         const { fantasy } = this.props.institutionDetail.institution;
@@ -87,9 +91,9 @@ class InstitutionDetailsPage extends React.Component {
                                 ? this.state.solicitation.approved
                                 : false
                             }
+                        onPressHandler={() => this.cancelSolicitation()}
                         navigation={() => this.props.navigation.navigate("SolicitationRequestPage")}
                     />
-                    
                     <View>
                         <Text style={styles.subtitle}>
                             Interesses

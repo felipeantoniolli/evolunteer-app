@@ -53,8 +53,8 @@ class WorkPage extends React.Component {
 
     render() {
         const { navigation } = this.props;
-
-        console.log(this.state.works);
+        const { works } = this.state;
+        
 
         if (navigation.getParam('refresh')) {
             var refresh = navigation.getParam('refresh');
@@ -85,8 +85,8 @@ class WorkPage extends React.Component {
                 </TouchableOpacity>
                 <ScrollView>
                     {
-                        this.state.works.length > 0
-                        ? this.state.works
+                        works && works.length > 0
+                        ? works
                         : <Text style={styles.notFound}>Não há nenhuma atividade nova!</Text>
                     }
                 </ScrollView>

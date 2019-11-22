@@ -3,11 +3,11 @@ import Loading from '../components/Loading';
 import { StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const SolicitationButton = ({isLoading, solicited, approved, navigation}) => {
+const SolicitationButton = ({isLoading, solicited, approved, onPressHandler, navigation}) => {
     return (
         <TouchableOpacity 
             style={styles.button} 
-            onPress={solicited ? null : navigation}
+            onPress={solicited ? onPressHandler : navigation}
         >
             {
                 isLoading

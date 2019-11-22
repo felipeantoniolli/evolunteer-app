@@ -30,8 +30,10 @@ import {
     setCpfData,
     setRgData,
     setBirthData,
-    setGenderData
+    setGenderData,
+    setAllUserData
 } from '../actions/registerActions';
+import { setUpdateData } from '../actions/userActions';
 import Input from '../components/Input';
 import Loading from '../components/Loading';
 
@@ -40,7 +42,8 @@ class VolunteerRegisterPage extends React.Component {
         super(props);
 
         this.state = {
-            isLoading: false
+            isLoading: false,
+            editing: false
         };
     }
 
@@ -104,20 +107,51 @@ class VolunteerRegisterPage extends React.Component {
 
     componentDidMount() {
         this.props.dispatchClearData();
+
+        if (this.props.navigation.getParam('editing')) {
+            this.setState({editing: true});
+            this.props.dispatchAllUserData(this.props.user);
+        }
     }
 
     async onPressButton() {
         this.setState({isLoading: true});
         let register = this.props.register;
+        
+        let url = '';
+        if (this.state.editing) {
+            url = '/user/update-volunteer';
+        } else {
+            url = '/user/register-volunteer';
+        }
 
         await api
-           .post('user/register-volunteer',[
+           .post(url, [
                 register
            ])
            .then(response => {
-               this.props.navigation.navigate('Login', {register: true});
+                if (this.state.editing) {
+                    const user = response.data.data;
+
+                    this.props.dispacthUpdateData(user);
+
+                    Alert.alert(
+                        'Sucesso',
+                        'Dados alterado com sucesso :)',
+                        [
+                            {
+                                text: 'OK', onPress: () => {
+                                    this.props.navigation.goBack()
+                                }
+                            }
+                        ]
+                    );
+                } else {
+                    this.props.navigation.navigate('Login', {register: true});
+                }
            })
            .catch(error => {
+            console.log(error);
             this.setState({isLoading: false});
                Alert.alert(
                    title="Alguns campos estão inválidos!"
@@ -126,7 +160,7 @@ class VolunteerRegisterPage extends React.Component {
     }
 
     render() {
-        const {
+        let {
             username,
             type,
             email,
@@ -149,7 +183,14 @@ class VolunteerRegisterPage extends React.Component {
             }
         } = this.props.register;
 
-        
+        if (gender == 1) {
+            gender = "1";
+        }
+
+        if (gender == 2) {
+            gender = "2";
+        }
+
         if (this.state.isLoading) {
             return (
                 <View style={styles.container}>
@@ -168,23 +209,37 @@ class VolunteerRegisterPage extends React.Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View>
-                            <Text style={styles.title}>Registro do Voluntário</Text>
+                            <Text style={styles.title}>
+                                {
+                                    this.state.editing
+                                    ? "Editar Perfil"
+                                    : "Registro do Voluntário"
+                                }
+                            </Text>
                         </View>
                         <View style={styles.content}>
                             <Input
                                 title={'Usuário'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('username', text)}
                                 inputValue={username}
-                                onSubmit={() => {this.passwordInput.focus()}}
+                                onSubmit={() => {
+                                    this.state.editing
+                                    ? this.emailInput.focus()
+                                    :  this.passwordInput.focus()
+                                }}
                             />
-                            <Input
-                                title={'Senha'}
-                                onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
-                                inputValue={password}
-                                passwordField={true}
-                                reference={(input) => {this.passwordInput = input}}
-                                onSubmit={() => {this.emailInput.focus()}}
-                            />
+                            {
+                                this.state.editing
+                                ? null
+                                :  <Input
+                                        title={'Senha'}
+                                        onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
+                                        inputValue={password}
+                                        passwordField={true}
+                                        reference={(input) => {this.passwordInput = input}}
+                                        onSubmit={() => {this.emailInput.focus()}}
+                                    />
+                            }
                             <Input
                                 title={'Email'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('email', text)}
@@ -294,7 +349,13 @@ class VolunteerRegisterPage extends React.Component {
                                     style={styles.button}
                                     onPress={() => this.onPressButton()}
                                 >
-                                    <Text>Cadastre-se</Text>
+                                    <Text>
+                                        {
+                                            this.state.editing
+                                                ? "Confirmar Alterações"
+                                                : "Cadastre-se"
+                                        }
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -340,8 +401,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const { register } = state;
-    return { register };
+    const { register, user } = state;
+    return { register, user };
 };
 
 export default connect(
@@ -365,6 +426,8 @@ export default connect(
         dispatchCpfData: setCpfData,
         dispatchRgData: setRgData,
         dispatchBirthData: setBirthData,
-        dispatchGenderData: setGenderData
+        dispatchGenderData: setGenderData,
+        dispatchAllUserData: setAllUserData,
+        dispacthUpdateData: setUpdateData
     }
 )(VolunteerRegisterPage);

@@ -21,7 +21,8 @@ import {
     SET_FANTASY_DATA,
     SET_CPF_INSTITUTION_DATA,
     SET_CNPJ_DATA,
-    SET_TYPE_DATA
+    SET_TYPE_DATA,
+    SET_ALL_USER_DATA
 } from '../actions/registerActions';
 
 const INITIAL_STATE = {
@@ -220,6 +221,8 @@ const registerReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 institution: newInstitution
             };
+        case SET_ALL_USER_DATA:
+            return action.user;
         default:
             return state;
     }

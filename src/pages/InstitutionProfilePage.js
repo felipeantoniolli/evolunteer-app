@@ -9,11 +9,13 @@ import {
 import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
 import Interests from '../components/Interests'; 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class IndexPage extends React.Component {
     render() {
         const { fantasy } = this.props.user.institution;
         const { city, state, street, number } = this.props.user;
+        const { navigation } = this.props;
         const interests = this.props.user.interest;
 
         return (
@@ -24,6 +26,12 @@ class IndexPage extends React.Component {
                         source={require('../assets/no-image.png')}
                     />
                 </View>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('InstitutionEditPage', {editing: true})}
+                    style={styles.button}
+                >
+                    <Text>Editar Perfil</Text>
+                </TouchableOpacity>
                 <View>
                     <Text style={styles.name}>{fantasy}</Text>
                 </View>
@@ -87,6 +95,14 @@ const styles = StyleSheet.create({
     interest: {
         fontSize: 20,
         justifyContent: 'center'
+    },
+    button: {
+        marginHorizontal: 40,
+        marginTop: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
     }
 });
 

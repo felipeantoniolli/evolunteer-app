@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import VolunteerProfilePage from '../pages/VolunteerProfilePage';
 import StackVolunteerNavigator from './StackVolunteerNavigator';
 import StackCalendarNavigator from './StackCalendarNavigator';
+import StackVolunteerProfileNavigator from './StackVolunteerProfileNavigator';
 
 const BottomTabNavigator = createBottomTabNavigator({
     Search: {
@@ -18,7 +18,7 @@ const BottomTabNavigator = createBottomTabNavigator({
         }
     },
     VolunteerProfilePage: {
-        screen: VolunteerProfilePage,
+        screen: StackVolunteerProfileNavigator,
         navigationOptions: {
             title: "Perfil"
         }

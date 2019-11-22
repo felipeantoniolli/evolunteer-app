@@ -10,11 +10,13 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
 import Interests from '../components/Interests';
 import Birth from '../components/Birth';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class VolunteerProfilePage extends React.Component {
     render() {
         const { name, last_name, birth } = this.props.user.volunteer;
         const { city, state } = this.props.user;
+        const { navigation } = this.props;
         const interests = this.props.user.interest;
 
         return (
@@ -25,8 +27,15 @@ class VolunteerProfilePage extends React.Component {
                         source={require('../assets/no-image.png')}
                     />
                 </View>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
+                    style={styles.button}
+                >
+                    <Text>Editar Perfil</Text>
+                </TouchableOpacity>
                 <View>
-                    <Text style={styles.name}>{name} {last_name}</Text>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.lastName}>{last_name}</Text>
                 </View>
                 <View>
                     <Birth birth={birth} style={styles.text} />
@@ -64,7 +73,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     name: {
-        fontSize: 35
+        alignSelf: 'center',
+        fontSize: 35,
+    },
+    lastName: {
+        alignSelf: 'center',
+        fontSize: 30,
+        marginBottom: 10
     },
     text: {
         fontSize: 20
@@ -88,6 +103,14 @@ const styles = StyleSheet.create({
     interest: {
         fontSize: 20,
         justifyContent: 'center'
+    },
+    button: {
+        marginHorizontal: 40,
+        marginTop: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
     }
 });
 
