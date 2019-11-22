@@ -18,7 +18,6 @@ import {
 import {
     setTermSearch
 } from '../actions/searchActions';
-import SearchBar from '../components/SearchBar';
 import InstitutionsCard from '../components/InstitutionsCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -116,9 +115,11 @@ class SolicitationsVolunteerPage extends React.Component {
                     <Text>Recarregar Soliciações</Text>
                 </TouchableOpacity>
                 <ScrollView>
-                    { institutions
-                        ? institutions 
-                        : <Text>Você não possui nenhuma solicitação no momento.</Text>
+                    { institutions && institutions.length > 0
+                        ? institutions
+                        : <Text style={styles.notFound}>
+                            Você não possui nenhuma solicitação no momento.
+                          </Text>
                     }
                 </ScrollView>
             </View>
@@ -167,19 +168,24 @@ const styles = StyleSheet.create({
     },
     interest: {
         fontSize: 15
+    },
+    notFound: {
+        alignSelf: 'center',
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginVertical: 20
     }
 });
 
 const mapStateToProps = state => {
-    const { user, institutions, search } = state;
-    return { user, institutions, search };
+    const { user, institutions } = state;
+    return { user, institutions };
 }
 
 export default connect(
     mapStateToProps,
     {
         dispatchInstitutionsData: setInstitutionsData,
-        dispatchInstitutionDetailData: setInstitutionsDetailData,
-        dispatchTermSearch: setTermSearch
+        dispatchInstitutionDetailData: setInstitutionsDetailData
     }
 )(SolicitationsVolunteerPage);
