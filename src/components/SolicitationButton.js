@@ -9,18 +9,18 @@ const SolicitationButton = ({isLoading, solicited, approved, onPressHandler, nav
             style={styles.button} 
             onPress={(
                 solicited
-                ? approved == 1 || approved == 0
-                    ? onPressHandler
-                    : navigation
+                ? onPressHandler
                 : navigation
             )}
         >
             {
                 isLoading
                 ? <Loading size="small" />
-                : (solicited && approved > 0 && approved < 3)
+                : (solicited)
                     ? approved
-                        ? <Text>Aprovado</Text>
+                        ? approved == 1
+                         ? <Text>Aprovado</Text>
+                         : <Text>Recusado</Text> 
                         : <Text>Em análise</Text>
                     : <Text>Quero participar</Text>
             }

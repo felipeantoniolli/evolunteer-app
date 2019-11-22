@@ -22,71 +22,35 @@ import SearchBar from '../components/SearchBar';
 import InstitutionsCard from '../components/InstitutionsCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-class SearchPage extends React.Component {
+class SolicitationsVolunteerPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             isLoading: false,
             institutions: [],
-            search: false,
+            solicitations: false,
             refresh: false
         };
     }
     
     componentDidMount() {
-        this.searchInstitutionsByUserLocale();
-    }
-
-    onChangeHandler(term) {
-        this.props.dispatchTermSearch(term);
-    }
-
-    async searchTerm() {
-        this.setState({isLoading: true});
-        
-        const { search } = this.props;
-        await api
-            .post('/institution/search-institutions', {
-                search
-            })
-            .then(response => {
-                let data = response.data.data;
-
-                this.props.dispatchInstitutionDetailData(data);
-                institutions = data.map(item => {
-                    const { user } = item;
-                    return (
-                        <InstitutionsCard
-                            user={user}
-                            onPress={() => this.navigateToInstitutionDetails(user)}
-                        />
-                    );
-                });
-
-                this.setState({isLoading: false});
-                this.setState({institutions});
-                this.setState({search: true});
-            })
-            .catch(error => {
-                this.setState({isLoading: false});
-            });
+        this.searchInstitutionsByVolunteerId();
     }
 
     navigateToInstitutionDetails(user) {
         this.props.dispatchInstitutionDetailData(user);
-        this.props.navigation.navigate('InstitutionDetailsPage');
+        this.props.navigation.navigate('InstitutionDetailsPage', {volunteerPage: true});
     }
 
-    async searchInstitutionsByUserLocale() {
+    async searchInstitutionsByVolunteerId() {
         this.setState({isLoading: true});
 
-        const { city, state } = this.props.user;
+        const { id_volunteer } = this.props.user.volunteer;
 
         await api
-            .post('/institution/find-by-locale', {
-                city: city,
-                state: state
+            .post('/solicitation/find-by-volunteer', {
+                'id_volunteer': id_volunteer
             })
             .then(response => {
                 let data = response.data.data;
@@ -105,24 +69,22 @@ class SearchPage extends React.Component {
 
                 this.setState({isLoading: false});
                 this.setState({institutions});
-                this.setState({search: false});
+                this.setState({solicitations: false});
             })
             .catch(error => {
                 this.setState({isLoading: false});
             });
     }
 
-    clearResults() {
-        this.searchInstitutionsByUserLocale();
-    }
-
     refreshPage() {
         this.props.navigation.state.params = null;
-        this.clearResults();
+        this.setState({institutions: [], solicitations: false});
+        this.searchInstitutionsByVolunteerId();
     }
 
+
     render() {
-        const { institutions, search } = this.state;
+        const { institutions, solicitations } = this.state;
         const { city } = this.props.user;
         const { navigation } = this.props;
 
@@ -144,27 +106,20 @@ class SearchPage extends React.Component {
 
         return (
             <View style={styles.container}>
-                <SearchBar
-                    onChangeHandler={(term) => this.onChangeHandler(term)}
-                    onSubmit={() => this.searchTerm()}
-                    term={this.props.search.term}
-                />
-                <Text style={styles.search}> { search 
-                            ? 'Resultados da pesquisa' 
-                            : 'Instituições em ' + city
-                        }
+                <Text style={styles.title}>
+                    Minhas solicitações
                 </Text>
-                {
-                    search ? <TouchableOpacity
-                                onPress={() => this.clearResults()}
-                                style={styles.button}
-                            >
-                                <Text>Limpar resultados</Text>
-                            </TouchableOpacity>
-                    : null
-                }
+               <TouchableOpacity
+                    onPress={() => this.refreshPage()}
+                    style={styles.button}
+                >
+                    <Text>Recarregar Soliciações</Text>
+                </TouchableOpacity>
                 <ScrollView>
-                    { institutions ? institutions : null }
+                    { institutions
+                        ? institutions 
+                        : <Text>Você não possui nenhuma solicitação no momento.</Text>
+                    }
                 </ScrollView>
             </View>
         );
@@ -176,7 +131,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
-    search: {
+    title: {
         alignSelf: 'center',
         fontSize: 20,
         fontWeight: 'bold',
@@ -227,4 +182,4 @@ export default connect(
         dispatchInstitutionDetailData: setInstitutionsDetailData,
         dispatchTermSearch: setTermSearch
     }
-)(SearchPage);
+)(SolicitationsVolunteerPage);

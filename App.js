@@ -8,6 +8,8 @@ import AppNavigator from './src/navigation';
 import rootReducer from './src/reducers';
 import devToolsEnchancer from 'remote-redux-devtools';
 
+//console.disableYellowBox = true;
+
 const AppContainer = createAppContainer(AppNavigator);
 
 const store = createStore(rootReducer, devToolsEnchancer());

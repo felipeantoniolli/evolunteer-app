@@ -33,6 +33,12 @@ class VolunteerProfilePage extends React.Component {
                 >
                     <Text>Editar Perfil</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('SolicitationsVolunteerPage')}
+                    style={styles.button}
+                >
+                    <Text>Minhas solicitações</Text>
+                </TouchableOpacity>
                 <View>
                     <Text style={styles.name}>{name}</Text>
                     <Text style={styles.lastName}>{last_name}</Text>

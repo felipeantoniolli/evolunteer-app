@@ -22,7 +22,7 @@ class InstitutionDetailsPage extends React.Component {
 
         this.state = {
             isLoading: false,
-            solicitation: []
+            solicitation: false
         };
     }
 
@@ -43,7 +43,6 @@ class InstitutionDetailsPage extends React.Component {
             })
             .then(response => {
                 var solicitation = response.data.data;
-                console.log(solicitation);
                 this.setState({isLoading: false, solicitation});
             })
             .catch(error => {
@@ -69,12 +68,12 @@ class InstitutionDetailsPage extends React.Component {
         )
     }
 
-    confirmCancelSolicitation() {
+    async confirmCancelSolicitation() {
         this.setState({isLoading: true});
 
         const { id_solicitation } = this.state.solicitation;
 
-        api
+        await api
             .post('/solicitation/status-solicitation', {
                 id_solicitation: id_solicitation,
                 approved: '3'
@@ -86,7 +85,16 @@ class InstitutionDetailsPage extends React.Component {
                     [
                         {
                             text: 'OK', onPress: () => {
-                                this.props.navigation.navigate('SearchPage')
+                                if (this.props.navigation.getParam("volunteerPage")) {
+                                    this.props.navigation.state.params = null;
+
+                                    this.props.navigation.navigate(
+                                        'SolicitationsVolunteerPage',
+                                        {refresh: true}
+                                    );
+                                } else {
+                                    this.props.navigation.navigate('SearchPage');
+                                }
                             }
                         }
                     ]
@@ -105,16 +113,17 @@ class InstitutionDetailsPage extends React.Component {
 
         if (this.props.navigation.getParam('register')) {
             var register = this.props.navigation.getParam('register');
+            this.props.navigation.state.params = null;
+            Alert.alert(
+                'Sucesso',
+                'Solicitação enviada com sucesso :)'
+            );
+
             this.statusSolicitation();
         }
 
         return (
             <ScrollView style={styles.scroll}>
-                {
-                    register
-                    ? <SuccessAlert message="Solicitação enviada com sucesso :)" />
-                    : null
-                }
                 <View style={styles.container}>
                     <View style={styles.image}>
                         <Image
@@ -140,7 +149,7 @@ class InstitutionDetailsPage extends React.Component {
                                 : false
                             }
                         onPressHandler={() => this.cancelSolicitation()}
-                        navigation={() => this.props.navigation.navigate("SolicitationRequestPage")}
+                        navigation={() => this.props.navigation.navigate("SolicitationRequestPage", {refresh: true})}
                     />
                     <View>
                         <Text style={styles.subtitle}>
