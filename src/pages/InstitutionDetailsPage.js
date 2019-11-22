@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     Image,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 
 import api from '../config/api';
@@ -26,6 +27,10 @@ class InstitutionDetailsPage extends React.Component {
     }
 
     componentDidMount() {
+        this.statusSolicitation();
+    }
+
+    statusSolicitation() {
         this.setState({isLoading: true});
 
         const { id_volunteer } = this.props.user.volunteer;
@@ -48,7 +53,49 @@ class InstitutionDetailsPage extends React.Component {
     }
 
     cancelSolicitation() {
-        console.log('oi');
+        Alert.alert(
+            'Cancelar solicitação',
+            'Você tem certeza?',
+            [
+                {
+                    text: 'Sim', onPress: () => this.confirmCancelSolicitation()
+                },
+                {
+                    text: 'Não',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                }
+            ]
+        )
+    }
+
+    confirmCancelSolicitation() {
+        this.setState({isLoading: true});
+
+        const { id_solicitation } = this.state.solicitation;
+
+        api
+            .post('/solicitation/status-solicitation', {
+                id_solicitation: id_solicitation,
+                approved: '3'
+            })
+            .then(response => {
+                Alert.alert(
+                    'Sucesso',
+                    'Solicitação cancelada com sucesso :)',
+                    [
+                        {
+                            text: 'OK', onPress: () => {
+                                this.props.navigation.navigate('SearchPage')
+                            }
+                        }
+                    ]
+                );
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({isLoading: false});
+            })
     }
 
     render() {
@@ -58,6 +105,7 @@ class InstitutionDetailsPage extends React.Component {
 
         if (this.props.navigation.getParam('register')) {
             var register = this.props.navigation.getParam('register');
+            this.statusSolicitation();
         }
 
         return (

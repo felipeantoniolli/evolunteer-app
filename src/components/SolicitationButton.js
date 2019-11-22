@@ -7,12 +7,18 @@ const SolicitationButton = ({isLoading, solicited, approved, onPressHandler, nav
     return (
         <TouchableOpacity 
             style={styles.button} 
-            onPress={solicited ? onPressHandler : navigation}
+            onPress={(
+                solicited
+                ? approved == 1 || approved == 0
+                    ? onPressHandler
+                    : navigation
+                : navigation
+            )}
         >
             {
                 isLoading
                 ? <Loading size="small" />
-                : solicited
+                : (solicited && approved > 0 && approved < 3)
                     ? approved
                         ? <Text>Aprovado</Text>
                         : <Text>Em análise</Text>
