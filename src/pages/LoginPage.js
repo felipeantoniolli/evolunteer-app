@@ -78,12 +78,14 @@ class LoginPage extends React.Component {
 
         this.setState({isLoading: true});
 
-        if (!data && !password) {
+        if (!data || !password) {
             this.setState({isLoading: false});
-            this.navigate();
-            return (Alert.alert(
-                text="Informe os dados de login!")
+
+            Alert.alert(
+                text="Informe os dados de login!"
             );
+
+            return;
         }
 
         await api
@@ -101,9 +103,11 @@ class LoginPage extends React.Component {
 
                 console.log(error);
 
-                return (Alert.alert(
-                    text="Login ou Senha inválidos!")
+                Alert.alert(
+                    text="Login ou Senha inválidos!"
                 );
+
+                return;
             });
     }
 

@@ -32,6 +32,12 @@ class IndexPage extends React.Component {
                 >
                     <Text>Editar Perfil</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                        onPress={() => navigation.navigate('ChangeInstitutionPassword')}
+                        style={styles.button}
+                    >
+                    <Text>Alterar Senha</Text>
+                </TouchableOpacity>
                 <View>
                     <Text style={styles.name}>{fantasy}</Text>
                 </View>

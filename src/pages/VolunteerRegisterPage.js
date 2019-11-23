@@ -34,8 +34,6 @@ import {
     setAllUserData
 } from '../actions/registerActions';
 import { setUpdateData } from '../actions/userActions';
-import Input from '../components/Input';
-import Loading from '../components/Loading';
 
 class VolunteerRegisterPage extends React.Component {
     constructor(props) {

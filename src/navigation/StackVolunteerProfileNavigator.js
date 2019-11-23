@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import VolunteerProfilePage from '../pages/VolunteerProfilePage';
 import VolunteerRegisterPage from '../pages/VolunteerRegisterPage';
 import SolicitationsVolunteerPage from '../pages/SolicitationsVolunteerPage';
+import ChangePasswordPage from '../pages/ChangePasswordPage';
 
 const StackVolunteerProfileNavigator = createStackNavigator({
     VolunteerPage: {
@@ -21,6 +22,12 @@ const StackVolunteerProfileNavigator = createStackNavigator({
         screen: SolicitationsVolunteerPage,
         navigationOptions: {
             title: "Minhas Solicitações"
+        }
+    },
+    ChangeVolunteerPassword: {
+        screen: ChangePasswordPage,
+        navigationOptions: {
+            title: "Alterar Senha"
         }
     }
 });

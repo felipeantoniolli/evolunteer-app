@@ -4,7 +4,8 @@ import {
     Text,
     Button,
     StyleSheet,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
@@ -20,54 +21,62 @@ class VolunteerProfilePage extends React.Component {
         const interests = this.props.user.interest;
 
         return (
-            <View style={styles.container}>
-                <View style={styles.image}>
-                    <Image
-                        style={{height: 200, width: 200}}
-                        source={require('../assets/no-image.png')}
-                    />
+            <ScrollView>
+                <View  style={styles.container}>
+                    <View style={styles.image}>
+                        <Image
+                            style={{height: 200, width: 200}}
+                            source={require('../assets/no-image.png')}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
+                        style={styles.button}
+                    >
+                        <Text>Editar Perfil</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('SolicitationsVolunteerPage')}
+                        style={styles.button}
+                    >
+                        <Text>Minhas solicitações</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('ChangeInstitutionPassword')}
+                        style={styles.button}
+                    >
+                        <Text>Alterar Senha</Text>
+                    </TouchableOpacity>
+                    <View>
+                        <Text style={styles.name}>{name}</Text>
+                        <Text style={styles.lastName}>{last_name}</Text>
+                    </View>
+                    <View>
+                        <Birth birth={birth} style={styles.text} />
+                    </View>
+                    <View>
+                        <Text style={styles.text}>{city} - {state}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.subtitle}>
+                            Interesses
+                        </Text>
+                    </View>
+                    <View>
+                        <Interests interests={interests} style={styles.interest} />
+                    </View>
+                    <View style={styles.content}>
+                        <Text style={styles.title}></Text>
+                        <Button 
+                            title="Deslogar"
+                            onPress={() => {
+                                this.props.dispatchUserLogout()
+                                this.props.navigation.navigate("Login");
+                            }}
+                        />
+                    </View>
                 </View>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
-                    style={styles.button}
-                >
-                    <Text>Editar Perfil</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('SolicitationsVolunteerPage')}
-                    style={styles.button}
-                >
-                    <Text>Minhas solicitações</Text>
-                </TouchableOpacity>
-                <View>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.lastName}>{last_name}</Text>
-                </View>
-                <View>
-                    <Birth birth={birth} style={styles.text} />
-                </View>
-                <View>
-                    <Text style={styles.text}>{city} - {state}</Text>
-                </View>
-                <View>
-                    <Text style={styles.subtitle}>
-                        Interesses
-                    </Text>
-                </View>
-                <View>
-                    <Interests interests={interests} style={styles.interest} />
-                </View>
-                <View style={styles.content}>
-                    <Text style={styles.title}></Text>
-                    <Button 
-                        title="Deslogar"
-                        onPress={() => {
-                            this.props.dispatchUserLogout()
-                            this.props.navigation.navigate("Login");
-                        }}
-                    />
-                </View>
-            </View>
+            </ScrollView>
         );
     }
 }
