@@ -76,6 +76,12 @@ export const setTelephoneData = (telephone) => ({
     telephone
 });
 
+export const SET_CELLPHONE_DATA = 'SET_CELLPHONE_DATA';
+export const setCellphoneData = (cellphone) => ({
+    type: SET_CELLPHONE_DATA,
+    cellphone
+});
+
 //VOLUNTEER DATA
 export const SET_NAME_DATA = 'SET_NAME_DATA ';
 export const setNameData = (name) => ({

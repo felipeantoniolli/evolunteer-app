@@ -25,6 +25,7 @@ import {
     setNumberData,
     setReferenceData,
     setTelephoneData,
+    setCellphoneData,
     setNameData,
     setLastnameData,
     setCpfData,
@@ -34,6 +35,8 @@ import {
     setAllUserData
 } from '../actions/registerActions';
 import { setUpdateData } from '../actions/userActions';
+import Input from '../components/Input';
+import Loading from '../components/Loading';
 
 class VolunteerRegisterPage extends React.Component {
     constructor(props) {
@@ -79,6 +82,9 @@ class VolunteerRegisterPage extends React.Component {
                 break;
             case 'telephone':
                 this.props.dispatchTelephoneData(text);
+                break;
+            case 'cellphone':
+                this.props.dispatchCellphoneData(text);
                 break;
             case 'name':
                 this.props.dispatchNameData(text);
@@ -149,7 +155,7 @@ class VolunteerRegisterPage extends React.Component {
                 }
            })
            .catch(error => {
-            console.log(error);
+            console.log(error.data);
             this.setState({isLoading: false});
                Alert.alert(
                    title="Alguns campos estão inválidos!"
@@ -171,6 +177,7 @@ class VolunteerRegisterPage extends React.Component {
             number,
             reference,
             telephone,
+            cellphone,
             volunteer: {
                 name,
                 last_name,
@@ -278,6 +285,13 @@ class VolunteerRegisterPage extends React.Component {
                                 onChangeTextHandler={text => this.onChangeTextHandler('telephone', text)}
                                 inputValue={telephone}
                                 reference={(input) => {this.telephoneInput = input}}
+                                onSubmit={() => {this.cellphoneInput.focus()}}
+                            />
+                            <Input
+                                title={'Celular'}
+                                onChangeTextHandler={text => this.onChangeTextHandler('cellphone', text)}
+                                inputValue={cellphone}
+                                reference={(input) => {this.cellphoneInput = input}}
                                 onSubmit={() => {this.birthInput.focus()}}
                             />
                             <Input
@@ -419,6 +433,7 @@ export default connect(
         dispatcthNumberData: setNumberData,
         dispatcthReferenceData: setReferenceData,
         dispatchTelephoneData: setTelephoneData,
+        dispatchCellphoneData: setCellphoneData,
         dispatchNameData: setNameData,
         dispatchLastnameData: setLastnameData,
         dispatchCpfData: setCpfData,

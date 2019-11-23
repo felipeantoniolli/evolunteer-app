@@ -14,7 +14,7 @@ const Input = ({
         onSubmit = null,
         returnKey = "next",
         reference = null,
-        lines = 1
+        lines = 0
     }) => (
     <View style={styles.content}>
          <View>
@@ -30,7 +30,7 @@ const Input = ({
                 onSubmitEditing={onSubmit}
                 returnKeyType={returnKey}
                 multiline={lines ? true : false}
-                numberOfLines={lines}
+                numberOfLines={lines ? lines : 1}
             />
         </View>
     </View>

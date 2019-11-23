@@ -10,6 +10,7 @@ import {
     SET_NUMBER_DATA,
     SET_REFERENCE_DATA,
     SET_TELEPHONE_DATA,
+    SET_CELLPHONE_DATA,
     SET_NAME_DATA,
     SET_LASTNAME_DATA,
     SET_CPF_DATA,
@@ -38,6 +39,7 @@ const INITIAL_STATE = {
     number: '',
     reference: '',
     telephone: '',
+    cellphone: '',
     volunteer: {
         name: '',
         last_name: '',
@@ -120,6 +122,11 @@ const registerReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 telephone: action.telephone
+            };
+        case SET_CELLPHONE_DATA:
+            return {
+                ...state,
+                cellphone: action.cellphone
             };
         case SET_NAME_DATA:
             newVolunteer = {

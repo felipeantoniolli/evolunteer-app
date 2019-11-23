@@ -25,6 +25,7 @@ import {
     setNumberData,
     setReferenceData,
     setTelephoneData,
+    setCellphoneData,
     setReasonData,
     setFantasyData,
     setCpfInstitutionData,
@@ -34,6 +35,7 @@ import {
 import { setUpdateData } from '../actions/userActions';
 import Input from '../components/Input';
 import Loading from '../components/Loading';
+
 class InstitutionRegisterPage extends React.Component {
     constructor(props) {
         super(props);
@@ -78,6 +80,9 @@ class InstitutionRegisterPage extends React.Component {
                 break;
             case 'telephone':
                 this.props.dispatchTelephoneData(text);
+                break;
+            case 'cellphone':
+                this.props.dispatchCellphoneData(text);
                 break;
             case 'reason':
                 this.props.dispatchReasonData(text);
@@ -164,6 +169,7 @@ class InstitutionRegisterPage extends React.Component {
             number,
             reference,
             telephone,
+            cellphone,
             institution: {
                 reason,
                 fantasy,
@@ -262,7 +268,14 @@ class InstitutionRegisterPage extends React.Component {
                                 onChangeTextHandler={text => this.onChangeTextHandler('telephone', text)}
                                 inputValue={telephone}
                                 reference={(input) => {this.telephoneInput = input}}
-                                onSubmit={() => {this.cepInput.focus()}}
+                                onSubmit={() => {this.cellphoneInput.focus()}}
+                            />
+                            <Input
+                                title={'Celular'}
+                                onChangeTextHandler={text => this.onChangeTextHandler('cellphone', text)}
+                                inputValue={cellphone}
+                                reference={(input) => {this.cellphoneInput = input}}
+                                onSubmit={() => {this.birthInput.focus()}}
                             />
                             <Input
                                 title={'CEP'}
@@ -389,6 +402,7 @@ export default connect(
         dispatcthNumberData: setNumberData,
         dispatcthReferenceData: setReferenceData,
         dispatchTelephoneData: setTelephoneData,
+        dispatchCellphoneData: setCellphoneData,
         dispatchReasonData: setReasonData,
         dispatchFantasyData: setFantasyData,
         dispatchCpfInstitutionData: setCpfInstitutionData,

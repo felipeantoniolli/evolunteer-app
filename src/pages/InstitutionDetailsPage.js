@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Image,
     ScrollView,
-    Alert
+    Alert,
+    Linking
 } from 'react-native';
 
 import api from '../config/api';
@@ -15,6 +16,7 @@ import { connect } from 'react-redux';
 import Interests from '../components/Interests';
 import SuccessAlert from '../components/SuccessAlert';
 import SolicitationButton from '../components/SolicitationButton';
+import openWhatsappChat from '../helpers/whatsapp';
 
 class InstitutionDetailsPage extends React.Component {
     constructor(props) {
@@ -107,7 +109,7 @@ class InstitutionDetailsPage extends React.Component {
     }
 
     render() {
-        const { street, number, city, state } = this.props.institutionDetail;
+        const { street, number, city, state, cellphone } = this.props.institutionDetail;
         const { fantasy } = this.props.institutionDetail.institution;
         const { interest } = this.props.institutionDetail;
 
@@ -131,6 +133,16 @@ class InstitutionDetailsPage extends React.Component {
                             source={require('../assets/no-image.png')}
                         />
                     </View>
+                    {
+                        this.state.solicitation && this.state.solicitation.approved == 1
+                        ?  <TouchableOpacity
+                                onPress={() => openWhatsappChat(cellphone)}
+                                style={styles.button}
+                            >
+                                <Text>Whatsapp</Text>
+                            </TouchableOpacity>
+                        : null
+                    }
                     <View>
                         <Text style={styles.name}>{fantasy}</Text>
                     </View>

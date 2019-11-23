@@ -12,8 +12,10 @@ import { logout } from '../actions/userActions';
 import Interests from '../components/Interests';
 import Birth from '../components/Birth';
 import Loading from '../components/Loading';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../config/api';
 import SolicitationsActionsButton from '../components/SolicitationsActionsButton';
+import openWhatsappChat from '../helpers/whatsapp';
 
 class VolunteerDetailsPage extends React.Component {
     constructor(props) {
@@ -96,7 +98,7 @@ class VolunteerDetailsPage extends React.Component {
     }
 
     render() {
-        const { volunteer, solicitation, state, city, interest } = this.props.volunteerDetail;
+        const { volunteer, solicitation, state, city, interest, cellphone } = this.props.volunteerDetail;
         const { name, last_name, birth } = volunteer;
 
         if (this.state.isLoading) {
@@ -116,6 +118,16 @@ class VolunteerDetailsPage extends React.Component {
                             source={require('../assets/no-image.png')}
                         />
                     </View>
+                    {
+                        solicitation.approved == 1
+                        ?  <TouchableOpacity
+                                onPress={() => openWhatsappChat(cellphone)}
+                                style={styles.button}
+                            >
+                                <Text>Whatsapp</Text>
+                            </TouchableOpacity>
+                        : null
+                    }
                     <View>
                         <Text style={styles.name}>{name} {last_name}</Text>
                     </View>
@@ -192,6 +204,14 @@ const styles = StyleSheet.create({
     interest: {
         fontSize: 20,
         justifyContent: 'center'
+    },
+    button: {
+        marginHorizontal: 40,
+        marginTop: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
     }
 });
 
