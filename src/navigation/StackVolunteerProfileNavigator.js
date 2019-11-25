@@ -4,6 +4,7 @@ import VolunteerProfilePage from '../pages/VolunteerProfilePage';
 import VolunteerRegisterPage from '../pages/VolunteerRegisterPage';
 import SolicitationsVolunteerPage from '../pages/SolicitationsVolunteerPage';
 import ChangePasswordPage from '../pages/ChangePasswordPage';
+import ImageUploadPage from '../pages/ImageUploadPage';
 
 const StackVolunteerProfileNavigator = createStackNavigator({
     VolunteerPage: {
@@ -28,6 +29,12 @@ const StackVolunteerProfileNavigator = createStackNavigator({
         screen: ChangePasswordPage,
         navigationOptions: {
             title: "Alterar Senha"
+        }
+    },
+    ImageVolunteerPage: {
+        screen: ImageUploadPage,
+        navigationOptions: {
+            title: "Alterar imagem"
         }
     }
 });

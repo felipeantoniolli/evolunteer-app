@@ -8,9 +8,8 @@ import {
     Alert,
     KeyboardAvoidingView
 } from 'react-native';
-import { connect } from 'react-redux';
 
-import api from '../config/api';
+import { connect } from 'react-redux';
 import {
     clearData,
     setTypeData,
@@ -35,6 +34,9 @@ import {
     setAllUserData
 } from '../actions/registerActions';
 import { setUpdateData } from '../actions/userActions';
+
+import api from '../config/api';
+
 import Input from '../components/Input';
 import Loading from '../components/Loading';
 
@@ -44,7 +46,8 @@ class VolunteerRegisterPage extends React.Component {
 
         this.state = {
             isLoading: false,
-            editing: false
+            editing: false,
+            errors: null
         };
     }
 
@@ -155,11 +158,12 @@ class VolunteerRegisterPage extends React.Component {
                 }
            })
            .catch(error => {
-            console.log(error.data);
-            this.setState({isLoading: false});
-               Alert.alert(
-                   title="Alguns campos estão inválidos!"
-               );
+                const { errors } = error.response.data;
+                this.setState({isLoading: false, errors});
+
+                Alert.alert(
+                    title="Alguns campos estão inválidos!"
+                );
            });
     }
 
@@ -187,6 +191,7 @@ class VolunteerRegisterPage extends React.Component {
                 gender
             }
         } = this.props.register;
+        const { errors } = this.state;
 
         if (gender == 1) {
             gender = "1";
@@ -232,6 +237,11 @@ class VolunteerRegisterPage extends React.Component {
                                     ? this.emailInput.focus()
                                     :  this.passwordInput.focus()
                                 }}
+                                error={
+                                    errors && errors.username
+                                    ? errors.username
+                                    : null
+                                }
                             />
                             {
                                 this.state.editing
@@ -243,6 +253,11 @@ class VolunteerRegisterPage extends React.Component {
                                         passwordField={true}
                                         reference={(input) => {this.passwordInput = input}}
                                         onSubmit={() => {this.emailInput.focus()}}
+                                        error={
+                                            errors && errors.password
+                                            ? errors.password
+                                            : null
+                                        }
                                     />
                             }
                             <Input
@@ -251,6 +266,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={email}
                                 reference={(input) => {this.emailInput = input}}
                                 onSubmit={() => {this.nameInput.focus()}}
+                                error={
+                                    errors && errors.email
+                                    ? errors.email
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Nome'}
@@ -258,6 +278,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={name}
                                 reference={(input) => {this.nameInput = input}}
                                 onSubmit={() => {this.lastNameInput.focus()}}
+                                error={
+                                    errors && errors.name
+                                    ? errors.name
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Sobrenome'}
@@ -265,6 +290,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={last_name}
                                 reference={(input) => {this.lastNameInput = input}}
                                 onSubmit={() => {this.cpfInput.focus()}}
+                                error={
+                                    errors && errors.last_name
+                                    ? errors.last_name
+                                    : null
+                                }
                             />
                             <Input
                                 title={'CPF'}
@@ -272,6 +302,12 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={cpf}
                                 reference={(input) => {this.cpfInput = input}}
                                 onSubmit={() => {this.rgInput.focus()}}
+                                error={
+                                    errors && errors.cpf
+                                    ? errors.cpf
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'RG'}
@@ -279,6 +315,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={rg}
                                 reference={(input) => {this.rgInput = input}}
                                 onSubmit={() => {this.telephoneInput.focus()}}
+                                error={
+                                    errors && errors.rg
+                                    ? errors.rg
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Telefone'}
@@ -286,6 +327,12 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={telephone}
                                 reference={(input) => {this.telephoneInput = input}}
                                 onSubmit={() => {this.cellphoneInput.focus()}}
+                                error={
+                                    errors && errors.telephone
+                                    ? errors.telephone
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'Celular'}
@@ -293,6 +340,12 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={cellphone}
                                 reference={(input) => {this.cellphoneInput = input}}
                                 onSubmit={() => {this.birthInput.focus()}}
+                                error={
+                                    errors && errors.cellphone
+                                    ? errors.cellphone
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'Data de nascimento'}
@@ -300,6 +353,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={birth}
                                 reference={(input) => {this.birthInput = input}}
                                 onSubmit={() => {this.genderInput.focus()}}
+                                error={
+                                    errors && errors.birth
+                                    ? errors.birth
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Gênero'}
@@ -307,6 +365,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={gender}
                                 reference={(input) => {this.genderInput = input}}
                                 onSubmit={() => {this.cepInput.focus()}}
+                                error={
+                                    errors && errors.gender
+                                    ? errors.gender
+                                    : null
+                                }
                             />
                             <Input
                                 title={'CEP'}
@@ -314,6 +377,12 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={cep}
                                 reference={(input) => {this.cepInput = input}}
                                 onSubmit={() => {this.streetInput.focus()}}
+                                error={
+                                    errors && errors.cep
+                                    ? errors.cep
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'Rua'}
@@ -321,6 +390,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={street}
                                 reference={(input) => {this.streetInput = input}}
                                 onSubmit={() => {this.numberInput.focus()}}
+                                error={
+                                    errors && errors.street
+                                    ? errors.street
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Número'}
@@ -328,6 +402,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={number}
                                 reference={(input) => {this.numberInput = input}}
                                 onSubmit={() => {this.complementInput.focus()}}
+                                error={
+                                    errors && errors.number
+                                    ? errors.number
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Complemento'}
@@ -335,6 +414,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={complement}
                                 reference={(input) => {this.complementInput = input}}
                                 onSubmit={() => {this.cityInput.focus()}}
+                                error={
+                                    errors && errors.complement
+                                    ? errors.complement
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Cidade'}
@@ -342,6 +426,11 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={city}
                                 reference={(input) => {this.cityInput = input}}
                                 onSubmit={() => {this.stateInput.focus()}}
+                                error={
+                                    errors && errors.city
+                                    ? errors.city
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Estado'}
@@ -349,12 +438,22 @@ class VolunteerRegisterPage extends React.Component {
                                 inputValue={state}
                                 reference={(input) => {this.stateInput = input}}
                                 onSubmit={() => {this.referenceInput.focus()}}
+                                eerror={
+                                    errors && errors.state
+                                    ? errors.state
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Referência'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('reference', text)}
                                 inputValue={reference}
                                 reference={(input) => {this.referenceInput = input}}
+                                error={
+                                    errors && errors.reference
+                                    ? errors.reference
+                                    : null
+                                }
                             />
                             <View style={styles.content}>
                                 <TouchableOpacity 
@@ -409,6 +508,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#DDDDDD',
         padding: 10
+    },
+    errorMessage: {
+        fontSize: 5,
+        color: 'red',
+        alignSelf: 'center'
     }
 });
 

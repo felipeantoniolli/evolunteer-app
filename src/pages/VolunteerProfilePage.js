@@ -7,16 +7,19 @@ import {
     Image,
     ScrollView
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
+
 import Interests from '../components/Interests';
 import Birth from '../components/Birth';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import ProfileImage from '../components/ProfileImage';
 
 class VolunteerProfilePage extends React.Component {
     render() {
         const { name, last_name, birth } = this.props.user.volunteer;
-        const { city, state } = this.props.user;
+        const { city, state, image } = this.props.user;
         const { navigation } = this.props;
         const interests = this.props.user.interest;
 
@@ -24,10 +27,7 @@ class VolunteerProfilePage extends React.Component {
             <ScrollView>
                 <View  style={styles.container}>
                     <View style={styles.image}>
-                        <Image
-                            style={{height: 200, width: 200}}
-                            source={require('../assets/no-image.png')}
-                        />
+                        <ProfileImage image={image} style={{height: 200, width: 200}} />
                     </View>
                     <TouchableOpacity
                         onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
@@ -36,16 +36,22 @@ class VolunteerProfilePage extends React.Component {
                         <Text>Editar Perfil</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                        onPress={() => navigation.navigate('ImageVolunteerPage', {editing: true})}
+                        style={styles.button}
+                    >
+                        <Text>Alterar Imagem</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('ChangeVolunteerPassword')}
+                        style={styles.button}
+                    >
+                        <Text>Alterar Senha</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         onPress={() => navigation.navigate('SolicitationsVolunteerPage')}
                         style={styles.button}
                     >
                         <Text>Minhas solicitações</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('ChangeInstitutionPassword')}
-                        style={styles.button}
-                    >
-                        <Text>Alterar Senha</Text>
                     </TouchableOpacity>
                     <View>
                         <Text style={styles.name}>{name}</Text>

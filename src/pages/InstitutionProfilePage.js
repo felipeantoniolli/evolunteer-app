@@ -10,22 +10,26 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
 import Interests from '../components/Interests'; 
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ProfileImage from '../components/ProfileImage';
 
-class IndexPage extends React.Component {
+class InstitutionProfilePage extends React.Component {
     render() {
         const { fantasy } = this.props.user.institution;
-        const { city, state, street, number } = this.props.user;
+        const { city, state, street, number, image } = this.props.user;
         const { navigation } = this.props;
         const interests = this.props.user.interest;
 
         return (
             <View style={styles.container}>
                 <View style={styles.image}>
-                    <Image
-                        style={{height: 200, width: 200}}
-                        source={require('../assets/no-image.png')}
-                    />
+                    <ProfileImage image={user.image} style={{height: 200, width: 200}} />
                 </View>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('ImageInstitutionPage', {editing: true})}
+                    style={styles.button}
+                >
+                    <Text>Alterar Imagem</Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('InstitutionEditPage', {editing: true})}
                     style={styles.button}
@@ -122,4 +126,4 @@ export default connect(
     {
         dispatchUserLogout: logout
     }
-)(IndexPage);
+)(InstitutionProfilePage);

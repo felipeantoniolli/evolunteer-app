@@ -14,7 +14,9 @@ const Input = ({
         onSubmit = null,
         returnKey = "next",
         reference = null,
-        lines = 0
+        lines = 0,
+        error=null,
+        keyboard= "default"
     }) => (
     <View style={styles.content}>
          <View>
@@ -31,8 +33,14 @@ const Input = ({
                 returnKeyType={returnKey}
                 multiline={lines ? true : false}
                 numberOfLines={lines ? lines : 1}
+                keyboardType={keyboard}
             />
         </View>
+        {
+            error
+            ? <Text style={styles.errorMessage}>{error}</Text>
+            : null
+        }
     </View>
 );
 
@@ -58,6 +66,11 @@ const styles = StyleSheet.create({
     },
     field: {
         fontSize: 20
+    },
+    errorMessage: {
+        fontSize: 10,
+        alignSelf: 'center',
+        color: 'red'
     }
 });
 

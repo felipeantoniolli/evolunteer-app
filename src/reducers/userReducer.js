@@ -1,6 +1,6 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
-import { LOGIN, LOGOUT, SET_INTEREST, SET_UPDATE_DATA } from '../actions/userActions';
+import { LOGIN, LOGOUT, SET_INTEREST, SET_UPDATE_DATA, SET_IMAGE_DATA } from '../actions/userActions';
 
 const INITIAL_STATE = {
     username: '',
@@ -40,6 +40,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
             newUser['interest'] = interestData;
 
             return newUser;
+        case SET_IMAGE_DATA:
+            return {
+                ...state,
+                image: action.image
+            };
         default:
             return state;
     }

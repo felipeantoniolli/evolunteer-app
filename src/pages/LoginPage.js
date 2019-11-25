@@ -58,7 +58,7 @@ class LoginPage extends React.Component {
             this.props.dispatchUserLogout();
             console.log(error);
         }
-      };
+    };
 
     onChangeTextHandler(field, text) {
         switch (field) {
@@ -112,12 +112,16 @@ class LoginPage extends React.Component {
     }
 
     navigate() {
-        if (user.interest.length > 0) {
-            if (user.type == 1) {
+        const { image, interest, type } = this.props.user;
+
+        if (!image) {
+            this.props.navigation.navigate("UploadImage");
+        } else if (interest.length > 0) {
+            if (type == 1) {
                 this.props.navigation.navigate("Volunteer");
             }
 
-            if (user.type == 2) {
+            if (type == 2) {
                 this.props.navigation.navigate("Institution");
             }
         } else {
@@ -178,7 +182,7 @@ class LoginPage extends React.Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this.props.navigation.navigate("Register")}
+                        onPress={() => this.props.navigation.navigate("RegisterPage")}
                     >
                         <Text>Faça seu cadastro</Text>
                     </TouchableOpacity>
@@ -220,8 +224,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    const { login } = state;
-    return { login };
+    const { login, user } = state;
+    return { login, user };
 }
 
 export default connect(

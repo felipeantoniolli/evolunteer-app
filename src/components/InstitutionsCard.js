@@ -1,11 +1,12 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     StyleSheet
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import ProfileImage from '../components/ProfileImage';
 
 const InstitutionsCard = ({user, onPress}) => {
     return (
@@ -15,10 +16,7 @@ const InstitutionsCard = ({user, onPress}) => {
             onPress={onPress}
         >
             <View style={styles.institutionView}>
-                <Image
-                    style={styles.image}
-                    source={require('../assets/no-image.png')}
-                />
+                <ProfileImage image={user.image} style={{height: 100, width: 100}} />
                 <View style={{flexDirection: 'column'}}>
                     <Text style={styles.fantasy}>{user.institution.fantasy}</Text>
                     <Text style={styles.address}>{user.city} - {user.state}</Text>
@@ -55,12 +53,6 @@ const styles = StyleSheet.create({
     institutionView: {
         flexDirection: 'row',
         marginVertical: 10
-    },
-    image: {
-        aspectRatio: 1,
-        width: 100,
-        height: 100,
-        marginLeft: 15
     },
     fantasy: {
         fontSize: 20,

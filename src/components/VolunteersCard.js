@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import ProfileImage from '../components/ProfileImage';
+
 const VolunteersCard = ({user, onPress}) => {
     return (
         <TouchableOpacity
@@ -15,10 +17,7 @@ const VolunteersCard = ({user, onPress}) => {
             onPress={onPress}
         >
             <View style={styles.volunteersView}>
-                <Image
-                    style={styles.image}
-                    source={require('../assets/no-image.png')}
-                />
+                <ProfileImage image={user.image} style={{height: 100, width: 100}} />
                 <View style={{flexDirection: 'column'}}>
                     <Text style={styles.name}>{user.volunteer.name} {user.volunteer.last_name}</Text>
                     <Text style={styles.address}>{user.city} - {user.state}</Text>

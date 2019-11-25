@@ -3,20 +3,18 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
     ScrollView,
-    Alert,
-    Linking
+    Alert
 } from 'react-native';
 
-import api from '../config/api';
-import Loading from '../components/Loading';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
+
+import api from '../config/api';
+
 import Interests from '../components/Interests';
-import SuccessAlert from '../components/SuccessAlert';
 import SolicitationButton from '../components/SolicitationButton';
-import openWhatsappChat from '../helpers/whatsapp';
+import ProfileImage from '../components/ProfileImage';
+import Whatsapp from '../components/Whatsapp';
 
 class InstitutionDetailsPage extends React.Component {
     constructor(props) {
@@ -109,7 +107,7 @@ class InstitutionDetailsPage extends React.Component {
     }
 
     render() {
-        const { street, number, city, state, cellphone } = this.props.institutionDetail;
+        const { street, number, city, state, cellphone, image } = this.props.institutionDetail;
         const { fantasy } = this.props.institutionDetail.institution;
         const { interest } = this.props.institutionDetail;
 
@@ -128,19 +126,11 @@ class InstitutionDetailsPage extends React.Component {
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
                     <View style={styles.image}>
-                        <Image
-                            style={{height: 200, width: 200}}
-                            source={require('../assets/no-image.png')}
-                        />
+                        <ProfileImage image={image} style={{height: 200, width: 200}} />
                     </View>
                     {
                         this.state.solicitation && this.state.solicitation.approved == 1
-                        ?  <TouchableOpacity
-                                onPress={() => openWhatsappChat(cellphone)}
-                                style={styles.button}
-                            >
-                                <Text>Whatsapp</Text>
-                            </TouchableOpacity>
+                        ?  <Whatsapp cellphone={cellphone} />
                         : null
                     }
                     <View>

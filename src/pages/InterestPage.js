@@ -60,10 +60,10 @@ class InterestPage extends React.Component {
 
                 if (user.type == 1) {
                     this.props.navigation.navigate("Volunteer");
-                }
-    
-                if (user.type == 2) {
+                } else if (user.type == 2) {
                     this.props.navigation.navigate("Institution");
+                } else {
+                    this.props.navigation.navigate("LoginPage");
                 }
             })
             .catch(error => {

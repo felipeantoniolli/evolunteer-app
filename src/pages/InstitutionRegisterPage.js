@@ -8,9 +8,8 @@ import {
     Alert,
     KeyboardAvoidingView
 } from 'react-native';
-import { connect } from 'react-redux';
 
-import api from '../config/api';
+import { connect } from 'react-redux';
 import {
     clearData,
     setTypeData,
@@ -33,6 +32,9 @@ import {
     setAllUserData
 } from '../actions/registerActions';
 import { setUpdateData } from '../actions/userActions';
+
+import api from '../config/api';
+
 import Input from '../components/Input';
 import Loading from '../components/Loading';
 
@@ -42,7 +44,8 @@ class InstitutionRegisterPage extends React.Component {
 
         this.state = {
             isLoading: false,
-            editing: false
+            editing: false,
+            errors: null
         };
     }
 
@@ -113,36 +116,37 @@ class InstitutionRegisterPage extends React.Component {
         }
 
         await api
-           .post(url, [
-                register
-           ])
-           .then(response => {
-            if (this.state.editing) {
-                const user = response.data.data;
+            .post(url, [
+                    register
+            ])
+            .then(response => {
+                if (this.state.editing) {
+                    const user = response.data.data;
 
-                this.props.dispacthUpdateData(user);
+                    this.props.dispacthUpdateData(user);
 
-                Alert.alert(
-                    'Sucesso',
-                    'Dados alterado com sucesso :)',
-                    [
-                        {
-                            text: 'OK', onPress: () => {
-                                this.props.navigation.goBack()
+                    Alert.alert(
+                        'Sucesso',
+                        'Dados alterado com sucesso :)',
+                        [
+                            {
+                                text: 'OK', onPress: () => {
+                                    this.props.navigation.goBack()
+                                }
                             }
-                        }
-                    ]
+                        ]
+                    );
+                } else {
+                    this.props.navigation.navigate('Login', {register: true});
+                }
+            })
+            .catch(error => {
+                const { errors } = error.response.data;
+                this.setState({isLoading: false, errors});
+                console.log(error.response);
+                Alert.alert(
+                    title="Alguns campos estão inválidos!"
                 );
-            } else {
-                this.props.navigation.navigate('Login', {register: true});
-            }
-       })
-       .catch(error => {
-        console.log(error);
-        this.setState({isLoading: false});
-           Alert.alert(
-               title="Alguns campos estão inválidos!"
-           );
        });
     }
 
@@ -177,7 +181,7 @@ class InstitutionRegisterPage extends React.Component {
                 cnpj
             }
         } = this.props.register;
-
+        const { errors } = this.state;
         
         if (this.state.isLoading) {
             return (
@@ -215,6 +219,11 @@ class InstitutionRegisterPage extends React.Component {
                                     ? this.emailInput.focus()
                                     :  this.passwordInput.focus()
                                 }}
+                                error={
+                                    errors && errors.username
+                                    ? errors.username
+                                    : null
+                                }
                             />
                            {
                                 this.state.editing
@@ -226,6 +235,11 @@ class InstitutionRegisterPage extends React.Component {
                                         passwordField={true}
                                         reference={(input) => {this.passwordInput = input}}
                                         onSubmit={() => {this.emailInput.focus()}}
+                                        error={
+                                            errors && errors.password
+                                            ? errors.password
+                                            : null
+                                        }
                                     />
                             }
                             <Input
@@ -234,6 +248,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={email}
                                 reference={(input) => {this.emailInput = input}}
                                 onSubmit={() => {this.reasonInput.focus()}}
+                                error={
+                                    errors && errors.email
+                                    ? errors.email
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Razão Social'}
@@ -241,6 +260,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={reason}
                                 reference={(input) => {this.reasonInput = input}}
                                 onSubmit={() => {this.fantasyInput.focus()}}
+                                error={
+                                    errors && errors.reason
+                                    ? errors.reason
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Nome Fantasia'}
@@ -248,6 +272,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={fantasy}
                                 reference={(input) => {this.fantasyInput = input}}
                                 onSubmit={() => {this.cpfInput.focus()}}
+                                error={
+                                    errors && errors.fatansy
+                                    ? errors.fatansy
+                                    : null
+                                }
                             />
                             <Input
                                 title={'CPF'}
@@ -255,6 +284,12 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={cpf}
                                 reference={(input) => {this.cpfInput = input}}
                                 onSubmit={() => {this.cnpjInput.focus()}}
+                                error={
+                                    errors && errors.cpf
+                                    ? errors.cpf
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'CNPJ'}
@@ -262,6 +297,12 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={cnpj}
                                 reference={(input) => {this.cnpjInput = input}}
                                 onSubmit={() => {this.telephoneInput.focus()}}
+                                error={
+                                    errors && errors.cnpj
+                                    ? errors.cnpj
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'Telefone'}
@@ -269,6 +310,12 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={telephone}
                                 reference={(input) => {this.telephoneInput = input}}
                                 onSubmit={() => {this.cellphoneInput.focus()}}
+                                error={
+                                    errors && errors.telephone
+                                    ? errors.telephone
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'Celular'}
@@ -276,6 +323,12 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={cellphone}
                                 reference={(input) => {this.cellphoneInput = input}}
                                 onSubmit={() => {this.birthInput.focus()}}
+                                error={
+                                    errors && errors.cellphone
+                                    ? errors.cellphone
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'CEP'}
@@ -283,6 +336,12 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={cep}
                                 reference={(input) => {this.cepInput = input}}
                                 onSubmit={() => {this.streetInput.focus()}}
+                                error={
+                                    errors && errors.cep
+                                    ? errors.cep
+                                    : null
+                                }
+                                keyboard={'numeric'}
                             />
                             <Input
                                 title={'Rua'}
@@ -290,6 +349,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={street}
                                 reference={(input) => {this.streetInput = input}}
                                 onSubmit={() => {this.numberInput.focus()}}
+                                error={
+                                    errors && errors.street
+                                    ? errors.street
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Número'}
@@ -297,6 +361,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={number}
                                 reference={(input) => {this.numberInput = input}}
                                 onSubmit={() => {this.complementInput.focus()}}
+                                error={
+                                    errors && errors.number
+                                    ? errors.number
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Complemento'}
@@ -304,6 +373,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={complement}
                                 reference={(input) => {this.complementInput = input}}
                                 onSubmit={() => {this.cityInput.focus()}}
+                                error={
+                                    errors && errors.complement
+                                    ? errors.complement
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Cidade'}
@@ -311,6 +385,11 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={city}
                                 reference={(input) => {this.cityInput = input}}
                                 onSubmit={() => {this.stateInput.focus()}}
+                                error={
+                                    errors && errors.city
+                                    ? errors.city
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Estado'}
@@ -318,12 +397,22 @@ class InstitutionRegisterPage extends React.Component {
                                 inputValue={state}
                                 reference={(input) => {this.stateInput = input}}
                                 onSubmit={() => {this.referenceInput.focus()}}
+                                error={
+                                    errors && errors.state
+                                    ? errors.state
+                                    : null
+                                }
                             />
                             <Input
                                 title={'Referência'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('reference', text)}
                                 inputValue={reference}
                                 reference={(input) => {this.referenceInput = input}}
+                                error={
+                                    errors && errors.reference
+                                    ? errors.reference
+                                    : null
+                                }
                             />
                             <View style={styles.content}>
                                 <TouchableOpacity 

@@ -6,18 +6,15 @@ import BottomVolunteerNavigator from  './BottomVolunteerNavigator';
 import BottomInstitutionNavigator from './BottomInstitutionNavigator';
 
 const AppNavigator = createSwitchNavigator({
-  Login: {
-    screen: LoginPage
-  },
-  Register: {
-    screen: StackNavigator
-  },
-  Volunteer: {
-    screen: BottomVolunteerNavigator
-  },
-  Institution: {
-      screen: BottomInstitutionNavigator
-  }
+    Index: {
+        screen: StackNavigator
+    },
+    Volunteer: {
+        screen: BottomVolunteerNavigator
+    },
+    Institution: {
+        screen: BottomInstitutionNavigator
+    }
 });
 
 export default AppNavigator;
