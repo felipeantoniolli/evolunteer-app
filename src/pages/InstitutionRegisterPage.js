@@ -462,11 +462,13 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginVertical: 20,
+        marginHorizontal: 45,
+        marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10
+        backgroundColor: '#FFA02D',
+        padding: 10,
+        marginBottom: 20
     }
 });
 

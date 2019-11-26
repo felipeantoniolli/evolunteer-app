@@ -16,6 +16,14 @@ const StackWorkNavigator = createStackNavigator({
             title: "Novo Trabalho"
         }
     }
+},
+{
+    initialRouteName: "WorkPage",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default StackWorkNavigator;

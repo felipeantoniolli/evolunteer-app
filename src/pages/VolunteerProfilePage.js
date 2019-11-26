@@ -27,32 +27,22 @@ class VolunteerProfilePage extends React.Component {
             <ScrollView>
                 <View  style={styles.container}>
                     <View style={styles.image}>
-                        <ProfileImage image={image} style={{height: 200, width: 200}} />
+                        <ProfileImage image={image} style={styles.profileImage} />
                     </View>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
-                        style={styles.button}
-                    >
-                        <Text>Editar Perfil</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('ImageVolunteerPage', {editing: true})}
-                        style={styles.button}
-                    >
-                        <Text>Alterar Imagem</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('ChangeVolunteerPassword')}
-                        style={styles.button}
-                    >
-                        <Text>Alterar Senha</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('SolicitationsVolunteerPage')}
-                        style={styles.button}
-                    >
-                        <Text>Minhas solicitações</Text>
-                    </TouchableOpacity>
+                    <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
+                            style={styles.button}
+                        >
+                            <Text style={styles.textButton}>Editar Perfil</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('ImageVolunteerPage', {editing: true})}
+                            style={styles.button}
+                        >
+                            <Text style={styles.textButton}>Alterar Imagem</Text>
+                        </TouchableOpacity>
+                    </View>
                     <View>
                         <Text style={styles.name}>{name}</Text>
                         <Text style={styles.lastName}>{last_name}</Text>
@@ -72,14 +62,27 @@ class VolunteerProfilePage extends React.Component {
                         <Interests interests={interests} style={styles.interest} />
                     </View>
                     <View style={styles.content}>
-                        <Text style={styles.title}></Text>
-                        <Button 
-                            title="Deslogar"
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('ChangeVolunteerPassword')}
+                            style={[styles.button, styles.buttonPassword]}
+                        >
+                            <Text style={styles.textButton}>Alterar Senha</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('SolicitationsVolunteerPage')}
+                            style={[styles.button, styles.buttonSolicitations]}
+                        >
+                            <Text style={styles.textButton}>Minhas Solicitações</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             onPress={() => {
                                 this.props.dispatchUserLogout()
                                 this.props.navigation.navigate("Login");
                             }}
-                        />
+                            style={[styles.button, styles.buttonLogout]}
+                        >
+                            <Text style={styles.textButton}>Sair</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
@@ -94,6 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     name: {
+        marginTop: 10,
         alignSelf: 'center',
         fontSize: 35,
     },
@@ -107,12 +111,17 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 30,
-        marginTop: 20,
-        marginBottom: 20
+        marginTop: 10,
+        color: '#FFA02D'
     },
     image: {
-        flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20
+    },
+    profileImage: {
+        height: 270,
+        width: 270,
+        borderRadius: 20
     },
     content: {
         flex: 1
@@ -126,12 +135,30 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button: {
-        marginHorizontal: 40,
-        marginTop: 20,
+        width: 145,
+        marginHorizontal: 5,
+        marginTop: 5,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
         padding: 10,
+        backgroundColor: '#FFA02D'
+    },
+    textButton: {
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    buttonPassword: {
+        backgroundColor: '#FFD29C',
+        width: 300
+    },
+    buttonSolicitations: {
+        backgroundColor: '#9EAFFF',
+        width: 300
+    },
+    buttonLogout: {
+        backgroundColor: "#FF9E9E",
+        marginBottom: 20,
+        width: 300
     }
 });
 

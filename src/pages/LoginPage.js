@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Alert,
     KeyboardAvoidingView,
-    AsyncStorage
+    AsyncStorage,
+    ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -14,6 +15,9 @@ import { login, logout } from '../actions/userActions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Loading from '../components/Loading';
 import SuccessAlert from '../components/SuccessAlert';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
 
 import Input from '../components/Input';
 import api from '../config/api';
@@ -145,61 +149,89 @@ class LoginPage extends React.Component {
         }
 
         return (
-            <View style={styles.container}>
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    enabled
-                    keyboardVerticalOffset={100}
-                >
-                    {
-                        register
-                        ? <SuccessAlert message="Registrado com sucesso" />
-                        : null
-                    }
-                    <View style={styles.content}>
-                        <Text style={styles.title}>Faça seu login!</Text>
+            <KeyboardAvoidingView 
+                style={styles.teste}
+                behavior="padding"
+                keyboardVerticalOffset={100}
+                enabled
+            >
+                <ScrollView>
+                    <View style={styles.container}>
+                        {
+                            register
+                            ? <SuccessAlert message="Registrado com sucesso" />
+                            : null
+                        }
+                        <View style={styles.contentTitle}>
+                            <FontAwesomeIcon style={styles.icon} size={ 70 } icon={faHandHoldingHeart} />
+                            <Text style={styles.title}>e-Volunteer</Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Text style={styles.loginText}>Faça seu login</Text> 
+                        </View>
+                        <Input 
+                            title={'Usuário ou email'}
+                            onChangeTextHandler={text => this.onChangeTextHandler('data', text)}
+                            inputValue={data}
+                            onSubmit={() => {this.passwordInput.focus()}}
+                        />
+                        <Input 
+                            title={'Senha'}
+                            reference={(input) => {this.passwordInput = input}}
+                            onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
+                            inputValue={password}
+                            returnKey="done"
+                            passwordField={true}
+                            onSubmit={() => this.tryLogin()}
+                        />
+                        <TouchableOpacity 
+                            style={styles.button} 
+                            onPress={() => this.tryLogin()}
+                        >
+                            <Text>Entrar</Text>
+                        </TouchableOpacity>
+                        <View style={[styles.registerButton]}>
+                            <Text style={styles.registerText}>
+                                Não possui cadastro? 
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate("RegisterPage")}
+                            >
+                                <Text style={styles.registerTextLink}>Cadastre-se</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <Input 
-                        title={'Usuário ou email'}
-                        onChangeTextHandler={text => this.onChangeTextHandler('data', text)}
-                        inputValue={data}
-                        onSubmit={() => {this.passwordInput.focus()}}
-                    />
-                    <Input 
-                        title={'Senha'}
-                        reference={(input) => {this.passwordInput = input}}
-                        onChangeTextHandler={text => this.onChangeTextHandler('password', text)}
-                        inputValue={password}
-                        returnKey="done"
-                        passwordField={true}
-                        onSubmit={() => this.tryLogin()}
-                    />
-                    <TouchableOpacity 
-                        style={styles.button} 
-                        onPress={() => this.tryLogin()}
-                    >
-                        <Text>Entrar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => this.props.navigation.navigate("RegisterPage")}
-                    >
-                        <Text>Faça seu cadastro</Text>
-                    </TouchableOpacity>
-                </KeyboardAvoidingView>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    teste: {
+        paddingBottom: 20
+    },
     container: {
         flex: 1,
-        justifyContent: 'center'
+        backgroundColor: '#F7F7FC'
     },
     content: {
+        alignItems: 'center',
+        marginTop: 15
+    },
+    contentTitle: {
         marginTop: 15,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'column',
+        marginTop: 60,
+        marginBottom: 5
+    },
+    loginText: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    icon: {
+        color: "#FFA02D"
     },
     input: {
         borderBottomColor: 'blue',
@@ -207,19 +239,34 @@ const styles = StyleSheet.create({
         width: 300
     },
     title: {
-        fontSize: 40,
-        marginBottom: 20
+        fontSize: 30,
+        marginBottom: 15,
+        color: '#FFBD13'
     },
     field: {
         fontSize: 20
     },
     button: {
-        marginHorizontal: 40,
+        marginHorizontal: 45,
         marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#FFA02D',
         padding: 10,
+    },
+    registerButton: {
+        flexDirection: "row",
+        justifyContent: 'center',
+        marginTop: 15
+    },
+    registerText: {
+        fontSize: 16
+    },
+    registerTextLink: {
+        marginLeft: 5,
+        fontSize: 16,
+        color: "#5E91F7",
+        fontWeight: 'bold'
     }
 });
 

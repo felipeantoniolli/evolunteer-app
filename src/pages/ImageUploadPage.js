@@ -69,7 +69,6 @@ class ImageUploadPage extends React.Component {
             .post('user/upload-image', formData, config)
             .then(response => {
                 const user = response.data.data;
-                const { type, interest } = this.props.user;
 
                 this.setState({isLoading: false});
 
@@ -82,15 +81,7 @@ class ImageUploadPage extends React.Component {
                     [
                         {
                             text: 'OK', onPress: () => {
-                                if (interest.lenght > 0) {
-                                    if (type == 1) {
-                                        this.props.navigation.navigate('VolunteerProfilePage', {register: true});
-                                    } else if (type == 2) {
-                                        this.props.navigation.navigate('InstitutionProfilePage', {register: true});
-                                    }
-                                }  else {
-                                    this.props.navigation.navigate('InterestPage');
-                                }
+                               this.navigate()
                             }
                         }
                     ]
@@ -113,6 +104,28 @@ class ImageUploadPage extends React.Component {
             });
     }
 
+    navigate() {
+        const { interest, type } = this.props.user;
+
+        if (this.state.editing) {
+            if (type == 1) {
+                this.props.navigation.navigate('VolunteerProfilePage', {register: true});
+            } else if (type == 2) {
+                this.props.navigation.navigate('InstitutionProfilePage', {register: true});
+            } else {
+                this.props.navigation.goBack();
+            }
+        } else if (interest.lenght > 0) {
+            if (type == 1) {
+                this.props.navigation.navigate('VolunteerProfilePage', {register: true});
+            } else if (type == 2) {
+                this.props.navigation.navigate('InstitutionProfilePage', {register: true});
+            }
+        } else {
+            this.props.navigation.navigate('InterestPage');
+        }
+    }
+
     render() {
         const { image } = this.state;
         
@@ -128,11 +141,8 @@ class ImageUploadPage extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.title}>Escolha uma imagem de perfil</Text>
                 <View style={styles.content}>
-                    <ProfileImage image={image} style={{height: 200, width: 200}} />
-                </View>
-                <View style={styles.content}>
                     <TouchableOpacity 
-                        style={styles.button}
+                        style={[styles.button, styles.buttonUpload]}
                         onPress={() => this.pickImage()}
                     >
                         <Text>
@@ -140,14 +150,21 @@ class ImageUploadPage extends React.Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity 
-                    style={styles.button}
-                    onPress={() => this.uploadImage()}
-                >
-                    <Text>
-                        Salvar imagem
-                    </Text>
-                </TouchableOpacity>
+                <View style={styles.content}>
+                    <ProfileImage image={image} style={{height: 300, width: 300}} />
+                </View>
+                {
+                    image
+                    ?   <TouchableOpacity 
+                            style={[styles.button, styles.buttonConfirm]}
+                            onPress={() => this.uploadImage()}
+                        >
+                            <Text>
+                                Salvar imagem
+                            </Text>
+                        </TouchableOpacity>
+                    : null
+                }
             </View>
         );
     }
@@ -156,11 +173,10 @@ class ImageUploadPage extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center'
     },
     title: {
-        marginTop: 10,
+        marginTop: 40,
         fontSize: 20,
         marginBottom: 10
     },
@@ -168,11 +184,19 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     button: {
-        marginVertical: 20,
+        marginHorizontal: 45,
+        marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10
+        padding: 10,
+        paddingHorizontal: 50,
+        marginBottom: 20
+    },
+    buttonUpload: {
+        backgroundColor: '#FFA02D',
+    },
+    buttonConfirm: {
+        backgroundColor: '#A0D850'
     }
 });
 

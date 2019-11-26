@@ -7,9 +7,18 @@ import LoginPage from '../pages/LoginPage';
 import InterestPage from '../pages/InterestPage';
 import ImageUploadPage from '../pages/ImageUploadPage';
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
+
 const StackNavigator = createStackNavigator({
     Login: {
-        screen: LoginPage
+        screen: LoginPage,
+        navigationOptions: () => ({
+            headerStyle: {
+                backgroundColor: '#FFD29C'
+                
+            }
+        })
     },
     RegisterPage: {
         screen: RegisterPage
@@ -35,7 +44,15 @@ const StackNavigator = createStackNavigator({
     UploadImage: {
         screen: ImageUploadPage,
         navigationOptions: {
-            title: "Alterar Imagem"
+            title: "Enviar Imagem"
+        }
+    }
+},
+{
+    initialRouteName: "Login",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#FFD29C',
         }
     }
 });

@@ -16,6 +16,14 @@ const StackInstitutionNavigator = createStackNavigator({
             title: "Voluntário"
         })
     }
+},
+{
+    initialRouteName: "SolicitationsPage",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default StackInstitutionNavigator;

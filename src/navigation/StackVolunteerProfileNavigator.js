@@ -37,6 +37,14 @@ const StackVolunteerProfileNavigator = createStackNavigator({
             title: "Alterar imagem"
         }
     }
+},
+{
+    initialRouteName: "VolunteerPage",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default StackVolunteerProfileNavigator;

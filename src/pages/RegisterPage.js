@@ -31,7 +31,7 @@ class RegisterPage extends React.Component {
                 </View>
                 <View>
                     <TouchableOpacity 
-                        style={styles.button} 
+                        style={[styles.button, styles.backButton]} 
                         onPress={() => this.props.navigation.navigate('Login')}
                     >
                         <Text>Voltar</Text>
@@ -64,12 +64,15 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginHorizontal: 40,
+        marginHorizontal: 45,
         marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#FFD29C',
         padding: 10,
+    },
+    backButton: {
+        backgroundColor: '#FF8C4A'
     }
 });
 

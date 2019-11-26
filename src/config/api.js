@@ -1,4 +1,5 @@
 import axios from 'axios';
+import getBaseApi from '../helpers/baseUrl';
 
 /* Endereços para cada emulador/simulador:
 ** Genymotion:              http://10.0.3.2:3333/
@@ -9,7 +10,7 @@ import axios from 'axios';
 192.168.43.125
 */
 const api = axios.create({
-    baseURL: 'http://192.168.0.34:8000/api',
+    baseURL: getBaseApi('api'),
 });
 
 export default api;

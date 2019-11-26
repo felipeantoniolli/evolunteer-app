@@ -444,17 +444,6 @@ class VolunteerRegisterPage extends React.Component {
                                     : null
                                 }
                             />
-                            <Input
-                                title={'Referência'}
-                                onChangeTextHandler={text => this.onChangeTextHandler('reference', text)}
-                                inputValue={reference}
-                                reference={(input) => {this.referenceInput = input}}
-                                error={
-                                    errors && errors.reference
-                                    ? errors.reference
-                                    : null
-                                }
-                            />
                             <View style={styles.content}>
                                 <TouchableOpacity 
                                     style={styles.button}
@@ -503,11 +492,13 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginVertical: 20,
+        marginHorizontal: 45,
+        marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10
+        backgroundColor: '#FFA02D',
+        padding: 10,
+        marginBottom: 20
     },
     errorMessage: {
         fontSize: 5,

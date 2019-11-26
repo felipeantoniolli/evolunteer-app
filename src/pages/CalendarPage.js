@@ -65,12 +65,14 @@ class CalendarPage extends React.Component {
                 <Text style={styles.title}>
                     Próximas atividades
                 </Text>
-                <TouchableOpacity
-                    onPress={() => this.refreshResults()}
-                    style={styles.button}
-                >
-                    <Text>Recarregar resultados</Text>
-                </TouchableOpacity>
+                <View style={styles.content}>
+                    <TouchableOpacity
+                        onPress={() => this.refreshResults()}
+                        style={styles.button}
+                    >
+                        <Text>Recarregar resultados</Text>
+                    </TouchableOpacity>
+                </View>
                 <ScrollView>
                     {
                         this.state.calendar
@@ -90,13 +92,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
+    content: {
+        alignItems: 'center'
+    },
     button: {
-        marginHorizontal: 40,
-        marginTop: 20,
+        width: 300,
+        marginHorizontal: 80,
+        marginTop: 5,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
         padding: 10,
+        backgroundColor: '#FFA02D'
     },
     title: {
         alignSelf: 'center',

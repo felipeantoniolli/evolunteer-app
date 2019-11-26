@@ -40,7 +40,7 @@ class InterestPage extends React.Component {
     }
 
     async setInterest() {
-        this.setState({isLoading: false});
+        this.setState({isLoading: true});
 
         if (this.state.type == 0) {
             this.setState({isLoading: false});
@@ -57,6 +57,7 @@ class InterestPage extends React.Component {
             .then(response => {
                 const interest = response.data.data;
                 this.props.dispatchDataInterest(interest);
+                this.setState({isLoading: false});
 
                 if (user.type == 1) {
                     this.props.navigation.navigate("Volunteer");
@@ -68,7 +69,7 @@ class InterestPage extends React.Component {
             })
             .catch(error => {
                 console.log(error);
-                this.state({isLoading: false});
+                this.setState({isLoading: false});
             })
     }
 
@@ -94,20 +95,21 @@ class InterestPage extends React.Component {
                         <Text style={styles.title}>
                             {
                                 user.type == 1 
-                                    ? "Escolha o seu interesse!"
-                                    : "Escolha a sua área de atuação!"
+                                    ? "Selecione o seu interesse!"
+                                    : "Selecione a sua área de atuação!"
                             }
                         </Text>
                     </View>
-                    <View style={styles.content}>
+                    <View style={[styles.content, styles.pickerStyle]}>
                         <Picker
                             selectedValue={this.state.type}
-                            style={{height: 50, width: 150}}
+                            style={styles.picker}
                             onValueChange={(itemValue) =>
                                 this.setState({type: itemValue})
                             }
+                            itemStyle={styles.pickerItem}
                         >   
-                            <Picker.Item label="Escolha..." value="0" />
+                            <Picker.Item label="Selecionar..." value="0" />
                             <Picker.Item label="Crianças" value="1" />
                             <Picker.Item label="Animais" value="2" />
                             <Picker.Item label="Idosos" value="3" />
@@ -117,7 +119,7 @@ class InterestPage extends React.Component {
                         style={styles.button} 
                         onPress={() => this.setInterest()}
                     >
-                        <Text>Escolher</Text>
+                        <Text>Selecionar</Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
             </View>
@@ -129,6 +131,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center'
+    },
+    picker: {
+        height: 50,
+        width: 300
+    },
+    pickerItem: {
+        textAlign: 'center'
+    },
+    pickerStyle: {
+        borderWidth: 1,
+        marginHorizontal: 50,
+        borderColor: '#FFA02D',
+        borderRadius: 5
     },
     content: {
         marginTop: 15,
@@ -147,11 +162,11 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginHorizontal: 40,
+        marginHorizontal: 45,
         marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#FFA02D',
         padding: 10,
     }
 });

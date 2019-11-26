@@ -23,6 +23,14 @@ const StackVolunteerNavigator = createStackNavigator({
             title: "Solicitação"
         }
     }
+},
+{
+    initialRouteName: "SearchPage",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default StackVolunteerNavigator;

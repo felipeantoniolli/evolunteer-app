@@ -19,12 +19,11 @@ const Input = ({
         keyboard= "default"
     }) => (
     <View style={styles.content}>
-         <View>
-            <Text>{title}</Text>
-        </View>
         <View style={styles.content}>
             <TextInput
-                style={[styles.input, lines > 1 ? styles.multilines : null]}
+                placeholder={title}
+                placeholderTextColor="#7E7E7E"
+                style={[styles.input, lines > 1 ? styles.multilines : null, error ? styles.error : null]}
                 onChangeText={onChangeTextHandler}
                 value={inputValue}
                 secureTextEntry={passwordField ? true : false}
@@ -56,9 +55,17 @@ const styles = StyleSheet.create({
         padding: 10
     },
     input: {
-        borderBottomColor: 'blue',
-        borderBottomWidth: 1,
-        width: 300
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#FFA02D',
+        width: 300,
+        height: 40,
+        backgroundColor: '#F9FBFF',
+        textAlign: 'center'
+    },
+    error: {
+        borderColor: 'red',
+        backgroundColor: '#FEE5E5'
     },
     title: {
         fontSize: 40,

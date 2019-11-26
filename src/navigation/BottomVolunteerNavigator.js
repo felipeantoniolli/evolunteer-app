@@ -23,6 +23,14 @@ const BottomTabNavigator = createBottomTabNavigator({
             title: "Perfil"
         }
     }
+},
+{
+    initialRouteName: "Calendar",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default BottomTabNavigator;

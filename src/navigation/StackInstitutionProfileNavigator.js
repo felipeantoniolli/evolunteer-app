@@ -30,6 +30,14 @@ const StackInstitutionProfileNavigator = createStackNavigator({
             title: "Alterar imagem"
         }
     }
+},
+{
+    initialRouteName: "InstitutionPage",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default StackInstitutionProfileNavigator;

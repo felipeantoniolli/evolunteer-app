@@ -9,6 +9,14 @@ const StackCalendarNavigator = createStackNavigator({
             title: "Calendário"
         })
     }
+},
+{
+    initialRouteName: "CalendarPage",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
+    }
 });
 
 export default StackCalendarNavigator;
