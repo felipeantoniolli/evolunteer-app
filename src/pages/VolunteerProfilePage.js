@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     },
     lastName: {
         alignSelf: 'center',
-        fontSize: 30,
+        fontSize: 25,
         marginBottom: 10
     },
     text: {

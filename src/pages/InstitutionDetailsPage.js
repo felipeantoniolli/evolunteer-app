@@ -126,22 +126,15 @@ class InstitutionDetailsPage extends React.Component {
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
                     <View style={styles.image}>
-                        <ProfileImage image={image} style={{height: 200, width: 200}} />
+                        <ProfileImage image={image} style={styles.profileImage} />
                     </View>
                     {
                         this.state.solicitation && this.state.solicitation.approved == 1
-                        ?  <Whatsapp cellphone={cellphone} />
+                        ?  <Whatsapp
+                                cellphone={cellphone}
+                            />
                         : null
                     }
-                    <View>
-                        <Text style={styles.name}>{fantasy}</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.text}>{street}, {number}</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.text}>{city} - {state}</Text>
-                    </View>
                     <SolicitationButton
                         isLoading={this.state.isLoading}
                         solicited={this.state.solicitation ? true : false}
@@ -153,6 +146,15 @@ class InstitutionDetailsPage extends React.Component {
                         onPressHandler={() => this.cancelSolicitation()}
                         navigation={() => this.props.navigation.navigate("SolicitationRequestPage", {refresh: true})}
                     />
+                    <View>
+                        <Text style={styles.name}>{fantasy}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.text}>{street}, {number}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.text}>{city} - {state}</Text>
+                    </View>
                     <View>
                         <Text style={styles.subtitle}>
                             Interesses
@@ -172,26 +174,37 @@ class InstitutionDetailsPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    scroll: {
-        marginTop: 10
-    },
-    container: {    
+    container: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     name: {
-        fontSize: 35
+        marginTop: 10,
+        alignSelf: 'center',
+        fontSize: 35,
+    },
+    lastName: {
+        alignSelf: 'center',
+        fontSize: 30,
+        marginBottom: 10
     },
     text: {
         fontSize: 20
     },
     subtitle: {
         fontSize: 30,
-        marginTop: 20,
-        marginBottom: 20
+        marginTop: 10,
+        color: '#FFA02D'
     },
     image: {
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20
+    },
+    profileImage: {
+        height: 270,
+        width: 270,
+        borderRadius: 20
     },
     content: {
         flex: 1
@@ -203,14 +216,6 @@ const styles = StyleSheet.create({
     interest: {
         fontSize: 20,
         justifyContent: 'center'
-    },
-    button: {
-        marginHorizontal: 40,
-        marginTop: 20,
-        borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10,
     }
 });
 

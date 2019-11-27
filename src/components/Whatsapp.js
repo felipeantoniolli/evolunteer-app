@@ -1,6 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 
 import openWhatsappChat from '../helpers/whatsapp';
 
@@ -10,20 +13,32 @@ const Whatsapp = ({cellphone}) => {
             onPress={() => openWhatsappChat(cellphone)}
             style={styles.button}
         >
-            <Text>Whatsapp</Text>
+            <FontAwesomeIcon style={styles.icon} size={ 30 } icon={faWhatsapp} />
+            <Text style={styles.text}>Enviar mensagem</Text>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
-        marginHorizontal: 40,
-        marginTop: 20,
+        width: 300,
+        marginHorizontal: 5,
+        marginTop: 5,
         borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 60,
+        backgroundColor: "#A4C639",
+        flexDirection: 'row'
+    },
+    icon: {
+        color: "#FFFFFF"
+    },
+    text: {
+        marginTop: 5,
+        fontWeight: 'bold',
+        fontSize: 15,
+        marginLeft: 10
     }
-});
+})
 
 export default Whatsapp;

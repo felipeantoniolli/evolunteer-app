@@ -116,7 +116,7 @@ class VolunteerDetailsPage extends React.Component {
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.image}>
-                       <ProfileImage image={image} style={{height: 200, width: 200}} />
+                       <ProfileImage image={image} style={styles.profileImage} />
                     </View>
                     {
                         solicitation.approved == 1
@@ -124,7 +124,8 @@ class VolunteerDetailsPage extends React.Component {
                         : null
                     }
                     <View>
-                        <Text style={styles.name}>{name} {last_name}</Text>
+                         <Text style={styles.name}>{name}</Text>
+                         <Text style={styles.lastName}>{last_name}</Text>
                     </View>
                     <View>
                         <Birth birth={birth} style={styles.text} />
@@ -140,19 +141,21 @@ class VolunteerDetailsPage extends React.Component {
                     <View>
                         <Interests interests={interest} style={styles.interest} />
                     </View>
-                    <View>
-                        <Text style={styles.solicitation}>
+                    <View style={styles.cardSolicitation}>
+                        <Text style={styles.solicitationTitle}>
                             Mensagem de Solicitação
                         </Text>
                         <Text style={styles.message}>
                             {solicitation.message}
                         </Text>
                     </View>
+                    <View style={styles.buttons}>
+                        <SolicitationsActionsButton
+                            approved={solicitation.approved}
+                            onPressHandler={this.requestSolicitation.bind(this)}
+                        />
+                    </View>
                 </View>
-                <SolicitationsActionsButton
-                    approved={solicitation.approved}
-                    onPressHandler={this.requestSolicitation.bind(this)}
-                />
             </ScrollView>
         );
     }
@@ -162,32 +165,34 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10
+        alignItems: 'center'
     },
     name: {
-        fontSize: 35
+        marginTop: 10,
+        alignSelf: 'center',
+        fontSize: 35,
+    },
+    lastName: {
+        alignSelf: 'center',
+        fontSize: 25,
+        marginBottom: 10
     },
     text: {
         fontSize: 20
     },
-    message: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
     subtitle: {
         fontSize: 30,
-        marginTop: 20,
-        marginBottom: 20
-    },
-    solicitation: {
-        fontSize: 28,
-        marginTop: 20,
-        marginBottom: 20
+        marginTop: 10,
+        color: '#FFA02D'
     },
     image: {
-        flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20
+    },
+    profileImage: {
+        height: 270,
+        width: 270,
+        borderRadius: 20
     },
     content: {
         flex: 1
@@ -201,12 +206,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button: {
-        marginHorizontal: 40,
-        marginTop: 20,
+        width: 145,
+        marginHorizontal: 5,
+        marginTop: 5,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
         padding: 10,
+        backgroundColor: '#FFA02D'
+    },
+    cardSolicitation: {
+        backgroundColor: "#F2F9F8",
+        width: 300,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 10
+    },
+    solicitationTitle: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginVertical: 10
+    },
+    message: {
+        fontSize: 13,
+        padding: 8
+    },
+    buttons: {
+        marginBottom: 10
     }
 });
 
