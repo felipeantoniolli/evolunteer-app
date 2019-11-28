@@ -6,6 +6,7 @@ import {
     ScrollView,
     Alert
 } from 'react-native';
+import { HeaderBackButton } from 'react-navigation-stack';
 
 import { connect } from 'react-redux';
 

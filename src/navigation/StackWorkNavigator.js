@@ -7,13 +7,13 @@ const StackWorkNavigator = createStackNavigator({
     WorkPage: {
         screen: WorkPage,
         navigationOptions: {
-            title: "Trabalhos"
+            title: "Atividades"
         }
     },
     WorkCreatePage: {
         screen: WorkCreatePage,
         navigationOptions: {
-            title: "Novo Trabalho"
+            title: "Nova Atividade"
         }
     }
 },
@@ -21,7 +21,7 @@ const StackWorkNavigator = createStackNavigator({
     initialRouteName: "WorkPage",
     defaultNavigationOptions: {
         headerStyle: {
-            backgroundColor: '#ffd29c',
+            backgroundColor: '#FFD29C',
         }
     }
 });

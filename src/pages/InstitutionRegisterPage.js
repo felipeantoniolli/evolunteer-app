@@ -419,7 +419,7 @@ class InstitutionRegisterPage extends React.Component {
                                     style={styles.button}
                                     onPress={() => this.onPressButton()}
                                 >
-                                    <Text>
+                                    <Text style={styles.textButton}>
                                         {
                                             this.state.editing
                                                 ? "Confirmar Alterações"
@@ -469,6 +469,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFA02D',
         padding: 10,
         marginBottom: 20
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     }
 });
 

@@ -145,7 +145,7 @@ class ImageUploadPage extends React.Component {
                         style={[styles.button, styles.buttonUpload]}
                         onPress={() => this.pickImage()}
                     >
-                        <Text>
+                        <Text style={styles.textButton}>
                             Procurar
                         </Text>
                     </TouchableOpacity>
@@ -159,7 +159,7 @@ class ImageUploadPage extends React.Component {
                             style={[styles.button, styles.buttonConfirm]}
                             onPress={() => this.uploadImage()}
                         >
-                            <Text>
+                            <Text style={styles.textButton}>
                                 Salvar imagem
                             </Text>
                         </TouchableOpacity>
@@ -197,6 +197,10 @@ const styles = StyleSheet.create({
     },
     buttonConfirm: {
         backgroundColor: '#A0D850'
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     }
 });
 

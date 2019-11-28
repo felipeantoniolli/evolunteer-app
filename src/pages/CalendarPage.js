@@ -70,7 +70,7 @@ class CalendarPage extends React.Component {
                         onPress={() => this.refreshResults()}
                         style={styles.button}
                     >
-                        <Text>Recarregar resultados</Text>
+                        <Text style={styles.textButton}>Recarregar resultados</Text>
                     </TouchableOpacity>
                 </View>
                 <ScrollView>
@@ -96,13 +96,18 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        width: 300,
-        marginHorizontal: 80,
-        marginTop: 5,
+        marginHorizontal: 40,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
+        backgroundColor: '#9EAFFF',
         padding: 10,
-        backgroundColor: '#FFA02D'
+        width: 300,
+        marginBottom: 10
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     },
     title: {
         alignSelf: 'center',

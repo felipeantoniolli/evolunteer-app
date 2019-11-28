@@ -61,7 +61,7 @@ class WorkCreatePage extends React.Component {
             .then(response => {
                 Alert.alert(
                     'Sucesso',
-                    'Trabalho criado com sucesso!',
+                    'Atividade criado com sucesso!',
                     [
                         {
                             text: 'Ok', onPress: () => {
@@ -75,7 +75,7 @@ class WorkCreatePage extends React.Component {
                 console.log(error);
                 Alert.alert(
                     'Erro',
-                    'Houve um erro ao criar o trabalho.',
+                    'Houve um erro ao criar a atividade.',
                     [
                         {
                             text: 'Ok', onPress: () => {
@@ -112,7 +112,7 @@ class WorkCreatePage extends React.Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View>
-                            <Text style={styles.title}>Novo Trabalho</Text>
+                            <Text style={styles.title}>Nova Atividade</Text>
                         </View>
                         <View style={styles.content}>
                             <Input
@@ -140,7 +140,7 @@ class WorkCreatePage extends React.Component {
                                     style={styles.button}
                                     onPress={() => this.onPressButton()}
                                 >
-                                    <Text>Cadastrar Trabalho</Text>
+                                    <Text style={styles.textButton}>Cadastrar Atividade</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -177,11 +177,18 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginVertical: 20,
+        marginHorizontal: 40,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10
+        backgroundColor: '#FFA02D',
+        padding: 10,
+        width: 300,
+        marginBottom: 10
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     }
 });
 

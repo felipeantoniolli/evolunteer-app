@@ -42,11 +42,13 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 40,
-        marginTop: 20,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#9EAFFF',
         padding: 10,
+        width: 300,
+        marginBottom: 10
     },
     title: {
         alignSelf: 'center',
@@ -55,34 +57,43 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     image: {
+        borderRadius: 10,
         aspectRatio: 1,
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         marginLeft: 15
     },
     worksButton: {
         backgroundColor: '#F2F9F8',
-        marginVertical: 15
+        marginVertical: 10,
+        marginHorizontal: 20,
+        borderRadius: 10
     },
     worksView: {
         flexDirection: 'row',
         marginVertical: 10
     },
-    content: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginLeft: 15
-    },
-    date: {
-        fontSize: 20,
+    address: {
+        fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 15
     },
     name: {
         fontSize: 20,
         fontWeight: 'bold',
+        marginLeft: 15,
+        color: "#FFA02D"
+    },
+    content: {
+        fontSize: 15,
+        fontWeight: 'bold',
         marginLeft: 15
     },
+    date: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginLeft: 15
+    }
 });
 
 export default WorksCard;

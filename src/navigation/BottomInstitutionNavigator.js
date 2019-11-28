@@ -1,10 +1,10 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import StackInstitutionProfileNavigator from '../navigation/StackInstitutionProfileNavigator';
 import StackInstitutionNavigator from './StackInstitutionNavigator';
 import StackWorkNavigator from './StackWorkNavigator';
 
-const BottomTabNavigator = createBottomTabNavigator({
+const InstitutionBottomTabNavigator = createMaterialBottomTabNavigator({
     StackWorkNavigator: {
         screen: StackWorkNavigator,
         navigationOptions: {
@@ -25,12 +25,12 @@ const BottomTabNavigator = createBottomTabNavigator({
     }
 },
 {
-    initialRouteName: "Solicitations",
-    defaultNavigationOptions: {
-        headerStyle: {
-            backgroundColor: '#ffd29c',
-        }
+    initialRouteName: 'Solicitations',
+    activeColor: '#f0edf6',
+    inactiveColor: '#3e2465',
+    barStyle: {
+        backgroundColor: '#694fad'
     }
 });
 
-export default BottomTabNavigator;
+export default InstitutionBottomTabNavigator;

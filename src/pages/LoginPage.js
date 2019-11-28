@@ -188,7 +188,7 @@ class LoginPage extends React.Component {
                             style={styles.button} 
                             onPress={() => this.tryLogin()}
                         >
-                            <Text>Entrar</Text>
+                            <Text style={styles.textButton}>Entrar</Text>
                         </TouchableOpacity>
                         <View style={[styles.registerButton]}>
                             <Text style={styles.registerText}>
@@ -212,8 +212,7 @@ const styles = StyleSheet.create({
         paddingBottom: 20
     },
     container: {
-        flex: 1,
-        backgroundColor: '#F7F7FC'
+        flex: 1
     },
     content: {
         alignItems: 'center',
@@ -267,6 +266,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#5E91F7",
         fontWeight: 'bold'
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     }
 });
 

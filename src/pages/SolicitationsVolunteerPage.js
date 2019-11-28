@@ -15,9 +15,6 @@ import {
     setInstitutionsData,
     setInstitutionsDetailData
 } from '../actions/institutionsActions';
-import {
-    setTermSearch
-} from '../actions/searchActions';
 import InstitutionsCard from '../components/InstitutionsCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -110,15 +107,15 @@ class SolicitationsVolunteerPage extends React.Component {
                 </Text>
                <TouchableOpacity
                     onPress={() => this.refreshPage()}
-                    style={styles.button}
+                    style={[styles.button]}
                 >
-                    <Text>Recarregar Soliciações</Text>
+                    <Text style={styles.textButton}>Recarregar Solicitações</Text>
                 </TouchableOpacity>
                 <ScrollView>
                     { institutions && institutions.length > 0
                         ? institutions
                         : <Text style={styles.notFound}>
-                            Você não possui nenhuma solicitação no momento.
+                                Você não possui nenhuma solicitação no momento.
                           </Text>
                     }
                 </ScrollView>
@@ -145,10 +142,18 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 40,
+        marginTop: 10,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#9EAFFF',
         padding: 10,
+        width: 300,
+        marginBottom: 10
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     },
     image: {
         aspectRatio: 1,

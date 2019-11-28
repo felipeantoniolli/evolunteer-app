@@ -18,7 +18,7 @@ class RegisterPage extends React.Component {
                         style={styles.button} 
                         onPress={() => this.props.navigation.navigate('VolunteerRegisterPage')}
                     >
-                        <Text>Voluntário</Text>
+                        <Text style={styles.textButton}>Voluntário</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
@@ -26,7 +26,7 @@ class RegisterPage extends React.Component {
                             style={styles.button} 
                             onPress={() => this.props.navigation.navigate('InstitutionRegisterPage')}
                         >
-                            <Text>Instituição</Text>
+                            <Text style={styles.textButton}>Instituição</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
@@ -34,7 +34,7 @@ class RegisterPage extends React.Component {
                         style={[styles.button, styles.backButton]} 
                         onPress={() => this.props.navigation.navigate('Login')}
                     >
-                        <Text>Voltar</Text>
+                        <Text style={styles.textButton}>Voltar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -70,6 +70,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FFD29C',
         padding: 10,
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     },
     backButton: {
         backgroundColor: '#FF8C4A'

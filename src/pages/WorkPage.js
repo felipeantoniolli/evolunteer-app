@@ -75,13 +75,13 @@ class WorkPage extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>
-                    Trabalhos
+                    Atividades
                 </Text>
                 <TouchableOpacity
                     onPress={() => this.props.navigation.navigate("WorkCreatePage")}
                     style={styles.button}
                 >
-                    <Text>Novo trabalho</Text>
+                    <Text style={styles.textButton}>Nova atividade</Text>
                 </TouchableOpacity>
                 <ScrollView>
                     {
@@ -102,11 +102,17 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 40,
-        marginTop: 20,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#9EAFFF',
         padding: 10,
+        width: 300,
+        marginBottom: 10
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     },
     title: {
         alignSelf: 'center',

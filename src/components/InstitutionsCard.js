@@ -16,7 +16,7 @@ const InstitutionsCard = ({user, onPress}) => {
             onPress={onPress}
         >
             <View style={styles.institutionView}>
-                <ProfileImage image={user.image} style={{height: 100, width: 100}} />
+                <ProfileImage image={user.image} style={styles.image} />
                 <View style={{flexDirection: 'column'}}>
                     <Text style={styles.fantasy}>{user.institution.fantasy}</Text>
                     <Text style={styles.address}>{user.city} - {user.state}</Text>
@@ -31,12 +31,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
-    search: {
-        alignSelf: 'center',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginVertical: 20
-    },
     input: {
         borderBottomColor: 'blue',
         borderBottomWidth: 1,
@@ -50,26 +44,39 @@ const styles = StyleSheet.create({
         backgroundColor: '#DDDDDD',
         padding: 10,
     },
-    institutionView: {
-        flexDirection: 'row',
-        marginVertical: 10
-    },
-    fantasy: {
+    title: {
+        alignSelf: 'center',
         fontSize: 20,
         fontWeight: 'bold',
+        marginVertical: 20
+    },
+    image: {
+        borderRadius: 10,
+        aspectRatio: 1,
+        width: 80,
+        height: 80,
         marginLeft: 15
     },
     institutionButton: {
         backgroundColor: '#F2F9F8',
-        marginVertical: 15
+        marginVertical: 10,
+        marginHorizontal: 20,
+        borderRadius: 10
+    },
+    institutionView: {
+        flexDirection: 'row',
+        marginVertical: 10
     },
     address: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 15
     },
-    interest: {
-        fontSize: 15
+    fantasy: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginLeft: 15,
+        color: "#FFA02D"
     }
 });
 

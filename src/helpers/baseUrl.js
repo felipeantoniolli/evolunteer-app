@@ -12,4 +12,7 @@ export const getBaseUrl = (origin) => {
     }
 }
 
+// 192.168.0.138
+// 192.168.0.34
+
 export default getBaseUrl;

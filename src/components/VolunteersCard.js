@@ -17,9 +17,10 @@ const VolunteersCard = ({user, onPress}) => {
             onPress={onPress}
         >
             <View style={styles.volunteersView}>
-                <ProfileImage image={user.image} style={{height: 100, width: 100}} />
+                <ProfileImage image={user.image} style={styles.image} />
                 <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.name}>{user.volunteer.name} {user.volunteer.last_name}</Text>
+                    <Text style={styles.name}>{user.volunteer.name}</Text>
+                    <Text style={styles.lastName}>{user.volunteer.last_name}</Text>
                     <Text style={styles.address}>{user.city} - {user.state}</Text>
                 </View>
             </View>
@@ -53,26 +54,34 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     image: {
+        borderRadius: 10,
         aspectRatio: 1,
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         marginLeft: 15
     },
     volunteersButton: {
         backgroundColor: '#F2F9F8',
-        marginVertical: 15
+        marginVertical: 10,
+        marginHorizontal: 20,
+        borderRadius: 10
     },
     volunteersView: {
         flexDirection: 'row',
         marginVertical: 10
     },
     address: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 15
     },
     name: {
         fontSize: 20,
+        fontWeight: 'bold',
+        marginLeft: 15
+    },
+    lastName: {
+        fontSize: 15,
         fontWeight: 'bold',
         marginLeft: 15
     },

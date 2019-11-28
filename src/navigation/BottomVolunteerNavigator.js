@@ -1,10 +1,10 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import StackVolunteerNavigator from './StackVolunteerNavigator';
 import StackCalendarNavigator from './StackCalendarNavigator';
 import StackVolunteerProfileNavigator from './StackVolunteerProfileNavigator';
 
-const BottomTabNavigator = createBottomTabNavigator({
+const VolunteerBottomTabNavigator = createMaterialBottomTabNavigator({
     Search: {
         screen: StackVolunteerNavigator,
         navigationOptions: {
@@ -25,12 +25,12 @@ const BottomTabNavigator = createBottomTabNavigator({
     }
 },
 {
-    initialRouteName: "Calendar",
-    defaultNavigationOptions: {
-        headerStyle: {
-            backgroundColor: '#ffd29c',
-        }
+    initialRouteName: 'Calendar',
+    activeColor: '#f0edf6',
+    inactiveColor: '#3e2465',
+    barStyle: {
+        backgroundColor: '#694fad'
     }
 });
 
-export default BottomTabNavigator;
+export default VolunteerBottomTabNavigator;

@@ -159,7 +159,7 @@ class SearchPage extends React.Component {
                                 onPress={() => this.clearResults()}
                                 style={styles.button}
                             >
-                                <Text>Limpar resultados</Text>
+                                <Text style={styles.textButton}>Limpar resultados</Text>
                             </TouchableOpacity>
                     : null
                 }
@@ -190,9 +190,17 @@ const styles = StyleSheet.create({
     button: {
         marginHorizontal: 40,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#9EAFFF',
         padding: 10,
+        width: 300,
+        marginBottom: 10
+    },
+    textButton: {
+        color: "#000000",
+        fontWeight: 'bold',
+        fontSize: 15
     },
     image: {
         aspectRatio: 1,

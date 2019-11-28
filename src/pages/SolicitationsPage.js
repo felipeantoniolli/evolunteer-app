@@ -142,7 +142,7 @@ class SolicitationsPage extends React.Component {
                     onPress={() => this.refreshResults()}
                     style={styles.button}
                 >
-                    <Text>Recarregar resultados</Text>
+                    <Text style={styles.textButton}>Recarregar resultados</Text>
                 </TouchableOpacity>
                 <Text style={styles.title}>Solicitações pendentes</Text>
                 {
@@ -173,17 +173,26 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 40,
-        marginTop: 20,
+        marginTop: 10,
         borderRadius: 10,
+        alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#9EAFFF',
         padding: 10,
+        width: 300,
+        marginBottom: 10
+    },
+    textButton: {
+        color: "#000000",
+        fontWeight: 'bold',
+        fontSize: 15
     },
     title: {
         alignSelf: 'center',
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
-        marginVertical: 20
+        marginVertical: 10,
+        color: '#FFA02D'
     },
     image: {
         aspectRatio: 1,

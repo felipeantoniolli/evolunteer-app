@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     },
     multilines: {
         borderWidth: 1,
-        borderColor: 'blue',
-        padding: 10
+        padding: 10,
+        justifyContent: 'flex-start'
     },
     input: {
         borderRadius: 8,
