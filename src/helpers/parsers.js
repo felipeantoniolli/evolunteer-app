@@ -26,6 +26,6 @@ export const convertDateToString = (date) => {
         return;
     }
 
-    let parts = date.split("/");
+    let parts = date.split("-");
     return parts[2] + "/" + parts[1] + "/" + parts[0]
 }

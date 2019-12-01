@@ -43,7 +43,8 @@ import Loading from '../components/Loading';
 import MaskedInput from '../components/MaskedInput';
 import {
     parseDocumentToNumber,
-    convertStringToDate
+    convertStringToDate,
+    convertDateToString
 } from '../helpers/parsers';
 
 class VolunteerRegisterPage extends React.Component {
@@ -123,8 +124,13 @@ class VolunteerRegisterPage extends React.Component {
         this.props.dispatchClearData();
 
         if (this.props.navigation.getParam('editing')) {
+            const { user } = this.props;
+            let dateBirth = convertDateToString(user.volunteer.birth);
+
             this.setState({editing: true});
-            this.props.dispatchAllUserData(this.props.user);
+            this.setState({dateBirth});
+
+            this.props.dispatchAllUserData(user);
         }
     }
     
