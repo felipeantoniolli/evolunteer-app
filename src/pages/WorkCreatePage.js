@@ -14,14 +14,15 @@ import {
     setWorkNameData,
     setWorkContentData,
     setWorkDateData,
-    workClearData
+    workClearData,
+    setAllWorkContentData
 } from '../actions/registerWorkActions';
 import api from '../config/api';
 import Input from '../components/Input';
 import Loading from '../components/Loading';
 import MaskedInput from '../components/MaskedInput';
 import {
-    convertStringToDateTime
+    convertStringToDateTime, convertDateTimeToString
 } from '../helpers/parsers';
 
 class WorkCreatePage extends React.Component {
@@ -32,7 +33,8 @@ class WorkCreatePage extends React.Component {
             editing: false,
             isLoading: false,
             dateEvent: null,
-            hourEvent: null
+            hourEvent: null,
+            idWork: null
         };
     }
 
@@ -61,25 +63,99 @@ class WorkCreatePage extends React.Component {
         this.props.dispatchWorkDateData(workDate);
     }
 
+    async convertDateFields() {
+        const { work_date } = this.props.registerWork;
+ 
+        let {date, hour} = convertDateTimeToString(work_date);
+        this.setState({dateEvent: date, hourEvent: hour});
+    }
+
+    onPressDeleteButton() {
+        Alert.alert(
+            'Alerta',
+            'Você tem certeza?',
+            [
+                {
+                    text: 'Sim', onPress: () => {
+                        this.deleteWork()
+                    }
+                },
+                {
+                    text: 'Não', onPress: () => {
+                        console.log("Ação cancelada!")
+                    }
+                }
+            ]
+        );
+    }
+
+    async deleteWork() {
+        this.setState({isLoading: false});
+
+        await this.convertFields();
+
+        const { id_work } = this.props.registerWork;
+
+        await api
+            .delete('work/delete/' + id_work)
+            .then(response => {
+                Alert.alert(
+                    'Sucesso',
+                    'Atividade deletada com sucesso!',
+                    [
+                        {
+                            text: 'Ok', onPress: () => {
+                                this.props.navigation.navigate('WorkPage', {refresh: true})
+                            }
+                        }
+                    ]
+                );
+            })
+            .catch(error => {
+                console.log(error);
+                Alert.alert(
+                    'Erro',
+                    'Houve um erro ao deletar a atividade.',
+                    [
+                        {
+                            text: 'Ok', onPress: () => {
+                                this.setState({isLoading: false});
+                            }
+                        }
+                    ]
+                );
+            });
+    }
+
     async onPressButton() {
         this.setState({isLoading: true});
 
         await this.convertFields();
 
         const { id_institution } = this.props.user.institution;
-        const { name, content, work_date } = this.props.registerWork;
+        const { name, content, work_date, id_work } = this.props.registerWork;
+        const { editing } = this.state;
+
+        let url = '';
+        if (editing) {
+            url = 'work/update/' + id_work;
+        } else {
+            url = 'work/create';
+        }
 
         await api
-            .post('work/create', {
+            .post(url, {
                 "id_institution": id_institution,
                 "name": name,
                 "content": content,
                 "work_date": work_date
             })
             .then(response => {
+
+                let text = editing ? 'Atividade alterada com sucesso!' : 'Atividade criado com sucesso!';
                 Alert.alert(
                     'Sucesso',
-                    'Atividade criado com sucesso!',
+                    text,
                     [
                         {
                             text: 'Ok', onPress: () => {
@@ -105,8 +181,43 @@ class WorkCreatePage extends React.Component {
             });
     }
 
+    async refreshPage() {
+        this.setState({isLoading: true});
+
+        await this.loadingData();
+        this.props.navigation.state.params = null;
+
+        this.setState({isLoading: false});
+    }
+
     componentDidMount() {
-        this.props.dispatchWorkClearData();
+        this.setState({isLoading: true});
+
+        this.loadingData();
+
+        this.setState({isLoading: false});
+    }
+
+    async loadingData() {
+        let { navigation } = this.props;
+
+        if (navigation.getParam('editing')) {
+            this.editingData();
+        } else {
+            this.clearData();
+        }
+
+        this.convertDateFields();
+    }
+
+    async clearData() {
+        await this.props.dispatchWorkClearData();
+        await this.setState({dateEvent: null, hourEvent: null});
+    }
+
+    editingData() {
+        this.setState({editing: true});
+        this.convertDateFields();
     }
 
     render() {
@@ -118,7 +229,16 @@ class WorkCreatePage extends React.Component {
             )
         }
 
-        const { name, content, work_date } = this.props.registerWork;
+        const { name, content } = this.props.registerWork;
+        const { navigation } = this.props;
+
+        if (navigation.getParam('refresh')) {
+            var refresh = navigation.getParam('refresh');
+
+            if (refresh) {
+                this.refreshPage();
+            }
+        }
 
         return (
             <KeyboardAvoidingView 
@@ -130,7 +250,13 @@ class WorkCreatePage extends React.Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View>
-                            <Text style={styles.title}>Nova Atividade</Text>
+                            <Text style={styles.title}>
+                                {
+                                    this.state.editing
+                                    ? 'Editar Atividade'
+                                    : 'Nova Atividade'
+                                }
+                            </Text>
                         </View>
                         <View style={styles.content}>
                             <Input
@@ -171,9 +297,29 @@ class WorkCreatePage extends React.Component {
                                     style={styles.button}
                                     onPress={() => this.onPressButton()}
                                 >
-                                    <Text style={styles.textButton}>Cadastrar Atividade</Text>
+                                    <Text style={styles.textButton}>
+                                        {
+                                            this.state.editing
+                                            ?  'Alterar Atividade'
+                                            : 'Cadastrar Atividade'
+                                        }
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
+                            {
+                                this.state.editing
+                                ?    <View style={[styles.content, styles.deleteContent]}>
+                                        <TouchableOpacity
+                                            style={[styles.button, styles.deleteButton]}
+                                            onPress={() => this.onPressDeleteButton()}
+                                        >
+                                            <Text style={styles.textButton}>
+                                                Excluir Atividade
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                : null
+                            }
                         </View>
                     </View>
                 </ScrollView>
@@ -220,6 +366,12 @@ const styles = StyleSheet.create({
     textButton: {
         fontWeight: 'bold',
         fontSize: 15
+    },
+    deleteContent: {
+        marginTop: 5
+    },
+    deleteButton: {
+        backgroundColor: "#FF9E9E"
     }
 });
 
@@ -234,6 +386,7 @@ export default connect(
         dispatchWorkNameData: setWorkNameData,
         dispatchWorkContentData: setWorkContentData,
         dispatchWorkDateData: setWorkDateData,
-        dispatchWorkClearData: workClearData
+        dispatchWorkClearData: workClearData,
+        dispatchSetAllWorkData: setAllWorkContentData
     }
 )(WorkCreatePage);

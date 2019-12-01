@@ -16,6 +16,12 @@ export const setWorkDateData = (work_date) => ({
     work_date
 });
 
+export const SET_ALL_WORK_CONTENT_DATA = 'SET_ALL_WORK_CONTENT_DATA';
+export const setAllWorkContentData = (work) => ({
+    type: SET_ALL_WORK_CONTENT_DATA,
+    work
+});
+
 export const WORK_CLEAR_DATA = 'WORK_CLEAR_DATA';
 export const workClearData = () => ({
     type: WORK_CLEAR_DATA

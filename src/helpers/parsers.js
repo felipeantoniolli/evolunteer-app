@@ -40,3 +40,17 @@ export const convertStringToDateTime = (date, hour) => {
 
     return newDate + " " + hour + ":00";
 }
+
+export const convertDateTimeToString = (date) => {
+    if (!date) {
+        return;
+    }
+
+    let parts = date.split(" ");
+    let dateParts = parts[0].split("-");
+    let hourParts = parts[1].split(":");
+
+    let newDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+    let newHour = hourParts[0] + ":" + hourParts[1];
+    return {date: newDate, hour: newHour};
+}

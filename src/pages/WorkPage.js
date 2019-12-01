@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import api from '../config/api';
 import { setWorksData } from '../actions/worksActions';
 import WorksCard from '../components/WorksCard';
+import { setAllWorkContentData } from '../actions/registerWorkActions';
 import Loading from '../components/Loading';
 
 class WorkPage extends React.Component {
@@ -41,7 +42,13 @@ class WorkPage extends React.Component {
 
                 this.props.dispatchWorksData(works);
 
-                var worksData = works.map((work) => <WorksCard key={work.id_work} work={work}/>);
+                var worksData = works.map((work) =>
+                    <WorksCard
+                        key={work.id_work}
+                        work={work}
+                        onPressHandler={() => this.navigateToEditingWorkPage(work)}
+                    />
+                );
 
                 this.setState({isLoading: false, works: worksData});
             })
@@ -49,6 +56,11 @@ class WorkPage extends React.Component {
                 console.log(error);
                 this.setState({isLoading: false});
             })
+    }
+
+    navigateToEditingWorkPage(work) {
+        this.props.dispatchSetAllWorkContentData(work);
+        this.props.navigation.navigate('WorkCreatePage', {editing: true, refresh: true});
     }
 
     render() {
@@ -78,7 +90,7 @@ class WorkPage extends React.Component {
                     Atividades
                 </Text>
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("WorkCreatePage")}
+                    onPress={() => this.props.navigation.navigate("WorkCreatePage", {refresh: true})}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Nova atividade</Text>
@@ -136,6 +148,7 @@ const mapStateToProps = (state) => {
 export default connect(
     mapStateToProps,
     {
-        dispatchWorksData: setWorksData
+        dispatchWorksData: setWorksData,
+        dispatchSetAllWorkContentData: setAllWorkContentData
     }
 )(WorkPage);

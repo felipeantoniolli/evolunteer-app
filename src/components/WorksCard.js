@@ -6,12 +6,15 @@ import {
     StyleSheet
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { convertDateTimeToString } from '../helpers/parsers';
 
 const WorksCard = ({work, onPressHandler = null, institution = null}) => {
+    let { date, hour } = convertDateTimeToString(work.work_date);
+
     return (
         <TouchableOpacity
             style={styles.worksButton}
-            onPress={() => console.log('')}
+            onPress={onPressHandler}
         >
             <View style={styles.worksView}>
                 <View style={{flexDirection: 'column'}}>
@@ -22,7 +25,7 @@ const WorksCard = ({work, onPressHandler = null, institution = null}) => {
                         : null
                     }
                     <Text style={styles.content}>{work.content}</Text>
-                    <Text style={styles.date}>{work.work_date}</Text>
+                    <Text style={styles.date}>{date} às {hour}hrs</Text>
                 </View>
             </View>
         </TouchableOpacity>

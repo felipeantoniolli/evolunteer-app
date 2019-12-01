@@ -40,7 +40,14 @@ class CalendarPage extends React.Component {
                 this.props.dispatchCalendarData(calendars);
 
                 const calendarData = calendars.map((calendar) => {
-                    return <WorksCard key={calendar.work.id_work} work={calendar.work} institution={calendar.work.institution} />
+                    return (
+                        <WorksCard
+                            key={calendar.work.id_work}
+                            work={calendar.work}
+                            institution={calendar.work.institution}
+                            onPressHandler={() => console.log("Você não é uma instituição")}
+                        />
+                    );
                 });
 
                 this.setState({isLoading: false, calendar: calendarData});

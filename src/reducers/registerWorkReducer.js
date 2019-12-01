@@ -2,7 +2,8 @@ import {
     SET_WORK_NAME_DATA,
     SET_WORK_CONTENT_DATA,
     SET_WORK_DATE_DATA,
-    WORK_CLEAR_DATA
+    WORK_CLEAR_DATA,
+    SET_ALL_WORK_CONTENT_DATA
 } from '../actions/registerWorkActions';
 
 const INITIAL_STATE = {
@@ -28,6 +29,8 @@ const registerWorkReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 work_date: action.work_date
             };
+        case SET_ALL_WORK_CONTENT_DATA:
+            return action.work;
         case WORK_CLEAR_DATA:
             return INITIAL_STATE;
         default:

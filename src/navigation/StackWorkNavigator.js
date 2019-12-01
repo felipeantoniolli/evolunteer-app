@@ -13,7 +13,7 @@ const StackWorkNavigator = createStackNavigator({
     WorkCreatePage: {
         screen: WorkCreatePage,
         navigationOptions: {
-            title: "Nova Atividade"
+            title: "Atividade"
         }
     }
 },
