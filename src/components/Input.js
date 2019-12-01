@@ -33,6 +33,7 @@ const Input = ({
                 multiline={lines ? true : false}
                 numberOfLines={lines ? lines : 1}
                 keyboardType={keyboard}
+                autoCompleteType="off"
             />
         </View>
         {
@@ -51,8 +52,10 @@ const styles = StyleSheet.create({
     },
     multilines: {
         borderWidth: 1,
-        padding: 10,
-        justifyContent: 'flex-start'
+        height: 80,
+        justifyContent: 'flex-start',
+        textAlign: 'left',
+        padding: 10
     },
     input: {
         borderRadius: 8,

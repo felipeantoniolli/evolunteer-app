@@ -116,7 +116,7 @@ class WorkCreatePage extends React.Component {
                         </View>
                         <View style={styles.content}>
                             <Input
-                                title={'Nome do trabalho'}
+                                title={'Nome da atividade'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('name', text)}
                                 inputValue={name}
                                 onSubmit={() => {this.content.focus()}}

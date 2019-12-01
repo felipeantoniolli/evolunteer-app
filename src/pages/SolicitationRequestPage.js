@@ -9,6 +9,7 @@ import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import Loading from '../components/Loading';
 import api from '../config/api';
+import Input from '../components/Input';
 
 class SolicitationRequestPage extends React.Component {
     constructor(props) {
@@ -58,19 +59,21 @@ class SolicitationRequestPage extends React.Component {
                 <View>
                     <Text style={styles.title}>Escreva abaixo porquê deseja participar desta instituição.</Text>
                 </View>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={solicitationText => this.onChangeTextHandler(solicitationText)}
+                <Input
+                    title={"Eu gostaria muito de participar da sua instituição"}
+                    onChangeTextHandler={solicitationText => this.onChangeTextHandler(solicitationText)}
                     inputValue={this.state.solicitationText}
-                    multiline={true}
-                    numberOfLines={4}
+                    returnKey={"done"}
+                    lines={4}
                 />
-                <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={() => this.sendRequest()}
-                >
-                    <Text>Enviar solicitação</Text>
-                </TouchableOpacity>
+                <View style={styles.content}>
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => this.sendRequest()}
+                    >
+                        <Text style={styles.textButton}>Enviar solicitação</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -82,12 +85,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button: {
-        marginHorizontal: 40,
+        width: 300,
+        marginHorizontal: 45,
         marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
         padding: 10,
+        backgroundColor: '#9EAFFF'
+    },
+    textButton: {
+        fontSize: 15,
+        fontWeight: 'bold'
     },
     input: {
         margin: 20,

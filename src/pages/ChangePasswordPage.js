@@ -130,7 +130,7 @@ class ChangePasswordPage extends React.Component {
                                     style={styles.button}
                                     onPress={() => this.onPressButton()}
                                 >
-                                    <Text>
+                                    <Text style={styles.textButton}>
                                        Alterar Senha
                                     </Text>
                                 </TouchableOpacity>
@@ -169,11 +169,17 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginVertical: 20,
+        width: 300,
+        marginHorizontal: 5,
+        marginTop: 10,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10
+        padding: 10,
+        backgroundColor: '#FFA02D'
+    },
+    textButton: {
+        fontWeight: 'bold',
+        fontSize: 15
     }
 });
 

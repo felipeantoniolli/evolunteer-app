@@ -1,35 +1,46 @@
 import React from 'react';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import StackVolunteerNavigator from './StackVolunteerNavigator';
 import StackCalendarNavigator from './StackCalendarNavigator';
 import StackVolunteerProfileNavigator from './StackVolunteerProfileNavigator';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSearch, faCalendar, faUser } from '@fortawesome/free-solid-svg-icons';
 
-const VolunteerBottomTabNavigator = createMaterialBottomTabNavigator({
+const VolunteerBottomTabNavigator = createBottomTabNavigator({
     Search: {
         screen: StackVolunteerNavigator,
         navigationOptions: {
-            title: "Pesquisa"
+            title: "Pesquisa",
+            tabBarIcon: ({ tintColor }) => (
+                <FontAwesomeIcon icon={faSearch} size={20} color={tintColor}/>
+            )
         }
     },
     Calendar: {
         screen: StackCalendarNavigator,
         navigationOptions: {
-            title: "Calendário"
+            title: "Calendário",
+            tabBarIcon: ({ tintColor }) => (
+                <FontAwesomeIcon icon={faCalendar} size={20} color={tintColor}/>
+            )
         }
     },
     VolunteerProfilePage: {
         screen: StackVolunteerProfileNavigator,
         navigationOptions: {
-            title: "Perfil"
+            title: "Perfil",
+            tabBarIcon: ({ tintColor }) => (
+                <FontAwesomeIcon icon={faUser} size={20} color={tintColor}/>
+            )
         }
     }
 },
 {
-    initialRouteName: 'Calendar',
-    activeColor: '#f0edf6',
-    inactiveColor: '#3e2465',
-    barStyle: {
-        backgroundColor: '#694fad'
+    initialRouteName: "Calendar",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
     }
 });
 

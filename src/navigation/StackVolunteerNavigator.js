@@ -14,7 +14,7 @@ const StackVolunteerNavigator = createStackNavigator({
     InstitutionDetailsPage: {
         screen: InstitutionDetailsPage,
         navigationOptions: {
-            title: "Detalhes da institutição"
+            title: "Detalhes da instituição"
         }
     },
     SolicitationRequestPage: {

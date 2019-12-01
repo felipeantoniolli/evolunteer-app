@@ -37,6 +37,10 @@ import api from '../config/api';
 
 import Input from '../components/Input';
 import Loading from '../components/Loading';
+import MaskedInput from '../components/MaskedInput';
+import {
+    parseDocumentToNumber
+} from '../helpers/parsers';
 
 class InstitutionRegisterPage extends React.Component {
     constructor(props) {
@@ -76,10 +80,10 @@ class InstitutionRegisterPage extends React.Component {
                 this.props.dispatchComplementData(text);
                 break;
             case 'number':
-                this.props.dispatcthNumberData(text);
+                this.props.dispacthNumberData(text);
                 break;
             case 'reference':
-                this.props.dispatcthReferenceData(text);
+                this.props.dispacthReferenceData(text);
                 break;
             case 'telephone':
                 this.props.dispatchTelephoneData(text);
@@ -104,8 +108,30 @@ class InstitutionRegisterPage extends React.Component {
         }
     }
 
+    async convertFields() {
+        const { telephone, cellphone, cep } = this.props.register;
+        const { cpf, cnpj } = this.props.register.institution;
+
+        let newTelephone = parseDocumentToNumber(telephone);
+        let newCellphone = parseDocumentToNumber(cellphone);
+        let newCep = parseDocumentToNumber(cep);
+
+        let newCpf = parseDocumentToNumber(cpf);
+        let newCnpj = parseDocumentToNumber(cnpj);
+
+        this.props.dispatchTelephoneData(newTelephone);
+        this.props.dispatchCellphoneData(newCellphone);
+        this.props.dispatchCepData(newCep);
+
+        this.props.dispatchCnpjData(newCnpj);
+        this.props.dispatchCpfInstitutionData(newCpf);
+    }
+
     async onPressButton() {
         this.setState({isLoading: true});
+
+        await this.convertFields();
+
         let register = this.props.register;
 
         let url = '';
@@ -271,19 +297,17 @@ class InstitutionRegisterPage extends React.Component {
                                 onChangeTextHandler={text => this.onChangeTextHandler('fantasy', text)}
                                 inputValue={fantasy}
                                 reference={(input) => {this.fantasyInput = input}}
-                                onSubmit={() => {this.cpfInput.focus()}}
                                 error={
                                     errors && errors.fatansy
                                     ? errors.fatansy
                                     : null
                                 }
                             />
-                            <Input
+                            <MaskedInput
                                 title={'CPF'}
+                                type={'cpf'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('cpfInstitution', text)}
                                 inputValue={cpf}
-                                reference={(input) => {this.cpfInput = input}}
-                                onSubmit={() => {this.cnpjInput.focus()}}
                                 error={
                                     errors && errors.cpf
                                     ? errors.cpf
@@ -291,12 +315,11 @@ class InstitutionRegisterPage extends React.Component {
                                 }
                                 keyboard={'numeric'}
                             />
-                            <Input
+                             <MaskedInput
+                                type={'cnpj'}
                                 title={'CNPJ'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('cnpj', text)}
                                 inputValue={cnpj}
-                                reference={(input) => {this.cnpjInput = input}}
-                                onSubmit={() => {this.telephoneInput.focus()}}
                                 error={
                                     errors && errors.cnpj
                                     ? errors.cnpj
@@ -304,12 +327,16 @@ class InstitutionRegisterPage extends React.Component {
                                 }
                                 keyboard={'numeric'}
                             />
-                            <Input
+                            <MaskedInput
                                 title={'Telefone'}
+                                type={'cel-phone'}
+                                options={{
+                                    maskType: 'BRL',
+                                    withDDD: true,
+                                    dddMask: '(99) '
+                                }}
                                 onChangeTextHandler={text => this.onChangeTextHandler('telephone', text)}
                                 inputValue={telephone}
-                                reference={(input) => {this.telephoneInput = input}}
-                                onSubmit={() => {this.cellphoneInput.focus()}}
                                 error={
                                     errors && errors.telephone
                                     ? errors.telephone
@@ -317,12 +344,16 @@ class InstitutionRegisterPage extends React.Component {
                                 }
                                 keyboard={'numeric'}
                             />
-                            <Input
+                            <MaskedInput
                                 title={'Celular'}
+                                type={'cel-phone'}
+                                options={{
+                                    maskType: 'BRL',
+                                    withDDD: true,
+                                    dddMask: '(99) '
+                                }}
                                 onChangeTextHandler={text => this.onChangeTextHandler('cellphone', text)}
                                 inputValue={cellphone}
-                                reference={(input) => {this.cellphoneInput = input}}
-                                onSubmit={() => {this.birthInput.focus()}}
                                 error={
                                     errors && errors.cellphone
                                     ? errors.cellphone
@@ -494,8 +525,8 @@ export default connect(
         dispatchCityData: setCityData,
         dispatchStateData: setStateData,
         dispatchComplementData: setComplementData,
-        dispatcthNumberData: setNumberData,
-        dispatcthReferenceData: setReferenceData,
+        dispacthNumberData: setNumberData,
+        dispacthReferenceData: setReferenceData,
         dispatchTelephoneData: setTelephoneData,
         dispatchCellphoneData: setCellphoneData,
         dispatchReasonData: setReasonData,

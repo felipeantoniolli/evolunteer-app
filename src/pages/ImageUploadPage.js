@@ -110,19 +110,25 @@ class ImageUploadPage extends React.Component {
         if (this.state.editing) {
             if (type == 1) {
                 this.props.navigation.navigate('VolunteerProfilePage', {register: true});
+                return;
             } else if (type == 2) {
                 this.props.navigation.navigate('InstitutionProfilePage', {register: true});
+                return;
             } else {
                 this.props.navigation.goBack();
+                return;
             }
         } else if (interest.lenght > 0) {
             if (type == 1) {
                 this.props.navigation.navigate('VolunteerProfilePage', {register: true});
+                return;
             } else if (type == 2) {
                 this.props.navigation.navigate('InstitutionProfilePage', {register: true});
+                return;
             }
         } else {
             this.props.navigation.navigate('InterestPage');
+            return;
         }
     }
 

@@ -1,35 +1,46 @@
 import React from 'react';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import StackInstitutionProfileNavigator from '../navigation/StackInstitutionProfileNavigator';
 import StackInstitutionNavigator from './StackInstitutionNavigator';
 import StackWorkNavigator from './StackWorkNavigator';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCalendar, faUsers, faUser } from '@fortawesome/free-solid-svg-icons';
 
-const InstitutionBottomTabNavigator = createMaterialBottomTabNavigator({
+const InstitutionBottomTabNavigator = createBottomTabNavigator({
     StackWorkNavigator: {
         screen: StackWorkNavigator,
         navigationOptions: {
-            title: "Trabalhos"
+            title: "Atividades",
+            tabBarIcon: ({ tintColor }) => (
+                <FontAwesomeIcon icon={faCalendar} size={20} color={tintColor}/>
+            )
         }
     },
     Solicitations: {
         screen: StackInstitutionNavigator,
         navigationOptions: {
-            title: "Solicitações"
+            title: "Solicitações",
+            tabBarIcon: ({ tintColor }) => (
+                <FontAwesomeIcon icon={faUsers} size={20} color={tintColor}/>
+            )
         }
     },
     InstitutionProfilePage: {
         screen: StackInstitutionProfileNavigator,
         navigationOptions: {
-            title: "Perfil"
+            title: "Perfil",
+            tabBarIcon: ({ tintColor }) => (
+                <FontAwesomeIcon icon={faUser} size={20} color={tintColor}/>
+            )
         }
     }
 },
 {
-    initialRouteName: 'Solicitations',
-    activeColor: '#f0edf6',
-    inactiveColor: '#3e2465',
-    barStyle: {
-        backgroundColor: '#694fad'
+    initialRouteName: "Solicitations",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#ffd29c',
+        }
     }
 });
 

@@ -6,7 +6,8 @@ import {
     ScrollView,
     TouchableOpacity,
     Alert,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Picker
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -39,6 +40,11 @@ import api from '../config/api';
 
 import Input from '../components/Input';
 import Loading from '../components/Loading';
+import MaskedInput from '../components/MaskedInput';
+import {
+    parseDocumentToNumber,
+    convertStringToDate
+} from '../helpers/parsers';
 
 class VolunteerRegisterPage extends React.Component {
     constructor(props) {
@@ -47,7 +53,8 @@ class VolunteerRegisterPage extends React.Component {
         this.state = {
             isLoading: false,
             editing: false,
-            errors: null
+            errors: null,
+            dateBirth: null
         };
     }
 
@@ -96,13 +103,13 @@ class VolunteerRegisterPage extends React.Component {
                 this.props.dispatchLastnameData(text);
                 break;
             case 'cpf':
-                this.props.dispatchCpfData(text);
+                this.props.dispatchCpfData((text));
                 break;
             case 'rg':
                 this.props.dispatchRgData(text);
                 break;
             case 'birth':
-                this.props.dispatchBirthData(text);
+                this.setState({dateBirth: text});
                 break;
             case 'gender':
                 this.props.dispatchGenderData(text);
@@ -120,8 +127,28 @@ class VolunteerRegisterPage extends React.Component {
             this.props.dispatchAllUserData(this.props.user);
         }
     }
+    
+    async convertFields() {
+        const { telephone, cellphone, cep } = this.props.register;
+        const { cpf } = this.props.register.volunteer;
+
+        let newTelephone = parseDocumentToNumber(telephone);
+        let newCellphone = parseDocumentToNumber(cellphone);
+        let newCep = parseDocumentToNumber(cep);
+
+        let newCpf = parseDocumentToNumber(cpf);
+        let newBirth = convertStringToDate(this.state.dateBirth);
+
+        this.props.dispatchTelephoneData(newTelephone);
+        this.props.dispatchCellphoneData(newCellphone);
+        this.props.dispatchCepData(newCep);
+        this.props.dispatchCpfData(newCpf);
+        this.props.dispatchBirthData(newBirth);
+    }
 
     async onPressButton() {
+        await this.convertFields();
+
         this.setState({isLoading: true});
         let register = this.props.register;
         
@@ -159,6 +186,7 @@ class VolunteerRegisterPage extends React.Component {
            })
            .catch(error => {
                 const { errors } = error.response.data;
+                console.log(errors);
                 this.setState({isLoading: false, errors});
 
                 Alert.alert(
@@ -289,19 +317,17 @@ class VolunteerRegisterPage extends React.Component {
                                 onChangeTextHandler={text => this.onChangeTextHandler('last_name', text)}
                                 inputValue={last_name}
                                 reference={(input) => {this.lastNameInput = input}}
-                                onSubmit={() => {this.cpfInput.focus()}}
                                 error={
                                     errors && errors.last_name
                                     ? errors.last_name
                                     : null
                                 }
                             />
-                            <Input
+                            <MaskedInput
                                 title={'CPF'}
+                                type={'cpf'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('cpf', text)}
                                 inputValue={cpf}
-                                reference={(input) => {this.cpfInput = input}}
-                                onSubmit={() => {this.rgInput.focus()}}
                                 error={
                                     errors && errors.cpf
                                     ? errors.cpf
@@ -309,24 +335,16 @@ class VolunteerRegisterPage extends React.Component {
                                 }
                                 keyboard={'numeric'}
                             />
-                            <Input
-                                title={'RG'}
-                                onChangeTextHandler={text => this.onChangeTextHandler('rg', text)}
-                                inputValue={rg}
-                                reference={(input) => {this.rgInput = input}}
-                                onSubmit={() => {this.telephoneInput.focus()}}
-                                error={
-                                    errors && errors.rg
-                                    ? errors.rg
-                                    : null
-                                }
-                            />
-                            <Input
+                            <MaskedInput
                                 title={'Telefone'}
+                                type={'cel-phone'}
+                                options={{
+                                    maskType: 'BRL',
+                                    withDDD: true,
+                                    dddMask: '(99) '
+                                }}
                                 onChangeTextHandler={text => this.onChangeTextHandler('telephone', text)}
                                 inputValue={telephone}
-                                reference={(input) => {this.telephoneInput = input}}
-                                onSubmit={() => {this.cellphoneInput.focus()}}
                                 error={
                                     errors && errors.telephone
                                     ? errors.telephone
@@ -334,12 +352,16 @@ class VolunteerRegisterPage extends React.Component {
                                 }
                                 keyboard={'numeric'}
                             />
-                            <Input
+                            <MaskedInput
                                 title={'Celular'}
+                                type={'cel-phone'}
+                                options={{
+                                    maskType: 'BRL',
+                                    withDDD: true,
+                                    dddMask: '(99) '
+                                }}
                                 onChangeTextHandler={text => this.onChangeTextHandler('cellphone', text)}
                                 inputValue={cellphone}
-                                reference={(input) => {this.cellphoneInput = input}}
-                                onSubmit={() => {this.birthInput.focus()}}
                                 error={
                                     errors && errors.cellphone
                                     ? errors.cellphone
@@ -347,30 +369,45 @@ class VolunteerRegisterPage extends React.Component {
                                 }
                                 keyboard={'numeric'}
                             />
-                            <Input
+                            <MaskedInput
+                                title={'Data de nascimento'}
+                                type={'datetime'}
+                                options={{
+                                    format: 'DD/MM/YYYY'
+                                }}
                                 title={'Data de nascimento'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('birth', text)}
-                                inputValue={birth}
-                                reference={(input) => {this.birthInput = input}}
-                                onSubmit={() => {this.genderInput.focus()}}
+                                inputValue={this.state.dateBirth}
                                 error={
                                     errors && errors.birth
                                     ? errors.birth
                                     : null
                                 }
+                                keyboard={'numeric'}
                             />
-                            <Input
-                                title={'Gênero'}
-                                onChangeTextHandler={text => this.onChangeTextHandler('gender', text)}
-                                inputValue={gender}
-                                reference={(input) => {this.genderInput = input}}
-                                onSubmit={() => {this.cepInput.focus()}}
-                                error={
-                                    errors && errors.gender
-                                    ? errors.gender
+                            <View style={[
+                                styles.content,
+                                styles.pickerStyle,
+                                errors && errors.gender
+                                    ? styles.errorGender
                                     : null
-                                }
-                            />
+                                ]}>
+                                <Picker
+                                    selectedValue={gender}
+                                    style={styles.picker}
+                                    onValueChange={text => this.onChangeTextHandler('gender', text)}
+                                    itemStyle={styles.pickerItem}
+                                > 
+                                    <Picker.Item style={styles.pickerItem} color="#7E7E7E" label="Gênero..." />
+                                    <Picker.Item label="Masculino" value="1" />
+                                    <Picker.Item label="Feminino" value="2" />
+                                </Picker>
+                            </View>
+                            {
+                                errors && errors.gender
+                                ? <Text style={styles.errorMessage}>{errors.gender}</Text>
+                                : null
+                            }
                             <Input
                                 title={'CEP'}
                                 onChangeTextHandler={text => this.onChangeTextHandler('cep', text)}
@@ -505,9 +542,25 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     errorMessage: {
-        fontSize: 5,
+        fontSize: 10,
         color: 'red',
         alignSelf: 'center'
+    },
+    errorGender: {
+        borderColor: 'red',
+        backgroundColor: '#FEE5E5'
+    },
+    picker: {
+        height: 40,
+        width: 300
+    },
+    pickerStyle: {
+        borderWidth: 1,
+        marginHorizontal: 50,
+        borderColor: '#FFA02D',
+        borderRadius: 10,
+        marginTop: 30,
+        backgroundColor: '#F9FBFF' 
     }
 });
 
