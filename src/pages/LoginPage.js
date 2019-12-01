@@ -184,12 +184,14 @@ class LoginPage extends React.Component {
                             passwordField={true}
                             onSubmit={() => this.tryLogin()}
                         />
-                        <TouchableOpacity 
-                            style={styles.button} 
-                            onPress={() => this.tryLogin()}
-                        >
-                            <Text style={styles.textButton}>Entrar</Text>
-                        </TouchableOpacity>
+                        <View style={styles.content}>
+                            <TouchableOpacity 
+                                style={styles.button} 
+                                onPress={() => this.tryLogin()}
+                            >
+                                <Text style={styles.textButton}>Entrar</Text>
+                            </TouchableOpacity>
+                        </View>
                         <View style={[styles.registerButton]}>
                             <Text style={styles.registerText}>
                                 Não possui cadastro? 
@@ -246,12 +248,13 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     button: {
-        marginHorizontal: 45,
-        marginTop: 20,
+        width: 300,
+        marginHorizontal: 5,
+        marginTop: 5,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#FFA02D',
         padding: 10,
+        backgroundColor: '#FFA02D'
     },
     registerButton: {
         flexDirection: "row",

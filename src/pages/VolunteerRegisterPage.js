@@ -133,7 +133,7 @@ class VolunteerRegisterPage extends React.Component {
             this.props.dispatchAllUserData(user);
         }
     }
-    
+
     async convertFields() {
         const { telephone, cellphone, cep } = this.props.register;
         const { cpf } = this.props.register.volunteer;

@@ -27,5 +27,16 @@ export const convertDateToString = (date) => {
     }
 
     let parts = date.split("-");
-    return parts[2] + "/" + parts[1] + "/" + parts[0]
+    return parts[2] + "/" + parts[1] + "/" + parts[0];
+}
+
+export const convertStringToDateTime = (date, hour) => {
+    if (!date || !hour) {
+        return;
+    }
+
+    let parts = date.split("/");
+    let newDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+
+    return newDate + " " + hour + ":00";
 }

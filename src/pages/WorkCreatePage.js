@@ -19,13 +19,20 @@ import {
 import api from '../config/api';
 import Input from '../components/Input';
 import Loading from '../components/Loading';
+import MaskedInput from '../components/MaskedInput';
+import {
+    convertStringToDateTime
+} from '../helpers/parsers';
 
 class WorkCreatePage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isLoading: false
+            editing: false,
+            isLoading: false,
+            dateEvent: null,
+            hourEvent: null
         };
     }
 
@@ -38,20 +45,31 @@ class WorkCreatePage extends React.Component {
                 this.props.dispatchWorkContentData(text);
                 break;
             case 'work_date':
-                this.props.dispatchWorkDateData(text);
+                this.setState({dateEvent: text});
+                break;
+            case 'work_hour':
+                this.setState({hourEvent: text});
                 break;
             default:
                 return;
         }
     }
 
-    onPressButton() {
-        this.setState({isLoading: false});
+    async convertFields() {
+        const { dateEvent, hourEvent } = this.state;
+        let workDate = convertStringToDateTime(dateEvent, hourEvent);
+        this.props.dispatchWorkDateData(workDate);
+    }
+
+    async onPressButton() {
+        this.setState({isLoading: true});
+
+        await this.convertFields();
 
         const { id_institution } = this.props.user.institution;
         const { name, content, work_date } = this.props.registerWork;
 
-        api
+        await api
             .post('work/create', {
                 "id_institution": id_institution,
                 "name": name,
@@ -126,14 +144,27 @@ class WorkCreatePage extends React.Component {
                                 onChangeTextHandler={text => this.onChangeTextHandler('content', text)}
                                 inputValue={content}
                                 reference={(input) => {this.content = input}}
-                                onSubmit={() => {this.workDate.focus()}}
                                 lines={4}
                             />
-                            <Input
+                            <MaskedInput
                                 title={'Data do evento'}
+                                type={'datetime'}
+                                options={{
+                                    format: 'DD/MM/YYYY'
+                                }}
                                 onChangeTextHandler={text => this.onChangeTextHandler('work_date', text)}
-                                inputValue={work_date}
-                                reference={(input) => {this.workDate = input}}
+                                inputValue={this.state.dateEvent}
+                                keyboard={'numeric'}
+                            />
+                            <MaskedInput
+                                title={'Hora do evento'}
+                                type={'custom'}
+                                options={{
+                                    mask: "99:99"
+                                }}
+                                onChangeTextHandler={text => this.onChangeTextHandler('work_hour', text)}
+                                inputValue={this.state.hourEvent}
+                                keyboard={'numeric'}
                             />
                             <View style={styles.content}>
                                 <TouchableOpacity
