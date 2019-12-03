@@ -121,17 +121,8 @@ class VolunteerRegisterPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatchClearData();
-
-        if (this.props.navigation.getParam('editing')) {
-            const { user } = this.props;
-            let dateBirth = convertDateToString(user.volunteer.birth);
-
-            this.setState({editing: true});
-            this.setState({dateBirth});
-
-            this.props.dispatchAllUserData(user);
-        }
+        this.loadingData();
+        this.setState({isLoading: false});
     }
 
     async convertFields() {
@@ -201,6 +192,40 @@ class VolunteerRegisterPage extends React.Component {
            });
     }
 
+    async refreshPage() {
+        this.setState({isLoading: true});
+
+        await this.loadingData();
+        this.props.navigation.state.params = null;
+
+        this.setState({isLoading: false});
+    }
+
+    async loadingData() {
+        let { navigation } = this.props;
+
+        if (navigation.getParam('editing')) {
+            this.editingData();
+        } else {
+            this.clearData();
+        }
+    }
+
+    async clearData() {
+        await this.props.dispatchClearData();
+    }
+
+    editingData() {
+        this.setState({editing: true});
+
+        const { user } = this.props;
+        let dateBirth = convertDateToString(user.volunteer.birth);
+
+        this.setState({dateBirth});
+
+        this.props.dispatchAllUserData(user);
+    }
+
     render() {
         let {
             username,
@@ -226,14 +251,7 @@ class VolunteerRegisterPage extends React.Component {
             }
         } = this.props.register;
         const { errors } = this.state;
-
-        if (gender == 1) {
-            gender = "1";
-        }
-
-        if (gender == 2) {
-            gender = "2";
-        }
+        let { navigation } = this.props;
 
         if (this.state.isLoading) {
             return (
@@ -241,6 +259,22 @@ class VolunteerRegisterPage extends React.Component {
                     <Loading />
                 </View>
             )
+        }
+
+        if (navigation.getParam('refresh')) {
+            var refresh = navigation.getParam('refresh');
+
+            if (refresh) {
+                this.refreshPage();
+            }
+        }
+
+        if (gender == 1) {
+            gender = "1";
+        }
+
+        if (gender == 2) {
+            gender = "2";
         }
 
         return (

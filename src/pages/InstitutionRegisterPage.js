@@ -128,7 +128,7 @@ class InstitutionRegisterPage extends React.Component {
     }
 
     async onPressButton() {
-        this.setState({isLoading: true});
+        this.setState({isLoading: false});
 
         await this.convertFields();
 
@@ -142,13 +142,12 @@ class InstitutionRegisterPage extends React.Component {
         }
 
         await api
-            .post(url, [
+        .post(url, [
                     register
             ])
             .then(response => {
                 if (this.state.editing) {
                     const user = response.data.data;
-
                     this.props.dispacthUpdateData(user);
 
                     Alert.alert(
@@ -177,12 +176,38 @@ class InstitutionRegisterPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatchClearData();
+        this.loadingData();
+        this.setState({isLoading: false});
+    }
 
-        if (this.props.navigation.getParam('editing')) {
-            this.setState({editing: true});
-            this.props.dispatchAllUserData(this.props.user);
+    async refreshPage() {
+        this.setState({isLoading: true});
+
+        await this.loadingData();
+        this.props.navigation.state.params = null;
+
+        this.setState({isLoading: false});
+    }
+
+    async loadingData() {
+        let { navigation } = this.props;
+
+        if (navigation.getParam('editing')) {
+            this.editingData();
+        } else {
+            this.clearData();
         }
+    }
+
+    async clearData() {
+        await this.props.dispatchClearData();
+    }
+
+    editingData() {
+        this.setState({editing: true});
+
+        const { user } = this.props;
+        this.props.dispatchAllUserData(user);
     }
 
     render() {
@@ -208,13 +233,22 @@ class InstitutionRegisterPage extends React.Component {
             }
         } = this.props.register;
         const { errors } = this.state;
-        
+        let { navigation } = this.props;
+
         if (this.state.isLoading) {
             return (
                 <View style={styles.container}>
                     <Loading />
                 </View>
             )
+        }
+
+        if (navigation.getParam('refresh')) {
+            var refresh = navigation.getParam('refresh');
+
+            if (refresh) {
+                this.refreshPage();
+            }
         }
 
         return (

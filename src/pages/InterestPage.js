@@ -73,10 +73,18 @@ class InterestPage extends React.Component {
             })
     }
 
+    componentDidMount() {
+        if (this.props.navigation.getParam("editing")) {
+            this.setState({isLoading: true});
+        }
+    }
+
     render() {
-        const { user } = this.props
+        const { user } = this.props;
 
         if (this.state.isLoading) {
+            this.props.navigation.state.params = null;
+
             return (
                 <View style={styles.container}>
                     <Loading />

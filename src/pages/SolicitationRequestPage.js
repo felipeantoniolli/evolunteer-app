@@ -55,7 +55,7 @@ class SolicitationRequestPage extends React.Component {
         }
 
         return (
-            <View>
+            <View style={styles.container}>
                 <View>
                     <Text style={styles.title}>Escreva abaixo porquê deseja participar desta instituição.</Text>
                 </View>
@@ -82,11 +82,14 @@ class SolicitationRequestPage extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    content: {
+        flex: 1
     },
     button: {
         width: 300,
-        marginHorizontal: 45,
         marginTop: 20,
         borderRadius: 10,
         alignItems: 'center',

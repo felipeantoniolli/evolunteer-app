@@ -31,7 +31,7 @@ class VolunteerProfilePage extends React.Component {
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('VolunteerEditPage', {editing: true})}
+                            onPress={() => navigation.navigate('VolunteerEditPage', {editing: true, refresh: true})}
                             style={styles.button}
                         >
                             <Text style={styles.textButton}>Editar Perfil</Text>

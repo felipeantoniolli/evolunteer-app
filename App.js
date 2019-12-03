@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform, StyleSheet, StatusBar } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -8,7 +7,7 @@ import AppNavigator from './src/navigation';
 import rootReducer from './src/reducers';
 import devToolsEnchancer from 'remote-redux-devtools';
 
-//console.disableYellowBox = true;
+console.disableYellowBox = true;
 
 const AppContainer = createAppContainer(AppNavigator);
 

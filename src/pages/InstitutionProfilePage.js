@@ -26,7 +26,7 @@ class InstitutionProfilePage extends React.Component {
                 </View>
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('InstitutionEditPage', {editing: true})}
+                        onPress={() => navigation.navigate('InstitutionEditPage', {editing: true, refresh: true})}
                         style={styles.button}
                     >
                         <Text style={styles.textButton}>Editar Perfil</Text>

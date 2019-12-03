@@ -7,9 +7,6 @@ import LoginPage from '../pages/LoginPage';
 import InterestPage from '../pages/InterestPage';
 import ImageUploadPage from '../pages/ImageUploadPage';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
-
 const StackNavigator = createStackNavigator({
     Login: {
         screen: LoginPage,
